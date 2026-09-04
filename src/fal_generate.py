@@ -3,6 +3,7 @@
 Main image generation module for Ledras Lament project.
 Uses fal_client SyncClient for single API calls per image.
 Scene descriptions sourced exclusively from data/scenes/ledras_scenes_v4.json
+Single API call = single image generation
 """
 
 import argparse
@@ -208,7 +209,7 @@ def generate_stage(
     print(f"   Prompt: {prompt[:80]}...")
     print(f"   Model: {model_name}")
     
-    # Single API call
+    # Single API call - ONE REQUEST = ONE IMAGE
     resp = client.run(model_name, arguments)
     images = resp.get("images") if isinstance(resp, dict) else None
     
