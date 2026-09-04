@@ -20,8 +20,6 @@ from fal_client import SyncClient
 from PIL import Image
 import uuid
 import traceback
-
-
 def load_config(project_root: Path) -> Dict[str, Any]:
     """Load imagination config from `imagine-config.json`."""
     cfg_path = project_root / "imagine-config.json"
@@ -29,7 +27,7 @@ def load_config(project_root: Path) -> Dict[str, Any]:
         config = json.load(f)
 
     # Validate required keys
-    required_keys = ["fal_model", "fal_control_strength", "size", "output_dir", "scenes_file"]
+    required_keys = ["fal_model", "fal_control_strength", "output_dir", "scenes_file"]
     missing_keys = [key for key in required_keys if key not in config]
 
     if missing_keys:
@@ -42,9 +40,29 @@ def load_config(project_root: Path) -> Dict[str, Any]:
     if "guideline_image" not in config:
         raise ValueError("Config must include 'guideline_image' key")
 
+    # Apply defaults for new fields
+    if "num_inference_steps" not in config:
+        config["num_inference_steps"] = 8
+    if "enable_prompt_expansion" not in config:
+        config["enable_prompt_expansion"] = False
+    if "preprocess" not in config:
+        config["preprocess"] = "none"
+
+    # Map image_size enum to width/height
+    image_size = config.get("image_size", "landscape_16_9")
+    # Image size mapping (height x width)
+    size_map = {
+        "square_hd": (1024, 1024),
+        "square": (1024, 1024),
+        "portrait_4_3": (768, 1024),
+        "portrait_16_9": (576, 1024),
+        "landscape_4_3": (1024, 768),
+        "landscape_16_9": (720, 1280),
+        "auto": (720, 1280)  # Default to landscape_16_9 for auto
+    }
+    config["_size_map"] = size_map.get(image_size, (720, 1280))  # Default landscape_16_9
+
     return config
-
-
 def load_scenes(project_root: Path, scenes_file: str) -> List[Dict[str, Any]]:
     """
     Load scenes from the authoritative scenes JSON file.
@@ -56,38 +74,34 @@ def load_scenes(project_root: Path, scenes_file: str) -> List[Dict[str, Any]]:
             f"Scenes file not found: {scenes_path}. "
             f"Scene descriptions must come from the authoritative ledras_scenes_v4.json"
         )
-    
+
     with open(scenes_path, "r", encoding="utf-8") as f:
         data = json.load(f)
-    
+
     if "scenes" not in data:
         raise ValueError(f"Scenes file {scenes_path} must contain a 'scenes' array")
-    
+
     scenes = data["scenes"]
     # Extract style_seed and negative_prompt from the root if they exist
     # These are the single source of truth for style and negative prompts
     style_seed = data.get("style_seed", "")
     negative_prompt = data.get("negative_prompt", "blurry, deformed text, extra objects, watermark")
-    
+
     # Add style and negative to each scene if not already present
     for scene in scenes:
         if "style_seed" not in scene:
             scene["style_seed"] = style_seed
         if "negative_prompt" not in scene:
             scene["negative_prompt"] = negative_prompt
-    
+
     print(f"📖 Loaded {len(scenes)} scenes from {scenes_file}")
     return scenes
-
-
 def get_scene_by_id(scenes: List[Dict[str, Any]], scene_id: int) -> Dict[str, Any]:
     """Get a scene by its ID from the scenes list."""
     for scene in scenes:
         if scene["id"] == scene_id:
             return scene
     raise ValueError(f"Scene {scene_id} not found in scenes list")
-
-
 def ensure_line_out(config: Dict[str, Any], project_root: Path) -> str:
     """Extract (or reuse) the line-out template."""
     guideline = project_root / config["guideline_image"]
@@ -104,8 +118,6 @@ def ensure_line_out(config: Dict[str, Any], project_root: Path) -> str:
     else:
         print(f"✅ Line-out already present: {line_out}")
     return str(line_out)
-
-
 def save_image(image_bytes: bytes, scene_id: int, output_dir: str) -> str:
     """Save generated image to file."""
     os.makedirs(output_dir, exist_ok=True)
@@ -113,8 +125,6 @@ def save_image(image_bytes: bytes, scene_id: int, output_dir: str) -> str:
     with open(out_path, "wb") as f:
         f.write(image_bytes)
     return out_path
-
-
 def estimate_cost(width: int, height: int, model: str) -> float:
     """Estimate Fal.ai cost based on resolution and model type."""
     if "sdxl" in model.lower():
@@ -123,8 +133,6 @@ def estimate_cost(width: int, height: int, model: str) -> float:
         return (width * height) / 1_000_000 * 0.001
     else:
         return (width * height) / 1_000_000 * 0.005
-
-
 def log_request_to_ledger(model_name: str, arguments: Dict[str, Any]) -> str:
     """Log request to ledger and return request ID."""
     request_id = str(uuid.uuid4())
@@ -135,15 +143,11 @@ def log_request_to_ledger(model_name: str, arguments: Dict[str, Any]) -> str:
         "arguments": arguments
     }
     return request_id
-
-
 def update_ledger_entry(request_id: str, status: str, response: Any = None, error: str = None):
     """Update ledger entry after API call."""
     print(f"Updating ledger entry {request_id}: {status}")
     if error:
         print(f"Error: {error}")
-
-
 def generate_stage(
     client: SyncClient,
     config: Dict[str, Any],
@@ -153,21 +157,21 @@ def generate_stage(
 ) -> str:
     """
     Generate a single stage using Fal.ai (ControlNet img2img).
-    
+
     Args:
         client: Fal.ai SyncClient instance
         config: Configuration dictionary
         project_root: Path to project root
         scene: Scene dict from ledras_scenes_v4.json (MUST come from this source)
         control_strength: ControlNet strength value
-    
+
     Returns:
         Path to generated image file
     """
     scene_id = scene["id"]
     scene_name = scene.get("name", "Unknown")
     scene_description = scene["description"]
-    
+
     # Validate scene comes from authoritative source
     if "elements" not in scene or "subscenes" not in scene:
         raise ValueError(
@@ -182,13 +186,14 @@ def generate_stage(
         "negative_prompt",
         "blurry, deformed text, extra objects, watermark",
     )
-    
+
     prompt = (
         f"exact composition, text zones and proportions of line-out template. "
         f"{scene_description}. {style}. --no {negative}"
     )
 
-    width, height = map(int, config["size"].split("x"))
+    # Get dimensions from image_size mapping (no raw size parsing)
+    height, width = config.get("_size_map", (720, 1280))
 
     # Upload line-out image to Fal.ai storage
     print(f"📤 Uploading line-out image to Fal.ai storage...")
@@ -202,22 +207,34 @@ def generate_stage(
         "num_images": 1,  # CRITICAL: Single image per request
     }
     model_name = config.get("fal_model", "fal-ai/z-image/turbo/controlnet")
-    
+
     print(f"🎨 Generating scene {scene_id}: {scene_name}")
     print(f"   Prompt: {prompt[:80]}...")
     print(f"   Model: {model_name}")
-    
+
     # Single API call - ONE REQUEST = ONE IMAGE
     resp = client.run(model_name, arguments)
     images = resp.get("images") if isinstance(resp, dict) else None
-    
+
     if not images:
         raise RuntimeError(f"Fal.ai did not return an image for scene {scene_id}")
-    
+
     b64 = images[0]
     out_dir = project_root / config["output_dir"]
     out_dir.mkdir(parents=True, exist_ok=True)
-    out_path = out_dir / f"scene-{scene_id:02d}.png"
+
+    # Get next generation_id by checking existing files
+    base_pattern = f"scene-{scene_id:02d}-v"
+    existing_ids = []
+    for f in out_dir.iterdir():
+        if f.name.startswith(base_pattern) and f.name.endswith(".png"):
+            # Extract v### from filename
+            v_part = f.name[len(f"scene-{scene_id:02d}-v"):].replace(".png", "")
+            if v_part.isdigit():
+                existing_ids.append(int(v_part))
+
+    generation_id = (max(existing_ids) + 1) if existing_ids else 1
+    out_path = out_dir / f"scene-{scene_id:02d}-v{generation_id:03d}.png"
 
     # Handle response - URL or base64
     if isinstance(b64, dict) and 'url' in b64:
@@ -239,9 +256,11 @@ def generate_stage(
     else:
         raise RuntimeError(f"Fal.ai returned unrecognized image format: {type(b64)}")
 
+    # Log the generation with generation_id
+    request_id = log_request_to_ledger(model_name, arguments)
+    update_ledger_entry(request_id, "completed", {"out_path": str(out_path), "generation_id": generation_id})
+
     return str(out_path)
-
-
 def main():
     """CLI interface for image generation."""
     parser = argparse.ArgumentParser(description="Generate scene images for Ledras Lament")
@@ -291,14 +310,13 @@ def main():
     # Generate the requested scene
     try:
         result_path = generate_stage(
-            client, config, project_root, scene, 
+            client, config, project_root, scene,
             config.get("fal_control_strength", 0.7)
         )
         print(f"✅ Scene {args.scene} generated → {result_path}")
     except Exception as e:
         print(f"❌ Failed to generate scene {args.scene}: {e}")
         traceback.print_exc()
-
 
 if __name__ == "__main__":
     main()

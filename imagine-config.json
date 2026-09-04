@@ -3,9 +3,12 @@
   "line_out_path": "stage/guideline_line_out.png",
   "scenes_file": "data/scenes/ledras_scenes_v4.json",
   "output_dir": "assets/generated",
-  "size": "1024x576",
+  "image_size": "landscape_16_9",
   "fallback_model": "google/gemini-2.5-flash-image",
   "fallback_cost": "$0.0000028",
   "fal_model": "fal-ai/z-image/turbo/controlnet",
-  "fal_control_strength": 0.8
+  "fal_control_strength": 0.8,
+  "num_inference_steps": 8,
+  "enable_prompt_expansion": false,
+  "preprocess": "none"
 }
