@@ -9,7 +9,7 @@ Read once per session. Concatenated into every turn — keep it short, keep it u
 **STRICT ENFORCEMENT:** Image generation operations MUST follow these rules:
 
 1. **Explicit Authorization Required:** Images can only be generated when:
-   - User explicitly requests image generation by name (e.g., "generate image for stage X", "create stage X image")
+   - User explicitly requests image generation by name (e.g., "generate image for stage X", "create stage X image", "produce image for scene X")
    - User provides a clear verification requirement (e.g., "I need this verified by visual output")
    - User explicitly confirms the generation with a command like "generate", "create", or "produce"
 
@@ -31,7 +31,7 @@ Valid explicit commands that trigger image generation:
 - "produce stage X visual"
 - "generate scene X"
 - "create visual for X"
-- Any command containing "generate", "create", "produce", "make" + "image", "visual", "scene"
+   - Any command containing "generate", "create", "produce", "make" + "image", "visual", "scene"
 
 Invalid or Non-Triggering Commands:
 - "describe stage X"
