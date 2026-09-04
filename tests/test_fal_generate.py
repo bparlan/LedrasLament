@@ -15,6 +15,7 @@ from unittest.mock import patch, MagicMock
 sys.path.insert(0, str(Path(__file__).parent / "src"))
 
 import fal_generate
+
 def test_config_validation():
     """Test that config validation works correctly."""
     project_root = Path("/tmp/test_project")
