@@ -4,10 +4,8 @@
   "scenes_file": "data/scenes/ledras_scenes_v4.json",
   "output_dir": "assets/generated",
   "size": "1024x576",
-  "style_seed": "Cypro-Phoenician / Levantine Bronze Age ruin style — ashlar sandstone, mudbrick, weathered limestone blocks, no Doric/Ionic columns, no white Pentical marble, no Parthenon-silhouette structures",
   "fallback_model": "google/gemini-2.5-flash-image",
   "fallback_cost": "$0.0000028",
   "fal_model": "fal-ai/z-image/turbo/controlnet",
-  "fal_control_strength": 0.8,
-  "negative_prompt": "blurry, deformed text, extra objects, watermark"
+  "fal_control_strength": 0.8
 }

@@ -44,7 +44,7 @@
       "subscenes": [
         {
           "step": "letters_appearance",
-          "description": "Letters appear one\u2011by\u2011one from right to left inside the box. Five image states are required:",
+          "description": "Letters appear one‑by‑one from right to left inside the box. Five image states are required:",
           "images": [
             "assets/box_empty.png",
             "assets/box_letter1.png",
@@ -201,5 +201,7 @@
       ],
       "subscenes": []
     }
-  ]
+  ],
+  "style_seed": "Cypro-Phoenician / Levantine Bronze Age ruin style — ashlar sandstone, mudbrick, weathered limestone blocks, no Doric/Ionic columns, no white Pentical marble, no Parthenon-silhouette structures",
+  "negative_prompt": "blurry, deformed text, extra objects, watermark"
 }

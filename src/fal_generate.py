@@ -63,6 +63,18 @@ def load_scenes(project_root: Path, scenes_file: str) -> List[Dict[str, Any]]:
         raise ValueError(f"Scenes file {scenes_path} must contain a 'scenes' array")
     
     scenes = data["scenes"]
+    # Extract style_seed and negative_prompt from the root if they exist
+    # These are the single source of truth for style and negative prompts
+    style_seed = data.get("style_seed", "")
+    negative_prompt = data.get("negative_prompt", "blurry, deformed text, extra objects, watermark")
+    
+    # Add style and negative to each scene if not already present
+    for scene in scenes:
+        if "style_seed" not in scene:
+            scene["style_seed"] = style_seed
+        if "negative_prompt" not in scene:
+            scene["negative_prompt"] = negative_prompt
+    
     print(f"📖 Loaded {len(scenes)} scenes from {scenes_file}")
     return scenes
 
@@ -163,8 +175,9 @@ def generate_stage(
         )
 
     # Build prompt from AUTHORITATIVE source only
-    style = config.get("style_seed", "")
-    negative = config.get(
+    # Style and negative prompt come from the scene data (single source of truth)
+    style = scene.get("style_seed", "")
+    negative = scene.get(
         "negative_prompt",
         "blurry, deformed text, extra objects, watermark",
     )
