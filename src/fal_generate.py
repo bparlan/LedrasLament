@@ -42,6 +42,7 @@ def load_config(project_root: Path) -> Dict[str, Any]:
     if "guideline_image" not in config:
         raise ValueError("Config must include 'guideline_image' key")
 
+    config["size"] = "1280x720"
     return config
 
 
@@ -113,7 +114,6 @@ def ensure_line_out(config: Dict[str, Any], project_root: Path) -> str:
     else:
         print(f"✅ Line-out already present: {line_out}")
     return str(line_out)
-
 
 def save_image(image_bytes: bytes, scene_id: int, output_dir: str) -> str:
     """Save generated image to file."""
