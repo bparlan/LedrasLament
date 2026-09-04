@@ -56,4 +56,5 @@ reports/
 # OS
 Thumbs.db
 .DS_Store
-*.dmg
+*.dmgassets/
+.env
