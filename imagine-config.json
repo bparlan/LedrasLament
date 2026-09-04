@@ -9,5 +9,5 @@
   "fal_control_strength": 0.9,
   "num_inference_steps": 8,
   "enable_prompt_expansion": false,
-  "preprocess": "none"
+  "preprocess": "depth"
 }
