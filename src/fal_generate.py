@@ -42,6 +42,7 @@ def load_config(project_root: Path) -> Dict[str, Any]:
     if "guideline_image" not in config:
         raise ValueError("Config must include 'guideline_image' key")
 
+    config["size"] = "1280x720"
     return config
 
 
@@ -93,15 +94,20 @@ def ensure_line_out(config: Dict[str, Any], project_root: Path) -> str:
     preprocess_method = config.get("preprocess", "none")
     guideline = project_root / config["guideline_image"]
 
-    if preprocess_method == "depth":
-        # For depth mode, we use the authoritative depth template directly
+    if preprocess_method == "canny":
+        guideline_path = project_root / "stage" / "guideline_line_out.png"
+        if not guideline_path.exists():
+            raise FileNotFoundError(f"Guideline line-out not found: {guideline_path}")
+        print(f"✅ Using guideline line-out as control input: {guideline_path}")
+        return str(guideline_path)
+
+    elif preprocess_method == "depth":
         depth_template = project_root / "stage" / "depth_template.jpg"
         if not depth_template.exists():
             raise FileNotFoundError(f"Depth template not found: {depth_template}")
         print(f"✅ Using depth template as control input: {depth_template}")
         return str(depth_template)
 
-    # Standard line-out generation logic
     line_out = project_root / config["guideline_image"].replace(".", "_lineout.")
 
     if not line_out.exists():
@@ -113,7 +119,6 @@ def ensure_line_out(config: Dict[str, Any], project_root: Path) -> str:
     else:
         print(f"✅ Line-out already present: {line_out}")
     return str(line_out)
-
 
 def save_image(image_bytes: bytes, scene_id: int, output_dir: str) -> str:
     """Save generated image to file."""
@@ -199,16 +204,10 @@ def generate_stage(
 
     width, height = map(int, config["size"].split("x"))
 
-    # Upload line-out image to Fal.ai storage
-    print(f"📤 Uploading line-out image to Fal.ai storage...")
     # Upload guideline image (line-out or depth) to Fal.ai storage
-
     guideline_path = ensure_line_out(config, project_root)
-
-    print(f"📤 Uploading guideline image to Fal.ai storage..."
-
+    print(f"📤 Uploading guideline image to Fal.ai storage...", end=" ")
     image_url = client.upload_file(Path(guideline_path))
-
     arguments = {
         "prompt": prompt,
         "image_url": image_url,
@@ -234,7 +233,6 @@ def generate_stage(
     out_dir = project_root / config["output_dir"]
     out_dir.mkdir(parents=True, exist_ok=True)
     out_path = out_dir / f"scene-{scene_id:02d}-v002.png"
-
 
     # Handle response - URL or base64
     if isinstance(b64, dict) and 'url' in b64:
@@ -285,7 +283,7 @@ def main():
 
     print(f"✅ Ready to generate scene {args.scene}")
     print(f"   Model: {config.get('fal_model', 'unknown')}")
-    print(f"   Line-out: {line_out}")
+    print(f"   Guideline: {line_out}")
     print(f"   Scenes source: {config['scenes_file']}")
 
     # Check if Fal.ai API key is available

@@ -1,5 +1,5 @@
 {
-  "guideline_image": "stage/guide_line_out.jpg",
+  "guideline_image": "stage/guideline_line_out.png",
   "scenes_file": "data/scenes/ledras_scenes_v4.json",
   "output_dir": "assets/generated",
   "image_size": "landscape_16_9",
@@ -9,5 +9,5 @@
   "fal_control_strength": 0.9,
   "num_inference_steps": 8,
   "enable_prompt_expansion": false,
-  "preprocess": "depth"
+  "preprocess": "canny"
 }
