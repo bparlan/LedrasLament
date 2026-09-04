@@ -29,7 +29,7 @@ def load_config(project_root: Path) -> Dict[str, Any]:
         config = json.load(f)
 
     # Validate required keys
-    required_keys = ["fal_model", "fal_control_strength", "size", "output_dir", "scenes_file"]
+    required_keys = ["fal_model", "fal_control_strength", "output_dir", "scenes_file"]
     missing_keys = [key for key in required_keys if key not in config]
 
     if missing_keys:
@@ -90,10 +90,19 @@ def get_scene_by_id(scenes: List[Dict[str, Any]], scene_id: int) -> Dict[str, An
 
 def ensure_line_out(config: Dict[str, Any], project_root: Path) -> str:
     """Extract (or reuse) the line-out template."""
+    preprocess_method = config.get("preprocess", "none")
     guideline = project_root / config["guideline_image"]
-    line_out = project_root / config.get(
-        "line_out_path", config["guideline_image"].replace(".", "_lineout.")
-    )
+
+    if preprocess_method == "depth":
+        # For depth mode, we use the authoritative depth template directly
+        depth_template = project_root / "stage" / "depth_template.jpg"
+        if not depth_template.exists():
+            raise FileNotFoundError(f"Depth template not found: {depth_template}")
+        print(f"✅ Using depth template: {depth_template}")
+        return str(depth_template)
+
+    # Standard line-out generation logic
+    line_out = project_root / config["guideline_image"].replace(".", "_lineout.")
 
     if not line_out.exists():
         print(f"🔧 Extracting line-out to {line_out}")
@@ -192,7 +201,10 @@ def generate_stage(
 
     # Upload line-out image to Fal.ai storage
     print(f"📤 Uploading line-out image to Fal.ai storage...")
-    image_url = client.upload_file(Path(project_root / "stage/guideline_line_out.png"))
+    # Upload guideline image (line-out or depth) to Fal.ai storage
+    guideline_path = ensure_line_out(config, project_root)
+    print(f"📤 Uploading guideline image to Fal.ai storage...")
+    image_url = client.upload_file(Path(guideline_path))
     arguments = {
         "prompt": prompt,
         "image_url": image_url,
