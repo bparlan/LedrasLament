@@ -2,6 +2,7 @@
 """
 Main image generation module for Ledras Lament project.
 Consolidates functionality from multiple duplicate scripts.
+Uses fal_client SyncClient for single API calls per image.
 """
 
 import argparse
@@ -15,6 +16,9 @@ from typing import Dict, Any
 
 # Fal.ai client (sync)
 from fal_client import SyncClient
+from PIL import Image
+import uuid
+import traceback
 def load_config(project_root: Path) -> Dict[str, Any]:
     """Load imagination config from `imagine-config.json`."""
     cfg_path = project_root / "imagine-config.json"
@@ -45,8 +49,6 @@ def ensure_line_out(config: Dict[str, Any], project_root: Path) -> str:
 
     if not line_out.exists():
         print(f"🔧 Extracting line‑out to {line_out}")
-        from PIL import Image
-
         img = Image.open(guideline)
         img = img.convert("L")
         img = img.point(lambda x: 0 if x < 128 else 255, "1")
@@ -54,6 +56,41 @@ def ensure_line_out(config: Dict[str, Any], project_root: Path) -> str:
     else:
         print(f"✅ Line‑out already present: {line_out}")
     return str(line_out)
+def save_image(image_bytes: bytes, scene_id: int, output_dir: str) -> str:
+    """Save generated image to file."""
+    os.makedirs(output_dir, exist_ok=True)
+    out_path = os.path.join(output_dir, f"stage-{scene_id:02d}.png")
+    with open(out_path, "wb") as f:
+        f.write(image_bytes)
+    return out_path
+def estimate_cost(width: int, height: int, model: str) -> float:
+    """Estimate Fal.ai cost based on resolution and model type."""
+    # Rough estimates based on different models
+    if "sdxl" in model.lower():
+        # SDXL is more expensive
+        return (width * height) / 1_000_000 * 0.01
+    elif "turbo" in model.lower():
+        # Z-Image Turbo is cheaper
+        return (width * height) / 1_000_000 * 0.001
+    else:
+        # Default model
+        return (width * height) / 1_000_000 * 0.005
+def log_request_to_ledger(model_name: str, arguments: Dict[str, Any]) -> str:
+    """Log request to ledger and return request ID."""
+    request_id = str(uuid.uuid4())
+    ledger_entry = {
+        "request_id": request_id,
+        "timestamp": "2025-01-01T00:00:00Z",
+        "model": model_name,
+        "arguments": arguments
+    }
+    return request_id
+def update_ledger_entry(request_id: str, status: str, response: Any = None, error: str = None):
+    """Update ledger entry after API call."""
+    print(f"Updating ledger entry {request_id}: {status}")
+    # Simplified ledger update - just log
+    if error:
+        print(f"Error: {error}")
 def generate_stage(
     client: SyncClient,
     config: Dict[str, Any],
@@ -130,60 +167,6 @@ def generate_stage(
         raise RuntimeError(f"Fal.ai returned an unrecognized image format: {type(b64)}. Response: {b64}")
 
     return str(out_path)
-def log_request_to_ledger(model_name: str, arguments: Dict[str, Any]) -> str:
-    """Log request to ledger and return request ID."""
-    import uuid
-    request_id = str(uuid.uuid4())
-    ledger_entry = {
-        "request_id": request_id,
-        "timestamp": "2025-01-01T00:00:00Z",
-        "model": model_name,
-        "arguments": arguments
-    }
-    return request_id
-def update_ledger_entry(request_id: str, status: str, response: Any = None, error: str = None):
-    """Update ledger entry after API call."""
-    print(f"Updating ledger entry {request_id}: {status}")
-    # Simplified ledger update - just log
-    if error:
-        print(f"Error: {error}")
-def call_fal(client: SyncClient, model_name: str, arguments: Dict[str, Any]) -> Dict[str, Any]:
-    """Make API call to Fal.ai."""
-    # Mock implementation for testing
-    return {
-        "images": ["data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="],
-        "timing": 0.5,
-        "model": model_name
-    }
-def parse_response(resp: Dict[str, Any]) -> bytes:
-    """Parse Fal.ai response and extract image data."""
-    if not resp or "images" not in resp:
-        raise ValueError("Invalid response format")
-
-    image_b64 = resp["images"][0]
-    # Simplified base64 decode
-    # Return dummy bytes for testing
-    return b"fake_image_data"
-def save_image(image_bytes: bytes, scene_id: int, output_dir: str) -> str:
-    """Save generated image to file."""
-    import os
-    os.makedirs(output_dir, exist_ok=True)
-    out_path = os.path.join(output_dir, f"stage-{scene_id:02d}.png")
-    with open(out_path, "wb") as f:
-        f.write(image_bytes)
-    return out_path
-def estimate_cost(width: int, height: int, model: str) -> float:
-    """Estimate Fal.ai cost based on resolution and model type."""
-    # Rough estimates based on different models
-    if "sdxl" in model.lower():
-        # SDXL is more expensive
-        return (width * height) / 1_000_000 * 0.01
-    elif "turbo" in model.lower():
-        # Z-Image Turbo is cheaper
-        return (width * height) / 1_000_000 * 0.001
-    else:
-        # Default model
-        return (width * height) / 1_000_000 * 0.005
 def main():
     """CLI interface for image generation."""
     parser = argparse.ArgumentParser(description="Generate stage images for Ledras Lament")
@@ -222,7 +205,6 @@ def main():
         print(f"✅ Stage {args.stage} generated → {result_path}")
     except Exception as e:
         print(f"❌ Failed to generate stage {args.stage}: {e}")
-        import traceback
         traceback.print_exc()
 
 if __name__ == "__main__":
