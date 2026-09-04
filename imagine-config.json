@@ -1,0 +1,18 @@
+{
+  "guideline_image": "stage/stage_clean_v3_1280x720x64dpi.jpg",
+  "line_out_path": "stage/guideline_line_out.png",
+  "output_dir": "assets/generated",
+  "size": "1024x576",
+  "style_seed": "Cypro-Phoenician / Levantine Bronze Age ruin style — ashlar sandstone, mudbrick, weathered limestone blocks, no Doric/Ionic columns, no white Pentical marble, no Parthenon-silhouette structures",
+  "fallback_model": "google/gemini-2.5-flash-image",
+  "fallback_cost": "$0.0000028",
+  "fal_model": "fal-ai/z-image/turbo/controlnet",
+  "fal_control_strength": 0.7,
+  "stages": [
+    {"id": 1, "description": "foundational setup with main template layout"},
+    {"id": 2, "description": "elemental introduction with primary symbols"},
+    {"id": 3, "description": "glowing central crystal, soft blue rim light, subtle particle drift"},
+    {"id": 9, "description": "Stairs burn with fire; blood moon returns on the white screen which is also on fire"}
+  ],
+  "negative_prompt": "blurry, deformed text, extra objects, watermark"
+}

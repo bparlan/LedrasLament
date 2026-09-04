@@ -1,0 +1,205 @@
+{
+  "title": "Ledras Lament Scenes",
+  "version": 4,
+  "author": "<your-name>",
+  "status": "draft",
+  "scenes": [
+    {
+      "id": 1,
+      "name": "Intro",
+      "description": "Amphitheater steps/tiers, 6 big tiers from down to top, 7th tier is wall. static stone structure. above the steps are sky. vertical stone panel at the top center. ancient cyprus style. Smoke and fog over an amphitheater; sand dunes under a full moon, ancient destroyed city remains.",
+      "elements": [
+        "amphitheater",
+        "steps",
+        "tiers",
+        "stone structure",
+        "sky",
+        "vertical stone panel",
+        "ancient cyprus style",
+        "smoke",
+        "fog",
+        "full moon",
+        "sand dunes",
+        "ruins"
+      ],
+      "subscenes": []
+    },
+    {
+      "id": 2,
+      "name": "Ritual",
+      "description": "Amphitheater steps/tiers, 6 big tiers from down to top, 7th tier is wall. static stone structure. above the steps are sky. vertical stone panel at the top center. ancient cyprus style. Full moon night, spiritual letters (Andoveo) appear inside a box and later move to the center of the stage, dark red sparkles circle the lying body.",
+      "elements": [
+        "amphitheater",
+        "steps",
+        "tiers",
+        "stone structure",
+        "sky",
+        "vertical stone panel",
+        "ancient cyprus style",
+        "full moon",
+        "andoveo letters",
+        "dark red sparkles",
+        "lying body"
+      ],
+      "subscenes": [
+        {
+          "step": "letters_appearance",
+          "description": "Letters appear one\u2011by\u2011one from right to left inside the box. Five image states are required:",
+          "images": [
+            "assets/box_empty.png",
+            "assets/box_letter1.png",
+            "assets/box_letter2.png",
+            "assets/box_letter3.png",
+            "assets/box_letter4.png"
+          ],
+          "order": [
+            "empty",
+            "first",
+            "second",
+            "third",
+            "fourth"
+          ]
+        },
+        {
+          "step": "letters_move_center",
+          "description": "After all four letters are visible, they move down to the centre of the stage and start circulating (static positions only).",
+          "images": [
+            "assets/letters_center.png",
+            "assets/letters_center_circulate.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Astarte Awakenes",
+      "description": "Amphitheater steps/tiers, 6 big tiers from down to top, 7th tier is wall. static stone structure. above the steps are sky. vertical stone panel at the top center. ancient cyprus style. Full moon turns into a red blood moon; sand and yellow stone surroundings.",
+      "elements": [
+        "amphitheater",
+        "steps",
+        "tiers",
+        "stone structure",
+        "sky",
+        "vertical stone panel",
+        "ancient cyprus style",
+        "blood moon",
+        "sand",
+        "yellow stone"
+      ],
+      "subscenes": []
+    },
+    {
+      "id": 4,
+      "name": "Susta",
+      "description": "Amphitheater steps/tiers, 6 big tiers from down to top, 7th tier is wall. static stone structure. above the steps are sky. vertical stone panel at the top center. ancient cyprus style. Night desert sand gradually gives way to greenery and flourishing trees.",
+      "elements": [
+        "amphitheater",
+        "steps",
+        "tiers",
+        "stone structure",
+        "sky",
+        "vertical stone panel",
+        "ancient cyprus style",
+        "night",
+        "desert sand",
+        "greenery",
+        "trees"
+      ],
+      "subscenes": []
+    },
+    {
+      "id": 5,
+      "name": "Dialogue",
+      "description": "Amphitheater steps/tiers, 6 big tiers from down to top, 7th tier is wall. static stone structure. above the steps are sky. vertical stone panel at the top center. ancient cyprus style. Water element is introduced; trees and crops sway with the wind, springtime atmosphere at night.",
+      "elements": [
+        "amphitheater",
+        "steps",
+        "tiers",
+        "stone structure",
+        "sky",
+        "vertical stone panel",
+        "ancient cyprus style",
+        "water",
+        "trees",
+        "crops",
+        "wind",
+        "spring",
+        "night"
+      ],
+      "subscenes": []
+    },
+    {
+      "id": 6,
+      "name": "Lullaby",
+      "description": "Amphitheater steps/tiers, 6 big tiers from down to top, 7th tier is wall. static stone structure. above the steps are sky. vertical stone panel at the top center. ancient cyprus style. Water element persists, with increasingly abundant trees and greenery.",
+      "elements": [
+        "amphitheater",
+        "steps",
+        "tiers",
+        "stone structure",
+        "sky",
+        "vertical stone panel",
+        "ancient cyprus style",
+        "water",
+        "trees",
+        "greenery"
+      ],
+      "subscenes": []
+    },
+    {
+      "id": 7,
+      "name": "Ether Walk",
+      "description": "Amphitheater steps/tiers, 6 big tiers from down to top, 7th tier is wall. static stone structure. above the steps are sky. vertical stone panel at the top center. ancient cyprus style. Smoke and wind elements dominate the stairs and the top white screen.",
+      "elements": [
+        "amphitheater",
+        "steps",
+        "tiers",
+        "stone structure",
+        "sky",
+        "vertical stone panel",
+        "ancient cyprus style",
+        "smoke",
+        "wind",
+        "stairs",
+        "white screen"
+      ],
+      "subscenes": []
+    },
+    {
+      "id": 8,
+      "name": "Drag Queen",
+      "description": "Amphitheater steps/tiers, 6 big tiers from down to top, 7th tier is wall. static stone structure. above the steps are sky. vertical stone panel at the top center. ancient cyprus style. Calm nighttime in the village.",
+      "elements": [
+        "amphitheater",
+        "steps",
+        "tiers",
+        "stone structure",
+        "sky",
+        "vertical stone panel",
+        "ancient cyprus style",
+        "night",
+        "village"
+      ],
+      "subscenes": []
+    },
+    {
+      "id": 9,
+      "name": "March of Mourn",
+      "description": "Amphitheater steps/tiers, 6 big tiers from down to top, 7th tier is wall. static stone structure. above the steps are sky. vertical stone panel at the top center. ancient cyprus style. Stairs burn with fire; blood moon returns on the white screen which is also on fire.",
+      "elements": [
+        "amphitheater",
+        "steps",
+        "tiers",
+        "stone structure",
+        "sky",
+        "vertical stone panel",
+        "ancient cyprus style",
+        "fire",
+        "burning stairs",
+        "blood moon",
+        "white screen"
+      ],
+      "subscenes": []
+    }
+  ]
+}
