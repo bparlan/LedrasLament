@@ -1,5 +1,5 @@
 {
-  "guideline_image": "stage/stage_clean_v3_1280x720x64dpi.jpg",
+  "guideline_image": "stage/guide_line_out.jpg",
   "line_out_path": "stage/guideline_line_out.png",
   "scenes_file": "data/scenes/ledras_scenes_v4.json",
   "output_dir": "assets/generated",
