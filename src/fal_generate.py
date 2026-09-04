@@ -187,14 +187,12 @@ def generate_stage(
         f"exact composition, text zones and proportions of line-out template. "
         f"{scene_description}. {style}. --no {negative}"
     )
-    
+
     width, height = map(int, config["size"].split("x"))
 
     # Upload line-out image to Fal.ai storage
     print(f"📤 Uploading line-out image to Fal.ai storage...")
-    image_url = client.upload_file(Path(project_root / "stage/test_lineout.png"))
-
-    # Build API arguments - EXACTLY one image per request
+    image_url = client.upload_file(Path(project_root / "stage/guideline_line_out.png"))
     arguments = {
         "prompt": prompt,
         "image_url": image_url,
