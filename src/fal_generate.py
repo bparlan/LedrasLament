@@ -99,7 +99,7 @@ def ensure_line_out(config: Dict[str, Any], project_root: Path) -> str:
         depth_template = project_root / "stage" / "depth_template.jpg"
         if not depth_template.exists():
             raise FileNotFoundError(f"Depth template not found: {depth_template}")
-        print(f"✅ Using depth template: {depth_template}")
+        print(f"✅ Using depth template as control input: {depth_template}")
         return str(depth_template)
 
     # Standard line-out generation logic
@@ -203,7 +203,7 @@ def generate_stage(
     print(f"📤 Uploading line-out image to Fal.ai storage...")
     # Upload guideline image (line-out or depth) to Fal.ai storage
     guideline_path = ensure_line_out(config, project_root)
-    print(f"📤 Uploading guideline image to Fal.ai storage...")
+    print(f"📤 Uploading guideline image to Fal.ai storage..."
     image_url = client.upload_file(Path(guideline_path))
     arguments = {
         "prompt": prompt,
@@ -229,7 +229,7 @@ def generate_stage(
     b64 = images[0]
     out_dir = project_root / config["output_dir"]
     out_dir.mkdir(parents=True, exist_ok=True)
-    out_path = out_dir / f"scene-{scene_id:02d}.png"
+    out_path = out_dir / f"scene-{scene_id:02d}-v002.png"
 
     # Handle response - URL or base64
     if isinstance(b64, dict) and 'url' in b64:
