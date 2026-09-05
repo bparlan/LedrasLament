@@ -1,233 +1,114 @@
 # AGENTS.md - Ledras Lament Engineering Rules
 
-Read once per session. Concatenated into every turn — keep it short, keep it universal.
+## 🔒 PRODUCTION STABILITY RULES
 
-## Core Engineering Standards
+### 1. Validation Before Execution
+- **MANDATORY**: Always validate user requests before starting any work
+- **REQUIRED**: Provide clear problem statement, proposed solution, and expected outcome
+- **QUESTION**: Ask for clarification when requirements are ambiguous or contradictory
 
-### Image Generation Policy
+### 2. Code Modification Policy
+- **ONLY EDIT** to fix identified bugs or issues in EXISTING CODE
+- **NEVER MODIFY** working code for feature additions without explicit user approval
+- **ASK VERIFICATION** before any non-bugfix changes
+- **DOCUMENT** all changes with clear reasoning
 
-**STRICT ENFORCEMENT:** Image generation operations MUST follow these rules:
+### 3. File Editing Constraints
+- **READ FIRST**: Always read existing files completely before editing
+- **BACKUP REQUIRED**: Create backup before significant modifications
+- **MINIMAL CHANGE**: Make the smallest change necessary to fix the issue
+- **TEST AFTER EDIT**: Verify changes work correctly
 
-1. **Explicit Authorization Required:** Images can only be generated when:
-   - User explicitly requests image generation by name (e.g., "generate image for stage X", "create stage X image", "produce image for scene X")
-   - User provides a clear verification requirement (e.g., "I need this verified by visual output")
-   - User explicitly confirms the generation with a command like "generate", "create", or "produce"
+### 4. Image Generation Policy
+- **NEVER GENERATE** images for verification purposes
+- **ONLY GENERATE** when explicitly requested with clear intent
+- **ASK CONFIRMATION** before any image creation
+- **RESPECT "NO"**: Never suggest visual verification as alternative
 
-2. **NO Verification-Only Generation:** Agents MUST NOT:
-   - Generate images automatically for verification purposes
-   - Create images when only given descriptions or scene details
-   - Produce visual outputs without explicit user command
-   - Generate placeholder or test images during verification workflows
+## 📊 PROJECT AWARENESS - File Index
 
-3. **Exception for Pre-Approved Pipelines:**
-   - Only if user has explicitly defined a pipeline where verification requires images (pre-agreed and documented)
-   - Must be stated in the original task/scope and cannot be implied mid-task
-
-### Image Generation Commands (Explicit Actions Only)
-
-Valid explicit commands that trigger image generation:
-- "generate image for stage X"
-- "create stage X image"  
-- "produce stage X visual"
-- "generate scene X"
-- "create visual for X"
-   - Any command containing "generate", "create", "produce", "make" + "image", "visual", "scene"
-
-Invalid or Non-Triggering Commands:
-- "describe stage X"
-- "show me X"
-- "what does X look like"
-- "preview X"
-- "I need to verify X"
-- Any request for verification without explicit generation command
-
-### Verification Workflow Rules
-
-1. **Read-Only During Verification:**
-   - When user requests verification or testing, assume read-only operations
-   - Only inspect existing files, run tests, analyze code
-   - DO NOT create new files, especially images
-
-2. **Ask Before Creating:**
-   - If unsure whether image generation is needed, explicitly ask:
-   "Do you want me to generate an image for stage X?"
-   - Wait for explicit confirmation before any image generation
-
-3. **Respect Explicit "NO":**
-   - If user says "don't generate images" or "no visual output needed", strictly enforce
-   - Do not attempt to generate or infer visual requirements
-
-### Pipeline Compliance
-
-**Before any image generation:**
-1. Verify user has explicitly requested image creation (no ambiguity)
-2. Confirm this is not a verification-only request
-3. Check that this is part of the defined scope (not an implied requirement)
-
-**After image generation:**
-1. Confirm the image was generated as requested
-2. Present evidence of successful generation
-3. Do not proceed with additional verification steps without explicit instruction
-
-### Edge Cases
-
-**High-Risk Actions (Require Explicit Confirmation):**
-- File creation (especially images)
-- Network operations
-- File system modifications
-- External API calls
-
-**Auto-Approved Actions:**
-- Reading existing files
-- Running existing tests
-- Linting/formatters
-- Documentation generation (text only)
-
-### Enforcement Protocol
-
-If any agent detects potential violation of image generation rules:
-1. **IMMEDIATE STOP** - Halt any generation operation
-2. **USER CONFIRMATION** - Request explicit authorization
-3. **DOCUMENTATION** - Note any rule violations in audit trail
-4. **ESCALATION** - Report to supervisor if critical violation detected
-
-### Example Safe Workflows
-
-**✅ CORRECT:**
+### Configuration Files (DO NOT EDIT without approval)
 ```
-User: "Create an image for stage 9 showing fire and blood moon"
-Agent: Generates stage-09-001.png
+imagine-config.json          # Model configuration and preprocessing settings
+├── fal_model: fal-ai/flux-control-lora-canny
+├── fal_control_strength: 1.5
+├── preprocess: canny
+└── guideline_image: stage/guideline_line_out.png
+
+data/scenes/ledras_scenes_v4.json
+└── 9 scenes with structured prompts and styles
 ```
 
-**❌ INCORRECT:**
+### Core Implementation (READ BEFORE EDITING)
 ```
-User: "Verify stage 9"
-Agent: Generates stage-09-001.png (WRONG - verification without explicit generation command)
-```
-
-### This Rule Applies To:
-- All image generation skills (imagine, generate, create visual)
-- All stage/scene visualization requests
-- All pipeline and workflow stages involving visuals
-- All verification and testing phases
-- All user interactions in this repository
-
-### AGENTS.md Version Control
-This file is versioned. Changes to image generation rules require:
-1. Clear documentation of why rules are being modified
-2. Explicit approval from all stakeholders
-3. Written justification for any relaxation of these strict rules
-### Image Generation Policy
-
-**STRICT ENFORCEMENT:** Image generation operations MUST follow these rules:
-
-1. **Explicit Authorization Required:** Images can only be generated when:
-   - User explicitly requests image generation by name (e.g., "generate image for stage X", "create stage X image")
-   - User provides a clear verification requirement (e.g., "I need this verified by visual output")
-   - User explicitly confirms the generation with a command like "generate", "create", or "produce"
-
-2. **NO Verification-Only Generation:** Agents MUST NOT:
-   - Generate images automatically for verification purposes
-   - Create images when only given descriptions or scene details
-   - Produce visual outputs without explicit user command
-   - Generate placeholder or test images during verification workflows
-
-3. **Exception for Pre-Approved Pipelines:**
-   - Only if user has explicitly defined a pipeline where verification requires images (pre-agreed and documented)
-   - Must be stated in the original task/scope and cannot be implied mid-task
-
-
-### Image Generation Commands (Explicit Actions Only)
-
-Valid explicit commands that trigger image generation:
-- "generate image for stage X"
-- "create stage X image"
-- "produce stage X visual"
-- "generate scene X"
-- "create visual for X"
-- Any command containing "generate", "create", "produce", "make" + "image", "visual", "scene"
-
-Invalid or Non-Triggering Commands:
-- "describe stage X"
-- "show me X"
-- "what does X look like"
-- "preview X"
-- "I need to verify X"
-- Any request for verification without explicit generation command
-
-### Verification Workflow Rules
-
-1. **Read-Only During Verification:**
-   - When user requests verification or testing, assume read-only operations
-   - Only inspect existing files, run tests, analyze code
-   - DO NOT create new files, especially images
-
-2. **Ask Before Creating:**
-   - If unsure whether image generation is needed, explicitly ask:
-   "Do you want me to generate an image for stage X?"
-   - Wait for explicit confirmation before any image generation
-
-3. **Respect Explicit "NO":**
-   - If user says "don't generate images" or "no visual output needed", strictly enforce
-   - Do not attempt to generate or infer visual requirements
-
-### Pipeline Compliance
-
-**Before any image generation:**
-1. Verify user has explicitly requested image creation (no ambiguity)
-2. Confirm this is not a verification-only request
-3. Check that this is part of the defined scope (not an implied requirement)
-
-**After image generation:**
-1. Confirm the image was generated as requested
-2. Present evidence of successful generation
-3. Do not proceed with additional verification steps without explicit instruction
-
-### Edge Cases
-
-**High-Risk Actions (Require Explicit Confirmation):**
-- File creation (especially images)
-- Network operations
-- File system modifications
-- External API calls
-
-**Auto-Approved Actions:**
-- Reading existing files
-- Running existing tests
-- Linting/formatters
-- Documentation generation (text only)
-
-### Enforcement Protocol
-
-If any agent detects potential violation of image generation rules:
-1. **IMMEDIATE STOP** - Halt any generation operation
-2. **USER CONFIRMATION** - Request explicit authorization
-3. **DOCUMENTATION** - Note any rule violations in audit trail
-4. **ESCALATION** - Report to supervisor if critical violation detected
-
-### Example Safe Workflows
-
-**✅ CORRECT:**
-```
-User: "Create an image for stage 9 showing fire and blood moon"
-Agent: Generates stage-09-001.png
+src/fal_generate.py
+├── load_config()           # Configuration loading and validation
+├── load_scenes()           # Scene data from JSON
+├── ensure_line_out()       # Preprocessing (canny/depth modes)
+├── generate_stage()        # Image generation API call
+└── main()                  # CLI interface
 ```
 
-**❌ INCORRECT:**
+### Output Structure
 ```
-User: "Verify stage 9"
-Agent: Generates stage-09-001.png (WRONG - verification without explicit generation command)
+assets/generated/
+├── scene-01-v002.png       # Generated images (versioned)
+├── scene-05-v002.png       # Latest generation
+└── stage-09-*.png          # Existing workflow outputs
 ```
 
-### This Rule Applies To:
-- All image generation skills (imagine, generate, create visual)
-- All stage/scene visualization requests
-- All pipeline and workflow stages involving visuals
-- All verification and testing phases
-- All user interactions in this repository
+## 🛡️ CURRENT PRODUCTION STATUS
 
-### AGENTS.md Version Control
-This file is versioned. Changes to image generation rules require:
-1. Clear documentation of why rules are being modified
-2. Explicit approval from all stakeholders
-3. Written justification for any relaxation of these strict rules
+**Status**: ACTIVE PRODUCTION
+**Generation Method**: FLUX Control LoRA Canny
+**Preprocesing**: Canny edge detection
+**Control Input**: stage/guideline_line_out.png
+**Control Strength**: 1.5 (high - strict structural control)
+**Output Naming**: scene-XXX-v002.png
+
+## ✅ VALIDATION CHECKLIST
+
+Before each task:
+1. [ ] Is this a BUG FIX or NEW FEATURE?
+2. [ ] If NEW FEATURE: Did I ask for verification?
+3. [ ] Am I only fixing EXISTING broken code?
+4. [ ] Have I read ALL related files?
+5. [ ] Do I understand the current state?
+6. [ ] Will my changes affect existing outputs?
+
+## 📋 ACTIVE CHANGES LOG
+
+| Date | Change | Reason | Status |
+|------|--------|--------|--------|
+| 2026-09-04 | JSON syntax fix | Missing comma in scenes file | ✅ VERIFIED |
+| 2026-09-04 | Model config update | Switch to flux-control-lora-canny | ✅ ACTIVE |
+| 2026-09-04 | Control strength 1.5 | Increased for guidance control | ✅ ACTIVE |
+
+## ❓ CLARIFICATION POINTS
+
+Before proceeding with ANY work:
+
+1. **Is the current infrastructure stable?**
+   - Yes: No breaking changes allowed
+   - No: Fix only, don't refactor
+
+2. **Are new features or bug fixes?**
+   - Bug fix: Edit allowed with testing
+   - New feature: Requires explicit approval
+
+3. **Do I have full context?**
+   - Read all related files
+   - Understand the workflow
+   - Check existing outputs
+
+## 🤔 ASK FOR CLARIFICATION
+
+When in doubt:
+1. Stop and analyze
+2. Ask specific questions
+3. Wait for explicit instructions
+4. Don't proceed with assumptions
+
+---
+**Last Updated**: 2026-09-04
+**Production Status**: ACTIVE - Minimal changes only
