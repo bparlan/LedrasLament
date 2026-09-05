@@ -239,7 +239,7 @@ def generate_stage(
     b64 = images[0]
     out_dir = project_root / config["output_dir"]
     out_dir.mkdir(parents=True, exist_ok=True)
-    out_path = out_dir / f"scene-{scene_id:02d}-v002.png"
+    out_path = out_dir / f"scene-{scene_id:02d}-v003.png"
 
     # Handle response - URL or base64
     if isinstance(b64, dict) and 'url' in b64:

@@ -90,3 +90,14 @@ Before each task:
 ---
 **Last Updated**: 2026-09-05
 **Production Status**: ACTIVE - Minimal changes only
+
+## 🆘 PRODUCTION SAVETY RULES
+
+### 4. Data Integrity Protection
+- **NEVER REMOVE**: Previous generation versions or historical outputs
+- **MANDATORY**: Preserve all existing generated files (scene-*-v*.png, stage-*-*.png)
+- **VERSIONING**: Always increment version numbers for new generations
+- **BACKUP REQUIRED**: Never overwrite existing production files without explicit approval
+- **AUDIT TRAIL**: Keep all generated outputs for reproducibility and rollback
+
+**Rationale**: Generated images contain artistic and narrative content that may be referenced by users or used in subsequent workflows. Removing historical versions breaks reproducibility and user workflows.
