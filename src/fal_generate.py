@@ -192,16 +192,30 @@ def generate_stage(
             f"Ensure scene data comes from ledras_scenes_v4.json"
         )
 
-    # Build prompt from AUTHORITATIVE source only
+    # Build enhanced prompt with visual directives for FLUX Control LoRA Canny
     style = scene.get("style_seed", "")
     negative = scene.get(
         "negative_prompt",
         "blurry, deformed text, extra objects, watermark",
     )
+    
+    # Extract key visual elements for enhanced prompting
+    elements = scene.get("elements", [])
+    
+    # Build enhanced prompt with visual directives and composition guidance
+    enhanced_prompt = f"""{scene_description}
 
-    prompt = (
-        f"{scene_description}. {style}. --no {negative}"
-    )
+    {style} with dramatic cinematic lighting emphasizing architectural geometry.
+    Compose wide shot showing {", ".join(elements[:4])} with depth of field.
+    Full moon casting dramatic shadows across stone structure and creating highlight reflections.
+    {style.lower()} texture details with weathered limestone surfaces and weathered stone patterns.
+    Professional architectural photography composition with strong leading lines.
+    Atmospheric depth with distant horizon elements creating spatial depth.
+    moody, contemplative, monumental atmosphere with timeless quality.
+    --no {negative}
+    """
+    
+    prompt = enhanced_prompt
 
     width, height = map(int, config["size"].split("x"))
 
@@ -239,7 +253,7 @@ def generate_stage(
     b64 = images[0]
     out_dir = project_root / config["output_dir"]
     out_dir.mkdir(parents=True, exist_ok=True)
-    out_path = out_dir / f"scene-{scene_id:02d}-v003.png"
+    out_path = out_dir / f"scene-{scene_id:02d}-v004.png"
 
     # Handle response - URL or base64
     if isinstance(b64, dict) and 'url' in b64:
