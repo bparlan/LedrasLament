@@ -198,23 +198,23 @@ def generate_stage(
         "negative_prompt",
         "blurry, deformed text, extra objects, watermark",
     )
-    
+
     # Extract key visual elements for enhanced prompting
     elements = scene.get("elements", [])
-    
+
     # Build enhanced prompt with visual directives and composition guidance
     enhanced_prompt = f"""{scene_description}
 
-    {style} with dramatic cinematic lighting emphasizing architectural geometry.
-    Compose wide shot showing {", ".join(elements[:4])} with depth of field.
-    Full moon casting dramatic shadows across stone structure and creating highlight reflections.
-    {style.lower()} texture details with weathered limestone surfaces and weathered stone patterns.
-    Professional architectural photography composition with strong leading lines.
-    Atmospheric depth with distant horizon elements creating spatial depth.
-    moody, contemplative, monumental atmosphere with timeless quality.
-    --no {negative}
+{style} with dramatic cinematic lighting emphasizing architectural geometry.
+Compose wide shot showing {", ".join(elements[:4])} with depth of field.
+Full moon casting dramatic shadows across stone structure and creating highlight reflections.
+{style.lower()} texture details with weathered limestone surfaces and weathered stone patterns.
+Professional architectural photography composition with strong leading lines.
+Atmospheric depth with distant horizon elements creating spatial depth.
+moody, contemplative, monumental atmosphere with timeless quality.
+--no {negative}
     """
-    
+
     prompt = enhanced_prompt
 
     width, height = map(int, config["size"].split("x"))
