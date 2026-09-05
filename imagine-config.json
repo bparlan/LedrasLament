@@ -6,10 +6,10 @@
   "fallback_model": "google/gemini-2.5-flash-image",
   "fallback_cost": "$0.0000028",
   "fal_model": "fal-ai/flux-control-lora-canny",
-  "fal_control_strength": 1.5,
-  "num_inference_steps": 28,
+  "fal_control_strength": 0.8,
+  "num_inference_steps": 25,
   "enable_prompt_expansion": false,
   "preprocess": "canny",
-  "control_start": 0.5,
-  "control_stop": 0.5
+  "control_start": 0.4,
+  "control_stop": 0.6
 }

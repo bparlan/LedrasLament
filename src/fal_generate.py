@@ -219,9 +219,9 @@ def generate_stage(
         "num_images": 1,
         "enable_safety_checker": True,
         "control_lora_image_url": image_url,
-        "control_lora_strength": control_strength,
-        "control_start": 0.2,
-        "control_stop": 0.8,
+        "control_lora_strength": config.get("fal_control_strength", 0.7),
+        "control_start": config.get("control_start", 0.4),
+        "control_stop": config.get("control_stop", 0.6),
     }
     model_name = config.get("fal_model", "fal-ai/flux-control-lora-canny")
 
