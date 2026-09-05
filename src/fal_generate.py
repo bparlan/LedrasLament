@@ -42,6 +42,7 @@ def load_config(project_root: Path) -> Dict[str, Any]:
     if "guideline_image" not in config:
         raise ValueError("Config must include 'guideline_image' key")
 
+    config["size"] = "1280x720"
     return config
 
 
@@ -122,7 +123,6 @@ def ensure_line_out(config: Dict[str, Any], project_root: Path) -> str:
         print(f"✅ Line-out already present: {line_out}")
     return str(line_out)
 
-
 def save_image(image_bytes: bytes, scene_id: int, output_dir: str) -> str:
     """Save generated image to file."""
     os.makedirs(output_dir, exist_ok=True)
@@ -169,22 +169,22 @@ def generate_stage(
     control_strength: float,
 ) -> str:
     """
-    Generate a single stage using Fal.ai (ControlNet img2img).
-    
+    Generate a single stage using Fal.ai FLUX Control LoRA Canny.
+
     Args:
         client: Fal.ai SyncClient instance
         config: Configuration dictionary
         project_root: Path to project root
         scene: Scene dict from ledras_scenes_v4.json (MUST come from this source)
-        control_strength: ControlNet strength value
-    
+        control_strength: Control LoRA strength value
+
     Returns:
         Path to generated image file
     """
     scene_id = scene["id"]
     scene_name = scene.get("name", "Unknown")
     scene_description = scene["description"]
-    
+
     # Validate scene comes from authoritative source
     if "elements" not in scene or "subscenes" not in scene:
         raise ValueError(
@@ -193,50 +193,47 @@ def generate_stage(
         )
 
     # Build prompt from AUTHORITATIVE source only
-    # Style and negative prompt come from the scene data (single source of truth)
     style = scene.get("style_seed", "")
     negative = scene.get(
         "negative_prompt",
         "blurry, deformed text, extra objects, watermark",
     )
-    
+
     prompt = (
-        f"exact composition, text zones and proportions of line-out template. "
         f"{scene_description}. {style}. --no {negative}"
     )
 
     width, height = map(int, config["size"].split("x"))
 
-    # Upload line-out image to Fal.ai storage
-    print(f"📤 Uploading line-out image to Fal.ai storage...")
     # Upload guideline image (line-out or depth) to Fal.ai storage
     guideline_path = ensure_line_out(config, project_root)
     print(f"📤 Uploading guideline image to Fal.ai storage...", end=" ")
     image_url = client.upload_file(Path(guideline_path))
-    print("✅")
-    
+    print(f"✅")
+
     arguments = {
         "prompt": prompt,
-        "control_image_url": image_url,
-        "control_strength": control_strength,
+        "image_url": image_url,
         "num_inference_steps": config.get("num_inference_steps", 28),
         "guidance_scale": 3.5,
         "num_images": 1,
         "enable_safety_checker": True,
+        "control_lora_image_url": image_url,
+        "control_lora_strength": 1.0,
     }
     model_name = config.get("fal_model", "fal-ai/flux-control-lora-canny")
-    
+
     print(f"🎨 Generating scene {scene_id}: {scene_name}")
     print(f"   Prompt: {prompt[:80]}...")
     print(f"   Model: {model_name}")
-    
+
     # Single API call - ONE REQUEST = ONE IMAGE
     resp = client.run(model_name, arguments)
     images = resp.get("images") if isinstance(resp, dict) else None
-    
+
     if not images:
         raise RuntimeError(f"Fal.ai did not return an image for scene {scene_id}")
-    
+
     b64 = images[0]
     out_dir = project_root / config["output_dir"]
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -259,12 +256,8 @@ def generate_stage(
                 image_data = response.read()
                 out_path.write_bytes(image_data)
             print(f"✅ Scene {scene_id} generated → {out_path} (URL)")
-    else:
-        raise RuntimeError(f"Fal.ai returned unrecognized image format: {type(b64)}")
 
     return str(out_path)
-
-
 def main():
     """CLI interface for image generation."""
     parser = argparse.ArgumentParser(description="Generate scene images for Ledras Lament")
