@@ -36,14 +36,20 @@ def get_scene_by_id(scenes: List[Dict[str, Any]], scene_id: int) -> Dict[str, An
             return scene
     raise ValueError(f"Scene {scene_id} not found in scenes list")
 def ensure_line_out(config: Dict[str, Any], project_root: Path) -> str:
-    """Extract (or reuse) the line-out template."""
-    guideline_image = config.get("guideline_image", "stage/guideline_line_out.png")
-    line_out_path = project_root / guideline_image
+    """Extract (or reuse) the line-out structural template."""
+    guideline_image = config.get("guideline_image")
+    if guideline_image:
+        line_out_path = project_root / guideline_image
+        if line_out_path.exists():
+            return str(line_out_path)
 
-    if not line_out_path.exists():
-        line_out_path = project_root / "stage/guideline_line_out.png"
+    # Prefer guide_line_out.jpg (projection guide)
+    for candidate in ["stage/guide_line_out.jpg", "stage/guideline_line_out.png"]:
+        cand_path = project_root / candidate
+        if cand_path.exists():
+            return str(cand_path)
 
-    return str(line_out_path)
+    raise FileNotFoundError("No structural guideline image (guide_line_out.jpg / guideline_line_out.png) found.")
 def save_image(image_bytes: bytes, scene_id: int, output_dir: str) -> str:
     """Save generated image to file."""
     out_path = Path(output_dir) / f"scene-{scene_id:02d}-v002.png"
@@ -68,9 +74,9 @@ def update_ledger_entry(request_id: str, status: str, response: Any = None, erro
 def get_resolution(config: Dict[str, Any]) -> tuple[int, int]:
     """Convert image_size config to width x height tuple."""
     size_map = {
-        "landscape_16_9": (1920, 1080),
-        "landscape_4_3": (1920, 1440),
-        "portrait_9_16": (1080, 1920),
+        "landscape_16_9": (1280, 720),
+        "landscape_4_3": (1280, 960),
+        "portrait_9_16": (720, 1280),
     }
     size_str = config.get("image_size", "landscape_16_9")
     if size_str not in size_map:
@@ -139,22 +145,23 @@ def generate_stage(
     width, height = get_resolution(config)
 
     # Upload guideline image (line-out or depth) to Fal.ai storage
+    # Upload structural guideline image (guide_line_out.jpg) to Fal.ai storage
     guideline_path = ensure_line_out(config, project_root)
-    print(f"📤 Uploading guideline image to Fal.ai storage...", end=" ")
+    print(f"📤 Uploading structural guideline to Fal.ai storage...", end=" ")
     image_url = client.upload_file(Path(guideline_path))
     print(f"✅")
 
     arguments = {
         "prompt": prompt,
-        "image_url": image_url,
+        # "image_url": image_url,  # DO NOT populate image_url for structural-only generation
+        "control_lora_image_url": image_url,  # Upload guide_line_out.jpg only as control_lora_image_url
         "num_inference_steps": config.get("num_inference_steps", 28),
         "guidance_scale": 3.5,
         "num_images": 1,
         "enable_safety_checker": True,
-        "control_lora_image_url": image_url,
-        "control_lora_strength": config.get("fal_control_strength", 0.7),
-        "control_start": config.get("control_start", 0.4),
-        "control_stop": config.get("control_stop", 0.6),
+        "control_lora_strength": config.get("fal_control_strength", 1.5),
+        "control_start": config.get("control_start", 0.0),
+        "control_stop": config.get("control_stop", 1.0),
     }
     model_name = config.get("fal_model", "fal-ai/flux-control-lora-canny")
 
