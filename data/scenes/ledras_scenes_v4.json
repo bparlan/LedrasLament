@@ -65,11 +65,21 @@
     {
       "id": 4,
       "name": "Susta",
-      "description": "Amphitheater steps/tiers, 6 big tiers from down to top, 7th tier is wall. static stone structure. above the steps are sky. vertical stone panel at the top center. ancient cyprus style. Night desert sand gradually gives way to greenery and flourishing trees.",
+      "description": "Amphitheater steps/tiers, 6 big tiers from down to top, 7th tier is wall. static stone structure. above the steps are sky. vertical stone panel at the top center. ancient cyprus style. Night desert sand gradually gives way to greenery and flourishing trees. The transformation reveals subtle water channels carved into stone, where twilight reflections create miniature oasis scenes within the amphitheater tiers.",
       "elements": [
         "amphitheater",
-        "steps",
-        "tiers"
+        "six stone tiers",
+        "water channels",
+        "twilight reflections",
+        "ancient irrigation",
+        "desert-to-garden transition",
+        "flourishing trees",
+        "stone aqueducts",
+        "oasis within tiers",
+        "night sky with stars",
+        "wind-carved stone",
+        "air currents",
+        "subtle water flow"
       ],
       "subscenes": [],
       "seed": 42
