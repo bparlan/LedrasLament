@@ -1,0 +1,190 @@
+{
+  "validation_summary": {
+    "total_prompts": 27,
+    "valid_prompts": 27,
+    "quality_average": 100.0,
+    "validation_pass_rate": 100.0
+  },
+  "scene_validations": {
+    "1": {
+      "1_intro": {
+        "passed": true,
+        "violations": [],
+        "compliance_score": 100.0,
+        "token": "ZjRjYzYxOTdiYmFjNTI2Nw=="
+      },
+      "1_loop": {
+        "passed": true,
+        "violations": [],
+        "compliance_score": 100.0,
+        "token": "YzU0NmMyMWFlZjI1NjhhZA=="
+      },
+      "1_outro": {
+        "passed": true,
+        "violations": [],
+        "compliance_score": 100.0,
+        "token": "ZWU2ODYzNDRjODEzZDAyMQ=="
+      }
+    },
+    "2": {
+      "2_intro": {
+        "passed": true,
+        "violations": [],
+        "compliance_score": 100.0,
+        "token": "N2I5ODgxYmQxYWRjM2VkZA=="
+      },
+      "2_loop": {
+        "passed": true,
+        "violations": [],
+        "compliance_score": 100.0,
+        "token": "YjVmZmNjZmEyOGY1YzJjOQ=="
+      },
+      "2_outro": {
+        "passed": true,
+        "violations": [],
+        "compliance_score": 100.0,
+        "token": "YzEzYWU2ODE3MTVmYWFiMg=="
+      }
+    },
+    "3": {
+      "3_intro": {
+        "passed": true,
+        "violations": [],
+        "compliance_score": 100.0,
+        "token": "NWFlMzVhMzdjYTAwNGNlNg=="
+      },
+      "3_loop": {
+        "passed": true,
+        "violations": [],
+        "compliance_score": 100.0,
+        "token": "MmI5ZTBjZDZhYWJjMDVkZA=="
+      },
+      "3_outro": {
+        "passed": true,
+        "violations": [],
+        "compliance_score": 100.0,
+        "token": "NDhiYTkxNjcxNzg4YThkZA=="
+      }
+    },
+    "4": {
+      "4_intro": {
+        "passed": true,
+        "violations": [],
+        "compliance_score": 100.0,
+        "token": "ODVjOTQzYmViOTNiNWJjZQ=="
+      },
+      "4_loop": {
+        "passed": true,
+        "violations": [],
+        "compliance_score": 100.0,
+        "token": "ZjlkNjNiNmE3MTlhZDg0NQ=="
+      },
+      "4_outro": {
+        "passed": true,
+        "violations": [],
+        "compliance_score": 100.0,
+        "token": "YTQyNjk1Yjk4YWRlNDAzYQ=="
+      }
+    },
+    "5": {
+      "5_intro": {
+        "passed": true,
+        "violations": [],
+        "compliance_score": 100.0,
+        "token": "ZjRiMDE0ZDFkZjIwOWFlMA=="
+      },
+      "5_loop": {
+        "passed": true,
+        "violations": [],
+        "compliance_score": 100.0,
+        "token": "ZGVjNzdjN2JiZjg2ODAzMg=="
+      },
+      "5_outro": {
+        "passed": true,
+        "violations": [],
+        "compliance_score": 100.0,
+        "token": "NjEzMzc4YjNmM2Y2NGVhMQ=="
+      }
+    },
+    "6": {
+      "6_intro": {
+        "passed": true,
+        "violations": [],
+        "compliance_score": 100.0,
+        "token": "MjA0M2EwZjFmNzBiYjBjYg=="
+      },
+      "6_loop": {
+        "passed": true,
+        "violations": [],
+        "compliance_score": 100.0,
+        "token": "ZjEyNWZkYTFlM2YwM2EwNA=="
+      },
+      "6_outro": {
+        "passed": true,
+        "violations": [],
+        "compliance_score": 100.0,
+        "token": "ZGE5YTA5ZmE2OTlkODQ1OA=="
+      }
+    },
+    "7": {
+      "7_intro": {
+        "passed": true,
+        "violations": [],
+        "compliance_score": 100.0,
+        "token": "NjQ5ZjQ2ODVkMDU0YzQ1OQ=="
+      },
+      "7_loop": {
+        "passed": true,
+        "violations": [],
+        "compliance_score": 100.0,
+        "token": "NjMzMGRhMzcyM2QxYmFkOA=="
+      },
+      "7_outro": {
+        "passed": true,
+        "violations": [],
+        "compliance_score": 100.0,
+        "token": "MGUyMGZmZDUyYmYwMmRmNg=="
+      }
+    },
+    "8": {
+      "8_intro": {
+        "passed": true,
+        "violations": [],
+        "compliance_score": 100.0,
+        "token": "ZWNiZjg5MmIzZDg2MmFlMA=="
+      },
+      "8_loop": {
+        "passed": true,
+        "violations": [],
+        "compliance_score": 100.0,
+        "token": "MjZjMjcwZDY2ZTgxOThiYw=="
+      },
+      "8_outro": {
+        "passed": true,
+        "violations": [],
+        "compliance_score": 100.0,
+        "token": "Njk4YzliYjY0NmY5NDlkNg=="
+      }
+    },
+    "9": {
+      "9_intro": {
+        "passed": true,
+        "violations": [],
+        "compliance_score": 100.0,
+        "token": "MmQ1N2YyOWFhY2M2ZjJhNA=="
+      },
+      "9_loop": {
+        "passed": true,
+        "violations": [],
+        "compliance_score": 100.0,
+        "token": "MGI1NmMwY2I0N2ZhYzVjNA=="
+      },
+      "9_outro": {
+        "passed": true,
+        "violations": [],
+        "compliance_score": 100.0,
+        "token": "YTc1MjZmYmQwY2ZiYmJmOA=="
+      }
+    }
+  }
+}
