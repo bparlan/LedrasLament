@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 """
-CLI interface for image generation using Fal.ai FLUX Control LoRA Canny.
-Implements gateway token system for rate limiting and approval.
+Fixed version of fal_generate.py that prevents overwriting issues.
+
+Key fixes:
+1. Version tracking to ensure unique file names
+2. Deterministic naming for generated assets
+3. No overwriting of existing generated images
 """
 
 import argparse
@@ -9,6 +13,7 @@ import json
 import os
 from pathlib import Path
 from typing import Dict, Any, List
+import datetime
 
 # Fal.ai client (sync)
 from fal_client import SyncClient
@@ -52,11 +57,62 @@ def ensure_line_out(config: Dict[str, Any], project_root: Path) -> str:
 
     raise FileNotFoundError("No structural guideline image (guide_line_out.jpg / guideline_line_out.png) found.")
 
+def get_next_version_number(output_dir: Path, scene_id: int) -> int:
+    """
+    Get the next version number for a scene to ensure unique filenames.
+    
+    This function ensures that each generated image for a given scene gets a unique
+    filename, preventing overwrites of previously generated assets.
+    
+    Args:
+        output_dir: Directory where images are stored
+        scene_id: ID of the scene
+        
+    Returns:
+        Next available version number (e.g., 2, 3, 4...)
+    """
+    output_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Pattern: scene-01-v[version].png
+    version_pattern = f"scene-{scene_id:02d}-v*.png"
+    
+    max_version = 0
+    for file_path in output_dir.glob(version_pattern):
+        # Extract version number from filename
+        try:
+            # Extract version from pattern like "scene-01-v002.png"
+            version_str = file_path.stem.split('-')[-1][1:]  # Remove 'v' prefix
+            version = int(version_str)
+            max_version = max(max_version, version)
+        except (ValueError, IndexError):
+            continue
+    
+    return max_version + 1
+
 def save_image(image_bytes: bytes, scene_id: int, output_dir: str) -> str:
-    """Save generated image to file."""
-    out_path = Path(output_dir) / f"scene-{scene_id:02d}-v002.png"
+    """
+    Save generated image to file with version tracking to prevent overwrites.
+    
+    Key fix: Each save operation gets a unique version number to prevent
+    overwriting existing assets. The function tracks existing files for the
+    given scene and increments the version number accordingly.
+    """
+    output_path = Path(output_dir)
+    
+    # Get next available version number
+    version = get_next_version_number(output_path, scene_id)
+    
+    # Create filename with version number: scene-01-v002.png
+    out_path = output_path / f"scene-{scene_id:02d}-v{version:03d}.png"
+    
+    # Ensure output directory exists
+    output_path.mkdir(parents=True, exist_ok=True)
+    
+    # Save the image
     with open(out_path, "wb") as f:
         f.write(image_bytes)
+    
+    print(f"📸 Saved scene {scene_id} as {out_path.name} (version {version})")
     return str(out_path)
 
 def estimate_cost(width: int, height: int, model: str) -> float:
@@ -98,6 +154,7 @@ def generate_stage(
     Returns:
         Path to generated image file
     """
+
     scene_id = scene["id"]
     scene_name = scene.get("name", "Unknown")
     scene_description = scene["description"]
@@ -178,14 +235,16 @@ def generate_stage(
 
     b64 = images[0]
     out_dir = project_root / config["output_dir"]
-    out_dir.mkdir(parents=True, exist_ok=True)
-    out_path = out_dir / f"scene-{scene_id:02d}-v002.png"
+    
+    # FIXED: Use the improved save_image function that handles version tracking
+    out_path = save_image(b64, scene_id, str(out_dir))
 
     # Handle response - URL or base64
     if isinstance(b64, dict) and 'url' in b64:
         print(f"📥 Downloading image from URL...")
         with urllib.request.urlopen(b64['url']) as response:
             image_data = response.read()
+            # Save with version tracking
             with open(out_path, "wb") as f:
                 f.write(image_data)
         print(f"✅ Scene {scene_id} generated → {out_path} (URL)")

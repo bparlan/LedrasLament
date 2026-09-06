@@ -1,0 +1,159 @@
+{
+  "title": "Ledras Lament Scenes",
+  "version": 5,
+  "author": "<your-name>",
+  "status": "draft",
+
+  "global_structure": "Ancient stone amphitheater viewed straight on. Six broad horizontal stone seating tiers rise from foreground to background. A seventh rear wall spans behind the upper tier. A tall rigid rectangular stone frame stands at the exact top-center position. The frame has straight vertical sides, a straight top edge, sharp corners and a clear rectangular opening. The amphitheater geometry, tier boundaries, frame proportions, frontal perspective and overall composition remain fixed and unchanged.",
+
+  "global_frame_rule": "The central rectangular stone frame is a permanent architectural invariant. Do not move, distort, widen, narrow, tilt, decorate, replace or break it. Preserve its exact rectangular silhouette and vertical symmetry. Any moon or celestial disk must appear only inside the rectangular opening of the frame, never above, behind, beside or outside it.",
+
+  "scenes": [
+    {
+      "id": 1,
+      "name": "Intro",
+      "description": "Night over the ancient amphitheater. A full moon appears centered inside the rectangular opening of the central stone frame. Star-filled sky, weathered limestone, soft desert sand, low drifting smoke and thin fog. Sparse traces of an ancient ruined landscape. Dark, mysterious and monumental atmosphere.",
+      "elements": [
+        "full moon inside central frame",
+        "stars",
+        "desert sand",
+        "low smoke",
+        "thin fog",
+        "weathered stone",
+        "ruin atmosphere"
+      ],
+      "subscenes": [],
+      "seed": 42
+    },
+    {
+      "id": 2,
+      "name": "Ritual",
+      "description": "Nighttime ritual within the fixed ancient amphitheater. A full moon appears centered inside the rectangular opening of the central stone frame. Spiritual ethno-Cypriot letterforms appear as luminous symbolic shapes inside the frame, then conceptually descend toward the center of the lowest stage area. Dark red sparks and subtle glowing particles circle around a still lying human form at the bottom-center stage. Mystical, solemn and restrained atmosphere.",
+      "elements": [
+        "full moon inside central frame",
+        "symbolic ethno-cypriot letterforms",
+        "dark red sparks",
+        "lying human form",
+        "ritual atmosphere",
+        "night",
+        "stars"
+      ],
+      "subscenes": [],
+      "seed": 42
+    },
+    {
+      "id": 3,
+      "name": "Astarte Awakens",
+      "description": "The night amphitheater remains structurally unchanged. The moon centered inside the rectangular opening of the central stone frame transforms from bright white into a deep red blood moon. Desert sand and warm yellow limestone dominate the surrounding environment. The atmosphere becomes intense, sacred and foreboding.",
+      "elements": [
+        "blood moon inside central frame",
+        "desert sand",
+        "yellow limestone",
+        "night",
+        "stars",
+        "sacred atmosphere"
+      ],
+      "subscenes": [],
+      "seed": 42
+    },
+    {
+      "id": 4,
+      "name": "Susta",
+      "description": "The ancient amphitheater remains structurally fixed while the surrounding desert gradually transforms into a living landscape. Desert sand gives way to greenery, low plants and flourishing trees growing naturally around and between the stone tiers. Subtle narrow water channels appear within existing stone surfaces without changing the tier geometry. Quiet nighttime atmosphere with soft natural illumination.",
+      "elements": [
+        "desert-to-garden transformation",
+        "greenery",
+        "trees",
+        "existing stone water channels",
+        "night",
+        "natural transformation"
+      ],
+      "subscenes": [],
+      "seed": 42
+    },
+    {
+      "id": 5,
+      "name": "Balance",
+      "description": "Water enters the fixed ancient amphitheater in harmony with the existing architecture. Calm streams and narrow canals follow the natural horizontal and vertical stone geometry without altering the six tiers. Water gently cascades between existing levels and creates reflective surfaces. Trees, crops and spring vegetation grow around the edges and between stone structures. Leaves and crops suggest a gentle wind. Nighttime atmosphere with subtle reflections, abundance and balance between stone, water and life.",
+      "elements": [
+        "calm water canals",
+        "gentle cascades",
+        "reflective water",
+        "trees",
+        "crops",
+        "spring vegetation",
+        "gentle wind",
+        "night"
+      ],
+      "subscenes": [],
+      "seed": 42
+    },
+    {
+      "id": 6,
+      "name": "Lullaby",
+      "description": "Water persists throughout the fixed ancient amphitheater. Vegetation becomes increasingly abundant as if observed through a slow natural time-lapse. Trees, grasses, vines and greenery gradually fill spaces around the existing stone tiers while the architecture remains completely still and unchanged. Water continues calmly through the established channels. Quiet, fertile, abundant and dreamlike atmosphere.",
+      "elements": [
+        "persistent water",
+        "abundant trees",
+        "dense greenery",
+        "grasses",
+        "vines",
+        "slow natural growth",
+        "abundance"
+      ],
+      "subscenes": [],
+      "seed": 42
+    },
+    {
+      "id": 7,
+      "name": "Ether Walk",
+      "description": "The fixed ancient amphitheater becomes dominated by wind and drifting smoke. Thin layers of smoke move horizontally and diagonally across the existing stone tiers without obscuring their geometry. Smoke gathers around the bottom-center stage and rises gently through the rectangular opening of the central stone frame. The atmosphere is ethereal, weightless and mysterious.",
+      "elements": [
+        "drifting smoke",
+        "wind",
+        "ethereal atmosphere",
+        "smoke between tiers",
+        "bottom-center smoke",
+        "smoke through central frame"
+      ],
+      "subscenes": [],
+      "seed": 42
+    },
+    {
+      "id": 8,
+      "name": "Drag Queen",
+      "description": "A calm nighttime village emerges within the existing amphitheater without changing the stone tier geometry. Warm miniature home lights appear integrated into the tier surfaces and existing architectural spaces. Small village-like illuminated details are distributed across the layered amphitheater while the six horizontal tiers remain clearly visible and structurally unchanged. Fireflies drift through the air. Existing greenery moves gently in the wind. Warm human presence is suggested through light, but no modern city architecture.",
+      "elements": [
+        "layered ancient village",
+        "warm miniature home lights",
+        "integrated architectural lighting",
+        "fireflies",
+        "gentle wind",
+        "greenery",
+        "night"
+      ],
+      "subscenes": [],
+      "seed": 42
+    },
+    {
+      "id": 9,
+      "name": "March of Mourn",
+      "description": "The fixed ancient amphitheater burns during the night. Fire follows the existing horizontal tier boundaries without changing their geometry. Remaining greenery burns and glows. A deep red blood moon appears centered only inside the rectangular opening of the central stone frame. Flames surround the frame while preserving its rigid rectangular silhouette. A thin elegant blood-red canal flows downward through the existing architecture toward the bottom-center stage. Tragic, monumental and ritualistic atmosphere.",
+      "elements": [
+        "fire following tier boundaries",
+        "burning vegetation",
+        "blood moon inside central frame",
+        "burning central frame",
+        "thin blood-red canal",
+        "night",
+        "tragic ritual atmosphere"
+      ],
+      "subscenes": [],
+      "seed": 42
+    }
+  ],
+
+  "style_seed": "Cypro-Phoenician and Levantine Bronze Age ruin style. Weathered limestone, ashlar sandstone, mudbrick traces and ancient stone construction. Restrained ornamentation. No Doric or Ionic columns, no Classical Greek temple architecture, no Parthenon silhouettes, no white marble monuments.",
+
+  "negative_prompt": "distorted central frame, tilted frame, curved frame, broken frame, widened frame, narrowed frame, moved frame, moon outside frame, moon above frame, moon behind frame, extra architecture changing tier geometry, blurry, deformed text, watermark, modern buildings, modern city, Greek columns, Doric columns, Ionic columns"
+}
