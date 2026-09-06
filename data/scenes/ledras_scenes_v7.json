@@ -1,0 +1,188 @@
+{
+  "title": "Ledras Lament Scenes - Enhanced v7",
+  "version": 7,
+  "author": "Ledras Lament Team",
+  "status": "production",
+  "global_structure": "Ancient stone amphitheater viewed straight on. Six broad horizontal stone seating tiers rise from foreground to background. A seventh rear wall spans behind the upper tier. A tall rigid rectangular stone frame stands at the exact top-center position. The frame has straight vertical sides, a straight top edge, sharp corners and a clear rectangular opening. The amphitheater geometry, tier boundaries, frame proportions, frontal perspective and overall composition remain fixed and unchanged.",
+  "global_frame_rule": "The central rectangular stone frame is a permanent architectural invariant. Do not move, distort, widen, narrow, tilt, decorate, replace or break it. Preserve its exact rectangular silhouette and vertical symmetry. Any moon or celestial disk must appear only inside the rectangular opening of the frame, never above, behind, beside or outside it.",
+  "scenes": [
+    {
+      "id": 1,
+      "name": "Intro",
+      "description": "Night over the ancient amphitheater. A full moon appears centered inside the rectangular opening of the central stone frame. Star-filled sky, weathered limestone, soft desert sand, low drifting smoke and thin fog. Sparse traces of an ancient ruined landscape. Dark, mysterious and monumental atmosphere.",
+      "elements": [
+        "full moon centered inside frame",
+        "weathered limestone textures",
+        "soft desert sand surface",
+        "low drifting smoke",
+        "thin fog atmospheric effect",
+        "ancient ruined landscape remnants",
+        "circular moon light inside frame opening"
+      ],
+      "subscenes": [],
+      "seed": 42
+    },
+    {
+      "id": 2,
+      "name": "Ritual",
+      "description": "Nighttime ritual within the fixed ancient amphitheater. A full moon appears centered inside the rectangular opening of the central stone frame. Spiritual ethno-Cypriot letterforms appear as luminous symbolic shapes inside the frame, then conceptually descend toward the center of the lowest stage area. Dark red sparks and subtle glowing particles circle around a still lying human form at the bottom-center stage. Mystical, solemn and restrained atmosphere.",
+      "elements": [
+        "full moon centered inside frame",
+        "luminous ethno-Cypriot letterforms",
+        "descending symbolic shapes",
+        "dark red sparks and particles",
+        "still human form at bottom-center",
+        "spiritual ritual atmosphere",
+        "restrained mystical quality"
+      ],
+      "subscenes": [],
+      "seed": 42
+    },
+    {
+      "id": 3,
+      "name": "Astarte Awakens",
+      "description": "The night amphitheater remains structurally unchanged. The moon centered inside the rectangular opening of the central stone frame transforms from bright white into a deep red blood moon. Desert sand and warm yellow limestone dominate the surrounding environment. The atmosphere becomes intense, sacred and foreboding.",
+      "elements": [
+        "blood moon transformation",
+        "warm yellow limestone",
+        "intense sacred atmosphere",
+        "foreboding mood",
+        "unchanged amphitheater structure",
+        "dramatic lighting contrast",
+        "heightened emotional tension"
+      ],
+      "subscenes": [],
+      "seed": 42
+    },
+    {
+      "id": 4,
+      "name": "Water Emergence",
+      "description": "The ancient amphitheater remains structurally fixed while the surrounding desert gradually transforms into a living landscape. Desert sand gives way to greenery, low plants and flourishing trees growing naturally around and between the stone tiers. Subtle narrow water channels appear within existing stone surfaces without changing the tier geometry. Quiet nighttime atmosphere with soft natural illumination.",
+      "elements": [
+        "desert transformation to greenery",
+        "low plants and flourishing trees",
+        "narrow water channels",
+        "subtle stone surface water features",
+        "quiet nighttime atmosphere",
+        "soft natural illumination",
+        "organic growth integration"
+      ],
+      "subscenes": [],
+      "seed": 42
+    },
+    {
+      "id": 5,
+      "name": "Balance",
+      "description": "Water enters the fixed ancient amphitheater in harmony with the existing architecture. Calm streams and narrow canals follow the natural horizontal and vertical stone geometry without altering the six tiers. Water gently cascades between existing levels and creates reflective surfaces. Trees, crops and spring vegetation grow around the edges and between stone structures. Leaves and crops suggest a gentle wind. Nighttime atmosphere with subtle reflections, abundance and balance between stone, water and life.",
+      "elements": [
+        "calm water streams",
+        "narrow canals following stone geometry",
+        "gentle cascading between tiers",
+        "reflective water surfaces",
+        "trees and spring vegetation",
+        "subtle wind effects on vegetation",
+        "nighttime atmospheric reflections",
+        "harmonious stone-water integration",
+        "abundant natural life"
+      ],
+      "subscenes": [
+        {
+          "id": 501,
+          "name": "Balance - Dawn",
+          "description": "Early morning light casts golden reflections across the water surfaces in the fixed amphitheater. The calm streams and narrow canals catch the first rays of sunlight, creating rippled patterns of light and shadow. Vegetation sways gently in the soft morning breeze. The balance between architectural permanence and natural abundance is perfectly captured in this tranquil dawn moment.",
+          "seed": 142,
+          "cultural_notes": "Golden hour lighting emphasizes the harmony between natural and architectural elements"
+        },
+        {
+          "id": 502,
+          "name": "Balance - Twilight",
+          "description": "As day turns to night, warm sunset light reflects off the water surfaces creating intimate pools of golden light. The gentle breeze continues to move through the vegetation, suggesting life continues even as activity slows. The balance maintained by the water architecture creates a peaceful transition between day and night in this contemplative twilight scene.",
+          "seed": 142,
+          "cultural_notes": "Twilight lighting creates romantic intimacy while preserving structural permanence"
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "id": 6,
+      "name": "Overflow",
+      "description": "Water persists throughout the fixed ancient amphitheater. Vegetation becomes increasingly abundant as if observed through a slow natural time-lapse. Trees, grasses, vines and greenery gradually fill spaces around the existing stone tiers while the architecture remains completely still and unchanged. Water continues calmly through the established channels. Quiet, fertile, abundant and dreamlike atmosphere.",
+      "elements": [
+        "persistent water flow",
+        "abundant vegetation growth",
+        "natural time-lapse effect",
+        "greenery filling stone spaces",
+        "unchanged permanent architecture",
+        "calm water channels",
+        "dreamlike peaceful atmosphere"
+      ],
+      "subscenes": [],
+      "seed": 42
+    },
+    {
+      "id": 7,
+      "name": "Wind",
+      "description": "The fixed ancient amphitheater becomes dominated by wind and drifting smoke. Thin layers of smoke move horizontally and diagonally across the existing stone tiers without obscuring their geometry. Smoke gathers around the bottom-center stage and rises gently through the rectangular opening of the central stone frame. The atmosphere is ethereal, weightless and mysterious.",
+      "elements": [
+        "wind-driven smoke",
+        "horizontal and diagonal smoke movement",
+        "smoke gathering around stage",
+        "gentle rising through frame opening",
+        "ethereal weightless atmosphere",
+        "mysterious smoke patterns",
+        "architectural geometry maintained"
+      ],
+      "subscenes": [],
+      "seed": 42
+    },
+    {
+      "id": 8,
+      "name": "Village",
+      "description": "A calm nighttime village emerges within the existing amphitheater without changing the stone tier geometry. Warm miniature home lights appear integrated into the tier surfaces and existing architectural spaces. Small village-like illuminated details are distributed across the layered amphitheater while the six horizontal tiers remain clearly visible and structurally unchanged. Fireflies drift through the air. Existing greenery moves gently in the wind. Warm human presence is suggested through light, but no modern city architecture.",
+      "elements": [
+        "warm miniature home lights",
+        "village integration into stone architecture",
+        "illuminated architectural details",
+        "fireflies drifting through air",
+        "existing greenery in wind",
+        "warm human presence suggested",
+        "traditional village aesthetic"
+      ],
+      "subscenes": [
+        {
+          "id": 801,
+          "name": "Village - Festival",
+          "description": "Celebration night in the amphitheater village. Lanterns and decorative lights enhance the warm miniature architecture. Villagers gather in the spaces between stone tiers, creating a lively atmosphere while maintaining the ancient geometric constraints. The lighting creates a festive yet authentic scene that respects the architectural permanence.",
+          "seed": 242,
+          "cultural_notes": "Festival lighting adds cultural vibrancy while maintaining architectural integrity"
+        },
+        {
+          "id": 802,
+          "name": "Village - Harvest",
+          "description": "Autumn harvest celebration within the amphitheater. Warm light from home fires reflects on surfaces, suggesting abundance and community. Villagers gather crops and provisions, their activities following the natural patterns established by the stone geometry. The harvest scene emphasizes community and seasonal cycles within the ancient space.",
+          "seed": 242,
+          "cultural_notes": "Harvest activities emphasize community and seasonal rhythms within architectural constraints"
+        }
+      ],
+      "seed": 42
+    },
+    {
+      "id": 9,
+      "name": "Fire",
+      "description": "The fixed ancient amphitheater burns during the night. Fire follows the existing horizontal tier boundaries without changing their geometry. Remaining greenery burns and glows. A deep red blood moon appears centered only inside the rectangular opening of the central stone frame. Flames surround the frame while preserving its rigid rectangular silhouette. A thin elegant blood-red canal flows downward through the existing architecture toward the bottom-center stage. Tragic, monumental and ritualistic atmosphere.",
+      "elements": [
+        "theatre burning following tier geometry",
+        "blood moon centered in frame",
+        "flames surrounding the frame",
+        "blood-red canal flowing down",
+        "tragic monumental atmosphere",
+        "ritualistic fire effects",
+        "maintained architectural integrity"
+      ],
+      "subscenes": [],
+      "seed": 42
+    }
+  ],
+  "style_seed": "Cypro-Phoenician and Levantine Bronze Age ruin style. Weathered limestone, ashlar sandstone, mudbrick traces and ancient stone construction. Restrained ornamentation. No Doric or Ionic columns, no Classical Greek temple architecture, no Parthenon silhouettes, no white marble monuments.",
+  "negative_prompt": "distorted central frame, tilted frame, curved frame, broken frame, widened frame, narrowed frame, moved frame, moon outside frame, moon above frame, moon behind frame, extra architecture changing tier geometry, blurry, deformed text, watermark, modern buildings, modern city, Greek columns, Doric columns, Ionic columns"
+}
