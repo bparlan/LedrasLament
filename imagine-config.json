@@ -6,7 +6,7 @@
   "control_stop": 1.0,
   "fal_control_strength": 0.6,
   "num_inference_steps": 28,
-  "scenes_file": "data/scenes/ledras_scenes_v4.json",
+  "scenes_file": "data/scenes/ledras_scenes_v5.json",
   "output_dir": "assets/generated",
   "image_size": "1280x720",
   "seed": 42,
