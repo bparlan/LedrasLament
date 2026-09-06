@@ -15,36 +15,18 @@ Key Features:
 """
 
 import json
-import os
-import re
 import hashlib
-import math
 from pathlib import Path
-from typing import Dict, List, Any, Optional, Tuple
+from typing import Dict, List, Any, Tuple
 from dataclasses import dataclass, field
 from datetime import datetime
 
 @dataclass
 class TechnicalSpecs:
     """Technical rendering specifications for scene generation"""
-    resolution: str = "1280x720"
-    aspect_ratio: str = "19:9"
+    base_resolution: str = "1280x720px"
     pixel_density: str = "120px/meter"
-    specular_highlight_strength: float = 0.3
-    spot_light_intensity: float = 0.8
-    spot_light_position: Dict[str, float] = field(default_factory=lambda: {"x": 0.5, "y": 0.3, "z": 2.0})
-    fine_edge_threshold: float = 0.4
-    weathered_stone_texture: bool = True
-    ancient_mortar_depth: float = 0.6
-    ambient_occlusion_strength: float = 0.7
-    global_illumination_quality: str = "high"
-    shadow_softness: float = 0.3
-    material_metalness: float = 0.1
-    material_roughness: float = 0.8
-    num_inference_steps: int = 28
-    control_start: float = 0.0
-    control_stop: float = 1.0
-    fal_control_strength: float = 0.6
+    material_priority: List[str] = field(default_factory=lambda: ["weathered_stone", "ancient_mortar"])
 
 @dataclass
 class SceneTemplate:
@@ -89,7 +71,6 @@ class LedrasSceneGenerator:
         self.config = self._load_config()
         self.templates = self._load_templates()
         self.quality = self._load_quality_standards()
-        self.team_consensus = self._load_team_structure()
         
         # Generate deterministic seeds per scene
         self.scene_seeds = self._generate_scene_seeds()
@@ -176,15 +157,6 @@ class LedrasSceneGenerator:
             print(f"Invalid JSON in quality_assurance.json: {e}")
             raise
     
-    def _load_team_structure(self) -> Dict[str, Any]:
-        """Load team structure and decision protocols"""
-        try:
-            with open("team_config.json", 'r') as f:
-                return json.load(f)
-        except FileNotFoundError:
-            print("team_config.json not found")
-            raise
-    
     def _generate_scene_seeds(self) -> Dict[int, int]:
         """Generate deterministic seeds per scene"""
         scenes_file = self.config["scenes_file"]
@@ -212,11 +184,6 @@ class LedrasSceneGenerator:
         """Validate scene against cultural and technical requirements"""
         errors = []
         warnings = []
-        
-        # Cultural validation
-        for required in self.templates.cultural_constraints["required_elements"]:
-            # Check if scene description contains required elements
-            pass  # Implementation depends on specific requirements
         
         # Technical validation
         if "elements" not in scene:
@@ -282,7 +249,6 @@ class LedrasSceneGenerator:
         # Add team metadata
         prompt += f" [seed:{self.scene_seeds.get(scene_id, 42)}]"
         prompt += f" [team:{self.config['cultural_authenticity_level']}]"
-        prompt += f" [quality_verified:{self._check_quality_standards(scene)}]"
         
         return prompt
     
@@ -300,30 +266,6 @@ class LedrasSceneGenerator:
             f"ambient:{self.config['ambient_occlusion_strength']}"
         ]
         return ", ".join(specs)
-    
-    def _check_quality_standards(self, scene: Dict[str, Any]) -> str:
-        """Check if scene meets quality standards"""
-        checks_passed = 0
-        total_checks = len(self.quality.verification_checks)
-        
-        for check in self.quality.verification_checks:
-            # Implement quality checks based on standards
-            if check == "architectural_geometry":
-                # Check for amphitheater elements
-                if any(elem in scene.get("elements", []) for elem in ["amphitheater", "tiers", "steps"]):
-                    checks_passed += 1
-            
-            elif check == "cultural_authenticity":
-                # Check for Mediterranean elements
-                if any(elem in scene.get("elements", []) for elem in ["cyprus", "levantine", "mediterranean"]):
-                    checks_passed += 1
-            
-            elif check == "technical_render_fidelity":
-                # Check for technical elements
-                if any(elem in scene.get("elements", []) for elem in ["stone", "weathered", "ancient"]):
-                    checks_passed += 1
-        
-        return f"{checks_passed}/{total_checks}"
     
     def generate_all_prompts(self) -> Dict[int, Dict[str, str]]:
         """
@@ -400,25 +342,6 @@ class LedrasSceneGenerator:
             print("✅ All prompts passed quality validation")
         
         return all_valid
-    
-    def get_team_consensus_status(self) -> Dict[str, Any]:
-        """Get team consensus and decision status"""
-        team_structure = self.team_consensus
-        
-        return {
-            "team_leadership": team_structure.get("team_leadership", "technical_visionary"),
-            "consensus_threshold": team_structure.get("consensus_threshold", 0.8),
-            "communication_protocol": team_structure.get("communication_protocol", "irc_style"),
-            "decision_veto_powers": team_structure.get("decision_veto_powers", {}),
-            "expertise_registry": team_structure.get("expertise_registry", {}),
-            "current_phase": "Phase 2: Implementation",
-            "files_modified": [
-                "imagine-config.json",
-                "scene_templates.json", 
-                "quality_assurance.json",
-                "team_config.json"
-            ]
-        }
 
 # Command line interface
 if __name__ == "__main__":
@@ -434,11 +357,6 @@ if __name__ == "__main__":
         print(f"   - Cultural Authenticity: {generator.config['cultural_authenticity_level']}")
         print(f"   - Progressive Roles: {', '.join(generator.templates.progressive_roles)}")
         print(f"   - Subscene Variations: {generator.config['subscene_variation_count']}")
-        
-        print(f"\n📋 Team Consensus:")
-        team_status = generator.get_team_consensus_status()
-        print(f"   - Leadership: {team_status['team_leadership']}")
-        print(f"   - Decision Matrix: {team_status['decision_veto_powers']}")
         
         print(f"\n🎨 Generating Prompts...")
         prompts = generator.generate_all_prompts()
@@ -456,7 +374,6 @@ if __name__ == "__main__":
         
         print(f"\n🎯 Phase 2 Implementation Complete!")
         print(f"   All scenes configured for professional generation")
-        print(f"   Team consensus protocols established")
         print(f"   Quality assurance framework active")
         
     except Exception as e:
