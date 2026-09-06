@@ -8,7 +8,7 @@
   "num_inference_steps": 28,
   "scenes_file": "data/scenes/ledras_scenes_v7.json",
   "output_dir": "assets/generated",
-  "image_size": "1280x720",
+  "image_size": "landscape_16_9",
   "seed": 42,
   "weathered_stone_texture": true,
   "subscene_variation_count": 2,

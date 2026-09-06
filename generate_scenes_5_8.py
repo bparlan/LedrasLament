@@ -28,20 +28,6 @@ def generate_prompt(scene: dict, role: str = "intro") -> str:
     
     return f"{description} {metadata}"
 
-def generate_image_sync(client: SyncClient, model: str, params: dict) -> dict:
-    """Generate image using SyncClient with proper parameters"""
-    print(f"🤖 Calling SyncClient.run() with model: {model}")
-    
-    result = client.run(application=model, arguments=params)
-    
-    if result and hasattr(result, 'images') and result.images:
-        return {
-            "image_data": result.images[0],
-            "status": "success"
-        }
-    
-    return {"status": "error", "message": "No images returned"}
-
 def main():
     print("🎯 Ledras Lament - Scene 5 & 8 Intro Generation")
     print("=" * 60)
@@ -65,6 +51,7 @@ def main():
     print(f"   Scenes file: {config['scenes_file']}")
     print(f"   Output dir: {config['output_dir']}")
     print(f"   Control strength: {config['fal_control_strength']}")
+    print(f"   Image size: {config['image_size']}")
     
     # Step 3: Load scenes data
     print("\n📋 Step 3: Load Scenes Data")
@@ -98,15 +85,15 @@ def main():
         prompt = generate_prompt(scene, role)
         print(f"   Prompt: {prompt[:150]}..." if len(prompt) > 150 else f"   Prompt: {prompt}")
         
-        # Prepare API parameters
+        # Prepare API parameters - using the CORRECT format for flux-control-lora-canny
         params = {
             "prompt": prompt,
-            "image_size": config["image_size"],
+            "image_size": config["image_size"],  # landscape_16_9
             "seed": config["seed"],
             "num_inference_steps": config["num_inference_steps"],
             "control_strength": config["fal_control_strength"],
             "preprocess": config["preprocess"],
-            "guideline_image": config["guideline_image"],
+            "control_lora_image_url": config["guideline_image"],  # Correct parameter name
             "num_images": 1,
             "output_format": "png"
         }
@@ -116,13 +103,20 @@ def main():
         
         # Generate image
         try:
-            result = generate_image_sync(client, config["fal_model"], params)
+            print(f"🤖 Calling SyncClient.run() with model: {config['fal_model']}")
+            result = client.run(
+                application=config["fal_model"],
+                arguments=params
+            )
             
-            if result["status"] == "success":
-                generated_results[scene_id] = result
+            if result and hasattr(result, 'images') and result.images:
+                generated_results[scene_id] = {
+                    "image_data": result.images[0],
+                    "status": "success"
+                }
                 print(f"   ✅ Scene {scene_id} generated successfully")
             else:
-                print(f"   ❌ Scene {scene_id} generation failed: {result.get('message', 'Unknown error')}")
+                print(f"   ❌ Scene {scene_id} generation failed: No images returned")
                 
         except Exception as e:
             print(f"   ❌ Scene {scene_id} error: {str(e)}")
