@@ -2,6 +2,7 @@
 """
 Ledras Lament Scene Generator - Fixed
 This script generates images for Ledras Lament scenes using fal.ai API.
+FIXED VERSION with proper imports and API calls.
 """
 
 import json
@@ -14,9 +15,9 @@ from datetime import datetime
 
 # Fal client imports - FIXED
 try:
-    from fal import run as fal_run
+    from fal_client import run as fal_run
 except ImportError:
-    print("❌ ERROR: fal client not installed. Please install with: pip install fal")
+    print("❌ ERROR: fal_client not installed. Please install with: pip install fal-client")
     exit(1)
 
 # --- Configuration ---
@@ -140,23 +141,22 @@ class LedrasSceneGenerator:
             print(f"🎨 Generating image: Scene {scene_id}, Role: {role}")
 
             fal_params = {
-                "prompt": prompt,
                 "image_size": self.config.image_size,
                 "seed": self.config.seed,
                 "num_inference_steps": self.config.num_inference_steps,
                 "control_strength": self.config.fal_control_strength,
                 "preprocess": self.config.preprocess,
                 "guideline_image": self.config.guideline_image,
-                "model": self.config.fal_model,
                 "num_images": 1,
                 "output_format": "png",
+                "prompt": prompt # move prompt here
             }
 
             if self.config.weathered_stone_texture:
                 fal_params["weathered_stone_texture"] = True
 
             print(f"🤖 Calling fal.run() API...")
-            result = fal_run(**fal_params)
+            result = fal_run(self.config.fal_model, arguments=fal_params)
 
             if result and hasattr(result, 'images') and result.images:
                 image_data = result.images[0]
