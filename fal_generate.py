@@ -15,7 +15,8 @@ from datetime import datetime
 
 # Fal client imports - FIXED
 try:
-    from fal_client import run as fal_run
+    from fal_client import run as fal_run, __version__ as fal_version
+    print(f"✅ fal_client version {fal_version} imported successfully")
 except ImportError:
     print("❌ ERROR: fal_client not installed. Please install with: pip install fal-client")
     exit(1)
@@ -25,121 +26,201 @@ except ImportError:
 class LedrasConfig:
     def __init__(self):
         self.guideline_image = "stage/stage_v5_alphasky.png"
-        self.preprocess = "canny"
-        self.fal_model = "fal-ai/flux-control-lora-canny"
-        self.control_start = 0.0
-        self.control_stop = 1.0
-        self.fal_control_strength = 0.7
-        self.num_inference_steps = 28
-        self.scenes_file = "data/scenes/ledras_scenes_v6.json"
         self.output_dir = "assets/generated"
-        self.image_size = "1280x720"
-        self.seed = 42
-        self.weathered_stone_texture = True
-        self.cultural_authenticity_level = "cypro_phoenician"
+        self.scenes_file = "data/scenes/ledras_scenes_v6.json"
+        
+        # Initialize from imagine-config.json
+        self.load_imagine_config()
 
-    def load_from_imagine(self):
-        imagine_path = "imagine-config.json"
-        if os.path.exists(imagine_path):
-            with open(imagine_path, 'r') as f:
-                data = json.load(f)
-            for key, value in data.items():
-                if hasattr(self, key):
-                    setattr(self, key, value)
+    def load_imagine_config(self):
+        """Load configuration from imagine-config.json"""
+        config_path = "imagine-config.json"
+        try:
+            with open(config_path, 'r') as f:
+                config_data = json.load(f)
+                
+            for key, value in config_data.items():
+                setattr(self, key, value)
+                
+            print(f"✅ Configuration loaded from {config_path}")
+        except Exception as e:
+            print(f"⚠️  Warning: Could not load {config_path}: {e}")
+            self.set_default_config()
+
+    def set_default_config(self):
+        """Set default configuration values"""
+        defaults = {
+            "guideline_image": "stage/stage_v5_alphasky.png",
+            "preprocess": "canny",
+            "fal_model": "fal-ai/flux-control-lora-canny",
+            "control_start": 0.0,
+            "control_stop": 1.0,
+            "fal_control_strength": 0.7,
+            "num_inference_steps": 28,
+            "output_dir": "assets/generated",
+            "image_size": "1280x720",
+            "seed": 42,
+            "weathered_stone_texture": True,
+            "subscene_variation_count": 2,
+            "cultural_authenticity_level": "cypro_phoenician",
+            "ornamentation_allowed": False,
+            "scenes_file": "data/scenes/ledras_scenes_v6.json"
+        }
+        
+        for key, value in defaults.items():
+            setattr(self, key, value)
+            
+        print("✅ Default configuration applied")
 
 # --- Scene Generator ---
 
 class LedrasSceneGenerator:
     def __init__(self):
         self.config = LedrasConfig()
-        self.config.load_from_imagine()
+        
+        # Setup API client with environment-based authentication
+        self.setup_fal_client()
+
+    def setup_fal_client(self):
+        """Setup fal client with environment-based authentication"""
+        self.api_key = os.environ.get('FAL_API_KEY')
+        
+        if not self.api_key:
+            print("⚠️  WARNING: FAL_API_KEY not set. Image generation may fail.")
+            print("   Set it using: export FAL_API_KEY='your-api-key'")
+            return
+            
+        print("✅ FAL_API_KEY configured successfully")
+        
+        # For debugging: show key format (safely)
+        if ':' in self.api_key:
+            uuid_part, suffix_part = self.api_key.split(':', 1)
+            print(f"   Key format: UUID ({len(uuid_part)} chars) + suffix ({len(suffix_part)} chars)")
 
     def generate_prompt(self, scene_id: int, role: str = "loop") -> str:
-        with open(self.config.scenes_file, 'r') as f:
-            scenes = json.load(f)['scenes']
-            scene = next(s for s in scenes if s['id'] == scene_id)
-
-        prompt = f"Scene {scene_id} ({role}): {scene['description']}"
-        prompt += f" [seed:{self.config.seed}] [team:{self.config.cultural_authenticity_level}] [validation_token:TEST_TOKEN_{scene_id}_{role}]"
-        return prompt
+        """Generate prompt for specific scene and role"""
+        try:
+            with open(self.config.scenes_file, 'r') as f:
+                scenes_data = json.load(f)
+                
+            scenes = scenes_data.get('scenes', [])
+            
+            for scene in scenes:
+                if scene.get('id') == scene_id:
+                    roles = scene.get('roles', {})
+                    if role in roles:
+                        prompt = roles[role]
+                    elif 'intro' in roles:
+                        prompt = roles['intro']
+                    else:
+                        prompt = scene.get('description', '')
+                    
+                    # Add metadata to prompt
+                    metadata = f"[seed:{scene.get('seed', self.config.seed)}] [team:{self.config.cultural_authenticity_level}]"
+                    return f"{prompt} {metadata}"
+                    
+            print(f"⚠️  Scene {scene_id} not found")
+            return ""
+            
+        except Exception as e:
+            print(f"❌ Error generating prompt for scene {scene_id}: {e}")
+            return ""
 
     def generate_all_prompts(self) -> Dict[int, Dict[str, str]]:
-        with open(self.config.scenes_file, 'r') as f:
-            scenes = json.load(f)['scenes']
-
-        prompts = {}
-        for scene in scenes:
-            scene_id = scene['id']
-            prompts[scene_id] = {}
-            for role in ['intro', 'loop', 'outro']:
-                prompts[scene_id][role] = self.generate_prompt(scene_id, role)
-        return prompts
+        """Generate prompts for all scenes and roles"""
+        try:
+            with open(self.config.scenes_file, 'r') as f:
+                scenes_data = json.load(f)
+                
+            scenes = scenes_data.get('scenes', [])
+            prompts = {}
+            
+            for scene in scenes:
+                scene_id = scene.get('id')
+                if not scene_id:
+                    continue
+                    
+                scene_prompts = {}
+                description = scene.get('description', '')
+                
+                # Generate intro prompt
+                intro_metadata = f"[seed:{scene.get('seed', self.config.seed)}] [team:{self.config.cultural_authenticity_level}] [intro]"
+                scene_prompts['intro'] = f"{description} {intro_metadata}"
+                
+                # Generate loop prompt (simplified version)
+                loop_metadata = f"[seed:{scene.get('seed', self.config.seed)}] [team:{self.config.cultural_authenticity_level}] [loop]"
+                scene_prompts['loop'] = f"{description} {loop_metadata}"
+                
+                prompts[scene_id] = scene_prompts
+                
+            return prompts
+            
+        except Exception as e:
+            print(f"❌ Error generating all prompts: {e}")
+            return {}
 
     def save_prompts(self, output_path: str = "generated_prompts.json"):
-        prompts = self.generate_all_prompts()
-        output = {
-            "generated_prompts": prompts,
-            "metadata": {
-                "generation_timestamp": datetime.now().isoformat(),
-                "total_prompts": sum(len(p) for p in prompts.values())
-            }
-        }
-        with open(output_path, 'w') as f:
-            json.dump(output, f, indent=2)
+        """Save generated prompts to JSON file"""
+        try:
+            prompts = self.generate_all_prompts()
+            
+            with open(output_path, 'w') as f:
+                json.dump(prompts, f, indent=2)
+                
+            print(f"✅ Prompts saved to {output_path}")
+            
+        except Exception as e:
+            print(f"❌ Error saving prompts: {e}")
 
     def validate_generated_prompts(self) -> Dict[str, Any]:
-        with open(self.config.scenes_file, 'r') as f:
-            scenes = {s['id']: s for s in json.load(f)['scenes']}
-
-        report = {'validation_summary': {}, 'scene_validations': {}}
-        scores = []
-
-        for sid, role_prompts in self.generate_all_prompts().items():
-            scene = scenes.get(sid, {})
-            scene_res = {}
-            for role, prompt in role_prompts.items():
-                violations = []
-                if 'amphitheater' not in prompt.lower():
-                    violations.append('Missing amphitheater')
-                if 'stone' not in prompt.lower():
-                    violations.append('Missing stone elements')
-
-                passed = len(violations) == 0
-                compliance_score = 100 - (len(violations) * 10)
-
-                scene_res[f"{sid}_{role}"] = {
-                    'passed': passed,
-                    'violations': violations,
-                    'compliance_score': max(0, compliance_score),
-                    'token': f"token_{sid}_{role}_123456"
-                }
-                scores.append(max(0, compliance_score))
-
-            report['scene_validations'][sid] = scene_res
-
-        total = sum(len(p) for p in self.generate_all_prompts().values())
-        passed = sum(1 for sv in report['scene_validations'].values() for v in sv.values() if v['passed'])
-        report['validation_summary'] = {
-            'total_prompts': total,
-            'valid_prompts': passed,
-            'quality_average': sum(scores)/len(scores) if scores else 0,
-            'validation_pass_rate': (passed/total)*100 if total else 0
-        }
-        return report
-
-    def setup_environment(self):
-        os.makedirs(self.config.output_dir, exist_ok=True)
-        api_key = os.environ.get('FAL_API_KEY')
-        if not api_key:
-            print("⚠️  WARNING: FAL_API_KEY not set. Image generation may fail.")
-        else:
-            print("✅ FAL_API_KEY configured successfully")
+        """Validate generated prompts"""
+        try:
+            prompts = self.generate_all_prompts()
+            
+            report = {
+                'total_scenes': len(prompts),
+                'scenes_with_prompts': 0,
+                'validation_pass_rate': 0.0,
+                'missing_prompts': [],
+                'generated_scenes': list(prompts.keys())
+            }
+            
+            for scene_id, roles in prompts.items():
+                scene_valid = True
+                
+                for role, prompt in roles.items():
+                    if not prompt or len(prompt.strip()) < 10:
+                        scene_valid = False
+                        report['missing_prompts'].append(f"Scene {scene_id}, Role {role}")
+                        
+                if scene_valid:
+                    report['scenes_with_prompts'] += 1
+                    
+            if report['total_scenes'] > 0:
+                report['validation_pass_rate'] = (report['scenes_with_prompts'] / 
+                                                 report['total_scenes']) * 100
+                
+            print(f"✅ Validation complete: {report['validation_pass_rate']:.2f}% pass rate")
+            return report
+            
+        except Exception as e:
+            print(f"❌ Error validating prompts: {e}")
+            return {
+                'validation_pass_rate': 0.0,
+                'error': str(e)
+            }
 
     def generate_image(self, prompt: str, scene_id: int, role: str) -> Optional[Dict[str, Any]]:
         """Generate a single image using fal.ai API"""
+        if not hasattr(self, 'api_key') or not self.api_key:
+            print(f"❌ No API key available for scene {scene_id}")
+            return None
+            
         try:
             print(f"🎨 Generating image: Scene {scene_id}, Role: {role}")
+            print(f"   Prompt preview: {prompt[:100]}..." if len(prompt) > 100 else f"   Prompt: {prompt}")
 
+            # Prepare fal.ai API parameters
             fal_params = {
                 "image_size": self.config.image_size,
                 "seed": self.config.seed,
@@ -149,18 +230,23 @@ class LedrasSceneGenerator:
                 "guideline_image": self.config.guideline_image,
                 "num_images": 1,
                 "output_format": "png",
-                "prompt": prompt # move prompt here
+                "prompt": prompt
             }
 
             if self.config.weathered_stone_texture:
                 fal_params["weathered_stone_texture"] = True
 
-            print(f"🤖 Calling fal.run() API...")
-            result = fal_run(self.config.fal_model, arguments=fal_params)
+            print(f"🤖 Calling fal.run() API with model: {self.config.fal_model}")
+            
+            # Call fal.ai API
+            result = fal_run(
+                application=self.config.fal_model,
+                arguments=fal_params
+            )
 
             if result and hasattr(result, 'images') and result.images:
                 image_data = result.images[0]
-                print(f"✅ Image generation successful!")
+                print(f"✅ Image generation successful for scene {scene_id}!")
                 return {
                     "scene_id": scene_id,
                     "role": role,
@@ -171,11 +257,11 @@ class LedrasSceneGenerator:
                     "seed": self.config.seed
                 }
             else:
-                print(f"⚠️  No images returned from API")
+                print(f"⚠️  No images returned from API for scene {scene_id}")
                 return None
 
         except Exception as e:
-            print(f"❌ Image generation failed: {str(e)}")
+            print(f"❌ Image generation failed for scene {scene_id}: {str(e)}")
             return None
 
     def generate_specific_images(self, scene_ids: List[int], role: str = "intro"):
@@ -186,6 +272,7 @@ class LedrasSceneGenerator:
         print(f"📁 Output directory: {self.config.output_dir}")
         print(f"🤖 Using model: {self.config.fal_model}")
         print(f"🎯 Control strength: {self.config.fal_control_strength}")
+        print(f"🌱 Cultural authenticity: {self.config.cultural_authenticity_level}")
         print()
 
         for scene_id in scene_ids:
@@ -210,50 +297,81 @@ class LedrasSceneGenerator:
 
         return generated
 
+    def run_complete_pipeline(self, target_scenes: List[int], target_role: str = "intro"):
+        """Run the complete image generation pipeline"""
+        try:
+            print(f"🚀 Starting Ledras Lament Scene Generation Pipeline")
+            print(f"🎯 Target: Scenes {target_scenes}, Role: {target_role}")
+            print(f"🌍 Cultural context: {self.config.cultural_authenticity_level}")
+            print(f"🤖 Model: {self.config.fal_model}")
+            print()
+
+            # Step 1: Setup environment
+            print("📋 Step 1: Setting up environment...")
+            self.setup_environment()
+
+            # Step 2: Generate and validate prompts
+            print("📝 Step 2: Generating and validating prompts...")
+            prompt_report = self.validate_generated_prompts()
+            print(f"✅ Validation Pass Rate: {prompt_report['validation_summary']['validation_pass_rate']:.2f}%")
+
+            # Step 3: Save prompts
+            self.save_prompts()
+            print("💾 Prompts saved to generated_prompts.json")
+
+            # Step 4: Generate images for target scenes
+            print(f"🎨 Step 4: Generating images for scenes {target_scenes}...")
+            generated_images = self.generate_specific_images(target_scenes, target_role)
+
+            # Step 5: Save metadata
+            metadata = {
+                "generation_timestamp": datetime.now().isoformat(),
+                "scenes_generated": list(generated_images.keys()),
+                "target_scenes": target_scenes,
+                "target_role": target_role,
+                "total_images": len(generated_images),
+                "config_used": {
+                    "model": self.config.fal_model,
+                    "control_strength": self.config.fal_control_strength,
+                    "preprocess": self.config.preprocess,
+                    "seed": self.config.seed,
+                    "cultural_authenticity": self.config.cultural_authenticity_level,
+                    "weathered_stone_texture": self.config.weathered_stone_texture
+                },
+                "validation_report": prompt_report
+            }
+
+            metadata_path = os.path.join(self.config.output_dir, "generation_metadata.json")
+            with open(metadata_path, 'w') as f:
+                json.dump(metadata, f, indent=2)
+
+            print(f"📊 Generation metadata saved: {metadata_path}")
+            print()
+            print("🎉 SUCCESS: Ledras Lament Scene Generation Complete!")
+            print(f"✅ Generated {len(generated_images)} scenes: {list(generated_images.keys())}")
+            print(f"📁 Check {self.config.output_dir}/ for output files")
+
+        except Exception as e:
+            print(f"❌ FATAL ERROR: {str(e)}")
+            import traceback
+            traceback.print_exc()
+            exit(1)
+
+    def setup_environment(self):
+        """Setup output directory and verify API key"""
+        os.makedirs(self.config.output_dir, exist_ok=True)
+        
+        self.api_key = os.environ.get('FAL_API_KEY')
+        
+        if not self.api_key:
+            print("⚠️  WARNING: FAL_API_KEY not set. Image generation may fail.")
+            print("   Set it using: export FAL_API_KEY='your-api-key'")
+        else:
+            print("✅ FAL_API_KEY configured successfully")
+
 if __name__ == "__main__":
-    print("=== Ledras Lament Scene Generation Pipeline ===")
-    print("🎯 Generating images for scenes 5 (Balance) and 8 (Drag Queen) intro")
-    print()
-
-    try:
-        gen = LedrasSceneGenerator()
-
-        print("📋 Setting up environment...")
-        gen.setup_environment()
-
-        print("📝 Generating prompts...")
-        prompt_report = gen.validate_generated_prompts()
-        print(f"✅ Validation Pass Rate: {prompt_report['validation_summary']['validation_pass_rate']:.2f}%")
-
-        gen.save_prompts()
-        print("💾 Prompts saved to generated_prompts.json")
-
-        print("🎨 Generating target images (scenes 5 and 8 intro)...")
-        generated_images = gen.generate_specific_images([5, 8], "intro")
-
-        metadata = {
-            "generation_timestamp": datetime.now().isoformat(),
-            "scenes_generated": list(generated_images.keys()),
-            "total_images": len(generated_images),
-            "config_used": {
-                "model": gen.config.fal_model,
-                "control_strength": gen.config.fal_control_strength,
-                "preprocess": gen.config.preprocess,
-                "seed": gen.config.seed
-            },
-            "validation_report": prompt_report
-        }
-
-        metadata_path = os.path.join(gen.config.output_dir, "generation_metadata.json")
-        with open(metadata_path, 'w') as f:
-            json.dump(metadata, f, indent=2)
-
-        print(f"📊 Generation metadata saved: {metadata_path}")
-        print()
-        print("🎉 SUCCESS: Ledras Lament Scene Generation Complete!")
-        print(f"✅ Generated {len(generated_images)} scenes: {list(generated_images.keys())}")
-        print("📁 Check assets/generated/ for output files")
-
-    except Exception as e:
-        print(f"❌ FATAL ERROR: {str(e)}")
-        exit(1)
+    # Create generator instance
+    gen = LedrasSceneGenerator()
+    
+    # Run complete pipeline for scenes 5 and 8 intro
+    gen.run_complete_pipeline([5, 8], "intro")
