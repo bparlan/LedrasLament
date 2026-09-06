@@ -17,7 +17,7 @@ from typing import Dict, Any, List
 from fal_client import SyncClient
 
 # Gateway for rate limiting
-from src.gateway import Gateway
+from gateway import Gateway
 def load_config(project_root: Path) -> Dict[str, Any]:
     """Load imagination config from `imagine-config.json`."""
     config_path = project_root / "imagine-config.json"
@@ -39,10 +39,10 @@ def ensure_line_out(config: Dict[str, Any], project_root: Path) -> str:
     """Extract (or reuse) the line-out template."""
     guideline_image = config.get("guideline_image", "stage/guideline_line_out.png")
     line_out_path = project_root / guideline_image
-    
+
     if not line_out_path.exists():
         line_out_path = project_root / "stage/guideline_line_out.png"
-    
+
     return str(line_out_path)
 def save_image(image_bytes: bytes, scene_id: int, output_dir: str) -> str:
     """Save generated image to file."""
@@ -65,6 +65,18 @@ def update_ledger_entry(request_id: str, status: str, response: Any = None, erro
         print(f"❌ Ledger entry {request_id} failed: {error}")
     else:
         print(f"✅ Ledger entry {request_id} updated: {status}")
+def get_resolution(config: Dict[str, Any]) -> tuple[int, int]:
+    """Convert image_size config to width x height tuple."""
+    size_map = {
+        "landscape_16_9": (1920, 1080),
+        "landscape_4_3": (1920, 1440),
+        "portrait_9_16": (1080, 1920),
+    }
+    size_str = config.get("image_size", "landscape_16_9")
+    if size_str not in size_map:
+        print(f"⚠️  Unknown image_size '{size_str}', using default landscape_16_9")
+        size_str = "landscape_16_9"
+    return size_map[size_str]
 def generate_stage(
     client: SyncClient,
     config: Dict[str, Any],
@@ -99,7 +111,7 @@ def generate_stage(
     # Build enhanced prompt with visual directives for FLUX Control LoRA Canny
     style = scene.get("style_seed", "")
     style_text = style if style.strip() else ""
-    
+
     negative = scene.get(
         "negative_prompt",
         "blurry, deformed text, extra objects, watermark",
@@ -123,7 +135,8 @@ def generate_stage(
 
     prompt = enhanced_prompt
 
-    width, height = map(int, config["size"].split("x"))
+    # Get resolution from image_size config
+    width, height = get_resolution(config)
 
     # Upload guideline image (line-out or depth) to Fal.ai storage
     guideline_path = ensure_line_out(config, project_root)
@@ -144,6 +157,10 @@ def generate_stage(
         "control_stop": config.get("control_stop", 0.6),
     }
     model_name = config.get("fal_model", "fal-ai/flux-control-lora-canny")
+
+    # Estimate cost for debugging/monitoring
+    cost = estimate_cost(width, height, model_name)
+    print(f"💰 Estimated cost: ${cost:.4f}")
 
     print(f"🎨 Generating scene {scene_id}: {scene_name}")
     print(f"   Prompt: {prompt[:80]}...")
@@ -185,7 +202,7 @@ def main():
     parser = argparse.ArgumentParser(
         description="Generate scene images for Ledras Lament with gateway approval"
     )
-    parser.add_argument("--config", default="imagine-config.json", 
+    parser.add_argument("--config", default="imagine-config.json",
                        help="Path to config file")
     parser.add_argument("--scene", type=int, default=1,
                        help="Scene ID to generate")
@@ -217,7 +234,7 @@ def main():
 
     # Initialize gateway for rate limiting and approval
     g = Gateway()
-    
+
     # Check if generation is allowed (gateway approval)
     if not g.has_rights(1):
         print("❌ Gateway blocked: No generation rights available")
@@ -248,7 +265,7 @@ def main():
             config.get("fal_control_strength", 0.7)
         )
         print(f"✅ Scene {args.scene} generated → {result_path}")
-        
+
         # Deduct token after successful generation (gateway approval)
         try:
             remaining = g.deduct(1)
@@ -256,7 +273,7 @@ def main():
             print(f"   Gateway status: {g.get_status()}")
         except PermissionError as e:
             print(f"❌ Token deduction failed: {e}")
-        
+
     except Exception as e:
         print(f"❌ Failed to generate scene {args.scene}: {e}")
         traceback.print_exc()
