@@ -76,6 +76,33 @@
 **Control Strength**: 1.5 (High structural fidelity)
 **Output Naming Pattern**: `assets/generated/scene-XX-v002.png`
 
+## 🚨 CRITICAL OPERATIONAL RULES
+
+### RULE A: MODEL-PREPROCESSING PAIR VALIDATOR
+- **Rule**: `fal-ai/flux-control-lora-canny` CANNOT use depth preprocessing
+- **Action**: Assert before generation → abort with explicit configuration error
+- **Rationale**: Canny requires Canny preprocessing; depth requires depth preprocessing. Mixing creates structural noise.
+
+### RULE B: CANVAS GEOMETRY CONFORMITY
+- **Rule**: Output canvas MUST equal projection guide dimensions exactly
+- **Action**: `(width, height) = guide_dimensions; abort on mismatch`
+- **Rationale**: Projected content must align with physical projection geometry. No post-processing warping.
+
+### RULE C: STRUCTURAL-ONLY CONDITIONING
+- **Rule**: NO `image_url` when no initial artwork exists; use prompt + `control_lora_image_url` ONLY
+- **Action**: Verify `image_url` field is omitted in text-to-image endpoint requests
+- **Rationale**: Prevents guide domination; enforces artistic reinterpretation of structure.
+
+### RULE D: CONTROL OVER-STRENGTHING LIMITS
+- **Rule**: Full control window (0.0–1.0) → `control_strength ≤ 0.7`, or use partial window (0.2–0.8)
+- **Action**: Validate before generation; warn or auto-adjust parameters
+- **Rationale**: High control window + high strength = output repetition of guide instead of reinterpretation.
+
+### RULE E: GUIDE IMAGE SELECTION HIERARCHY
+- **Rule**: `guide_line_out.jpg` > `guideline_line_out.png` > `depth_template.jpg`
+- **Action**: Primary selector; depth ONLY for depth-aware models (not Canny)
+- **Rationale**: `guide_line_out.jpg` is architectural line guide; depth is spatial depth. Wrong model → wrong guide.
+
 ## ✅ VALIDATION CHECKLIST
 
 Before each task:
@@ -91,7 +118,7 @@ Before each task:
 **Last Updated**: 2026-09-05
 **Production Status**: ACTIVE - Minimal changes only
 
-## 🆘 PRODUCTION SAVETY RULES
+## 🆘 PRODUCTION SAFETY RULES
 
 ### 4. Data Integrity Protection
 - **NEVER REMOVE**: Previous generation versions or historical outputs
