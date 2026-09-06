@@ -3,17 +3,20 @@
 ## 🔒 PRODUCTION STABILITY RULES
 
 ### 1. Validation Before Execution
+
 - **MANDATORY**: Always validate user requests before starting any work.
 - **REQUIRED**: Provide clear problem statement, proposed solution, and expected outcome.
 - **QUESTION**: Ask for clarification when requirements are ambiguous or contradictory.
 
 ### 2. Code Modification Policy
+
 - **ONLY EDIT** to fix identified bugs or issues in EXISTING CODE.
 - **NEVER MODIFY** working code for feature additions without explicit user approval.
 - **ASK VERIFICATION** before any non-bugfix changes.
 - **DOCUMENT** all changes with clear reasoning.
 
 ### 3. File Editing Constraints
+
 - **READ FIRST**: Always read existing files completely before editing.
 - **BACKUP REQUIRED**: Create backup before significant modifications.
 - **MINIMAL CHANGE**: Make the smallest change necessary to fix the issue.
@@ -21,6 +24,7 @@
 - **TOKEN EFFICIENCY**: Utilize surgical edits; touch only touched lines. Never re-write entire files when surgical updates suffice.
 
 ### 4. Image Generation Policy
+
 - **NEVER GENERATE** images for verification purposes.
 - **ONLY GENERATE** when explicitly requested with clear intent.
 - **ASK CONFIRMATION** before any image creation.
@@ -29,6 +33,7 @@
 ## 🏛️ LEDRAS LAMENT PROJECT AWARENESS CONTEXT
 
 ### Project Architecture & Identity
+
 - **Repository**: `Ledras Lament` (`/Users/bparlan/devcode/ledraslament`)
 - **Domain**: Automated scene visual generation pipeline using fal.ai AI infrastructure for the Ledras Lament artistic/narrative production.
 - **Active Model Pipeline**: FLUX.1 [dev] Control LoRA Canny (`fal-ai/flux-control-lora-canny`).
@@ -64,6 +69,7 @@
 ```
 
 ### Production Data Invariants
+
 1. **Single Request = Single Image**: `generate_stage` MUST invoke `client.run` exactly ONCE per scene execution.
 2. **Authoritative Scene Source**: All prompts, style seeds, and negative prompts derive strictly from `data/scenes/ledras_scenes_v4.json`.
 3. **Output Naming Standard**: Output files MUST be named with explicit scene ID and versioning: `assets/generated/scene-{scene_id:02d}-v{version}.png`.
@@ -79,26 +85,31 @@
 ## 🚨 CRITICAL OPERATIONAL RULES
 
 ### RULE A: MODEL-PREPROCESSING PAIR VALIDATOR
+
 - **Rule**: `fal-ai/flux-control-lora-canny` CANNOT use depth preprocessing
 - **Action**: Assert before generation → abort with explicit configuration error
 - **Rationale**: Canny requires Canny preprocessing; depth requires depth preprocessing. Mixing creates structural noise.
 
 ### RULE B: CANVAS GEOMETRY CONFORMITY
+
 - **Rule**: Output canvas MUST equal projection guide dimensions exactly
 - **Action**: `(width, height) = guide_dimensions; abort on mismatch`
 - **Rationale**: Projected content must align with physical projection geometry. No post-processing warping.
 
 ### RULE C: STRUCTURAL-ONLY CONDITIONING
+
 - **Rule**: NO `image_url` when no initial artwork exists; use prompt + `control_lora_image_url` ONLY
 - **Action**: Verify `image_url` field is omitted in text-to-image endpoint requests
 - **Rationale**: Prevents guide domination; enforces artistic reinterpretation of structure.
 
 ### RULE D: CONTROL OVER-STRENGTHING LIMITS
+
 - **Rule**: Full control window (0.0–1.0) → `control_strength ≤ 0.7`, or use partial window (0.2–0.8)
 - **Action**: Validate before generation; warn or auto-adjust parameters
 - **Rationale**: High control window + high strength = output repetition of guide instead of reinterpretation.
 
 ### RULE E: GUIDE IMAGE SELECTION HIERARCHY
+
 - **Rule**: `guide_line_out.jpg` > `guideline_line_out.png` > `depth_template.jpg`
 - **Action**: Primary selector; depth ONLY for depth-aware models (not Canny)
 - **Rationale**: `guide_line_out.jpg` is architectural line guide; depth is spatial depth. Wrong model → wrong guide.
@@ -106,6 +117,7 @@
 ## ✅ VALIDATION CHECKLIST
 
 Before each task:
+
 1. [ ] Is this a BUG FIX or NEW FEATURE?
 2. [ ] If NEW FEATURE: Did I ask for verification?
 3. [ ] Am I only fixing EXISTING broken code?
@@ -115,16 +127,61 @@ Before each task:
 7. [ ] Am I using the minimal token-efficient edit?
 
 ---
-**Last Updated**: 2026-09-05
-**Production Status**: ACTIVE - Minimal changes only
 
 ## 🆘 PRODUCTION SAFETY RULES
 
-### 4. Data Integrity Protection
+### Data Integrity Protection
+
 - **NEVER REMOVE**: Previous generation versions or historical outputs
-- **MANDATORY**: Preserve all existing generated files (scene-*-v*.png, stage-*-*.png)
+- **MANDATORY**: Preserve all existing generated files (scene-_-v_.png, stage-_-_.png)
 - **VERSIONING**: Always increment version numbers for new generations
 - **BACKUP REQUIRED**: Never overwrite existing production files without explicit approval
 - **AUDIT TRAIL**: Keep all generated outputs for reproducibility and rollback
 
 **Rationale**: Generated images contain artistic and narrative content that may be referenced by users or used in subsequent workflows. Removing historical versions breaks reproducibility and user workflows.
+
+---
+
+## Secrets and Environment Files — STRICT
+
+Secret values are outside the agent's working context.
+
+### NEVER read or inspect secret files
+
+Agents MUST NOT read, display, search, grep, parse, copy, modify, or otherwise inspect:
+
+- `.env`
+- `.env.*`
+- files containing API keys, tokens, passwords, credentials, or private keys
+
+This prohibition applies even when debugging authentication or configuration problems.
+
+Forbidden examples include:
+
+```bash
+cat .env
+less .env
+head .env
+tail .env
+grep ...
+rg ...
+find ... -exec cat
+printenv
+env
+```
+
+## SECRET BOUNDARY — NON-NEGOTIABLE
+
+The agent must treat secrets as opaque runtime dependencies.
+
+The user may provide environment variable NAMES, but secret VALUES are never required for development, debugging, or implementation.
+
+### Known secret interface
+
+Use only the environment variable names explicitly provided by the user.
+
+Example:
+
+```text
+FAL_API_KEY
+```
