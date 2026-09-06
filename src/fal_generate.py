@@ -109,17 +109,17 @@ def generate_stage(
     elements = scene.get("elements", [])
 
     # Build enhanced prompt with visual directives and composition guidance
-    enhanced_prompt = f"{scene_description}
-
-{style_text}with dramatic cinematic lighting emphasizing architectural geometry.
-Compose wide shot showing {', '.join(elements[:4])} with depth of field.
-Full moon casting dramatic shadows across stone structure and creating highlight reflections.
-{style.lower()}texture details with weathered limestone surfaces and weathered stone patterns.
-Professional architectural photography composition with strong leading lines.
-Atmospheric depth with distant horizon elements creating spatial depth.
-moody, contemplative, monumental atmosphere with timeless quality.
---no {negative}
-"
+    enhanced_prompt = (
+        f"{scene_description}. "
+        f"{style_text}with dramatic cinematic lighting emphasizing architectural geometry. "
+        f"Compose wide shot showing {', '.join(elements[:4])} with depth of field. "
+        f"Full moon casting dramatic shadows across stone structure and creating highlight reflections. "
+        f"{style.lower()}texture details with weathered limestone surfaces and weathered stone patterns. "
+        f"Professional architectural photography composition with strong leading lines. "
+        f"Atmospheric depth with distant horizon elements creating spatial depth. "
+        f"moody, contemplative, monumental atmosphere with timeless quality. "
+        f"--no {negative}"
+    )
 
     prompt = enhanced_prompt
 
