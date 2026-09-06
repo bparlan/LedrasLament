@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """
-Focused Scene Generator for Ledras Lament
+Focused Scene Generator for Ledras Lament - Fixed Image Size and Asset Upload
 Generates Scene 5 (Balance) and Scene 8 (Village) intro images
-with proper SyncClient authentication and caching.
+with proper SyncClient authentication and asset uploading.
 """
 
 import json
 import os
 from datetime import datetime
 from pathlib import Path
-from fal_client import SyncClient
+from fal_client import SyncClient, upload_file
 
 def load_scenes(scenes_file: str) -> dict:
     """Load scenes from JSON file"""
@@ -19,81 +19,72 @@ def load_scenes(scenes_file: str) -> dict:
 def generate_prompt(scene: dict, role: str = "intro") -> str:
     """Generate prompt for a specific scene and role"""
     description = scene.get('description', '')
-    
-    # Get seed from scene or use default
     seed = scene.get('seed', 42)
-    
-    # Add metadata tags
     metadata = f"[seed:{seed}] [team:cypro_phoenician] [{role}]"
-    
     return f"{description} {metadata}"
 
 def main():
-    print("🎯 Ledras Lament - Scene 5 & 8 Intro Generation")
+    print("🎯 Ledras Lament - Scene 5 & 8 Intro Generation (Fixed)")
     print("=" * 60)
     
     # Step 1: Validate environment
-    print("\n📋 Step 1: Environment Validation")
     api_key = os.environ.get('FAL_API_KEY')
     if not api_key:
         print("❌ FAL_API_KEY not found in environment")
-        print("   Set with: export FAL_API_KEY='your-key-here'")
         return False
-    
-    print(f"✅ FAL_API_KEY available ({len(api_key.split(':')[0])} chars)")
+    print(f"✅ FAL_API_KEY available")
     
     # Step 2: Load configuration
-    print("\n📋 Step 2: Load Configuration")
     with open('imagine-config.json', 'r') as f:
         config = json.load(f)
-    
     print(f"✅ Configuration loaded: {config['fal_model']}")
-    print(f"   Scenes file: {config['scenes_file']}")
-    print(f"   Output dir: {config['output_dir']}")
-    print(f"   Control strength: {config['fal_control_strength']}")
-    print(f"   Image size: {config['image_size']}")
     
     # Step 3: Load scenes data
-    print("\n📋 Step 3: Load Scenes Data")
     scenes_data = load_scenes(config['scenes_file'])
     scenes = {s['id']: s for s in scenes_data.get('scenes', [])}
     print(f"✅ Loaded {len(scenes)} scenes")
     
     # Step 4: Initialize SyncClient
-    print("\n📋 Step 4: Initialize SyncClient")
     client = SyncClient(key=api_key)
     print("✅ SyncClient initialized with API key")
     
-    # Step 5: Generate images for scenes 5 and 8
-    print("\n🎨 Step 5: Generate Scene Images")
+    # Step 5: Upload guideline image to fal storage
+    guideline_path = config["guideline_image"]
+    if os.path.exists(guideline_path):
+        print(f"📤 Uploading guideline image to fal storage: {guideline_path}")
+        guideline_url = client.upload_file(guideline_path)
+        print(f"✅ Guideline image uploaded successfully: {guideline_url}")
+    else:
+        print(f"❌ Guideline image not found at {guideline_path}")
+        return False
     
+    # Step 6: Generate images for scenes 5 and 8
     target_scenes = [5, 8]
     generated_results = {}
     
     for scene_id in target_scenes:
         if scene_id not in scenes:
-            print(f"❌ Scene {scene_id} not found in scenes data")
             continue
         
         scene = scenes[scene_id]
         role = "intro"
+        print(f"\n📸 Processing Scene {scene_id} ({role}): {scene['name']}")
         
-        print(f"\n📸 Processing Scene {scene_id} ({role}):")
-        print(f"   Name: {scene['name']}")
-        
-        # Generate prompt
         prompt = generate_prompt(scene, role)
-        print(f"   Prompt: {prompt[:150]}..." if len(prompt) > 150 else f"   Prompt: {prompt}")
+        print(f"   Prompt: {prompt[:100]}...")
         
-        # Prepare API parameters - using the CORRECT format for flux-control-lora-canny
+        # Prepare API parameters with correct image_size dictionary and uploaded control_lora_image_url
         params = {
             "prompt": prompt,
-            "image_size": config["image_size"],  # landscape_16_9
+            "image_size": {
+                "width": 1280,
+                "height": 720
+            },
             "seed": config["seed"],
             "num_inference_steps": config["num_inference_steps"],
             "control_strength": config["fal_control_strength"],
             "preprocess": config["preprocess"],
-            "control_lora_image_url": config["guideline_image"],  # Correct parameter name
+            "control_lora_image_url": guideline_url,
             "num_images": 1,
             "output_format": "png"
         }
@@ -101,7 +92,6 @@ def main():
         if config.get("weathered_stone_texture", False):
             params["weathered_stone_texture"] = True
         
-        # Generate image
         try:
             print(f"🤖 Calling SyncClient.run() with model: {config['fal_model']}")
             result = client.run(
@@ -121,61 +111,39 @@ def main():
         except Exception as e:
             print(f"   ❌ Scene {scene_id} error: {str(e)}")
     
-    # Step 6: Save generated images
-    print("\n💾 Step 6: Save Generated Images")
+    # Step 7: Save generated images
     output_dir = Path(config["output_dir"])
     output_dir.mkdir(parents=True, exist_ok=True)
     
     for scene_id, result in generated_results.items():
-        if "image_data" in result:
+        if "image_data" in result and isinstance(result["image_data"], dict) and "url" in result["image_data"]:
+            import urllib.request
+            image_url = result["image_data"]["url"]
             filename = f"scene-{scene_id:02d}-v003.png"
             filepath = output_dir / filename
             
-            # Save the image
-            with open(filepath, 'wb') as f:
-                f.write(result["image_data"])
+            print(f"📥 Downloading image from {image_url}")
+            urllib.request.urlretrieve(image_url, filepath)
             
             file_size = filepath.stat().st_size
             print(f"   ✅ Saved: {filename} ({file_size:,} bytes)")
     
-    # Step 7: Create metadata
-    print("\n📊 Step 7: Create Generation Metadata")
+    # Step 8: Save metadata
     metadata = {
         "generation_timestamp": datetime.now().isoformat(),
         "scenes_generated": list(generated_results.keys()),
         "target_scenes": target_scenes,
         "target_role": "intro",
         "total_images": len(generated_results),
-        "model": config["fal_model"],
-        "control_strength": config["fal_control_strength"],
-        "preprocess": config["preprocess"],
-        "seed": config["seed"],
-        "cultural_authenticity": config["cultural_authenticity_level"],
-        "weathered_stone_texture": config["weathered_stone_texture"]
+        "model": config["fal_model"]
     }
     
     metadata_path = output_dir / "generation_metadata_v003.json"
     with open(metadata_path, 'w') as f:
         json.dump(metadata, f, indent=2)
     
-    print(f"✅ Metadata saved: {metadata_path}")
-    
-    # Step 8: Summary
-    print("\n" + "=" * 60)
-    print("📊 GENERATION SUMMARY")
-    print("=" * 60)
-    print(f"Total scenes requested: {len(target_scenes)}")
-    print(f"Successfully generated: {len(generated_results)}")
-    print(f"Scenes generated: {list(generated_results.keys())}")
-    print(f"Output directory: {output_dir}")
-    print(f"Metadata file: generation_metadata_v003.json")
-    
-    if generated_results:
-        print("\n✅ SUCCESS: Generation completed!")
-        return True
-    else:
-        print("\n❌ FAILURE: No images generated")
-        return False
+    print(f"\n✅ Generation complete! Generated {len(generated_results)} images.")
+    return len(generated_results) > 0
 
 if __name__ == "__main__":
     success = main()
