@@ -1,24 +1,26 @@
 {
   "title": "Ledras Lament Scenes",
-  "version": 4,
+  "version": 5,
   "author": "<your-name>",
   "status": "draft",
+
+  "global_structure": "Ancient stone amphitheater viewed straight on. Six broad horizontal stone seating tiers rise from foreground to background. A seventh rear wall spans behind the upper tier. A tall rigid rectangular stone frame stands at the exact top-center position. The frame has straight vertical sides, a straight top edge, sharp corners and a clear rectangular opening. The amphitheater geometry, tier boundaries, frame proportions, frontal perspective and overall composition remain fixed and unchanged.",
+
+  "global_frame_rule": "The central rectangular stone frame is a permanent architectural invariant. Do not move, distort, widen, narrow, tilt, decorate, replace or break it. Preserve its exact rectangular silhouette and vertical symmetry. Any moon or celestial disk must appear only inside the rectangular opening of the frame, never above, behind, beside or outside it.",
+
   "scenes": [
     {
       "id": 1,
       "name": "Intro",
-      "description": "ancient stone amphitheater viewed straight on. Six broad seating tiers rise toward a seventh rear wall, with a tall rectangular stone frame centered above them. a full moon in the center of the frame. night beneath star-filled sky. Ancient weathered limestone, soft desert sand, low drifting smoke and thin fog, traces of an ancient ruined landscape. Dark, mysterious, monumental atmosphere. Preserve the amphitheater geometry and frontal composition. No people, modern objects or text.",
+      "description": "Night over the ancient amphitheater. A full moon appears centered inside the rectangular opening of the central stone frame. Star-filled sky, weathered limestone, soft desert sand, low drifting smoke and thin fog. Sparse traces of an ancient ruined landscape. Dark, mysterious and monumental atmosphere.",
       "elements": [
-        "amphitheater",
-        "six stone tiers",
-        "rear wall",
-        "central vertical stone panel",
-        "full moon",
+        "full moon inside central frame",
         "stars",
-        "sand",
-        "smoke",
-        "fog",
-        "ruins"
+        "desert sand",
+        "low smoke",
+        "thin fog",
+        "weathered stone",
+        "ruin atmosphere"
       ],
       "subscenes": [],
       "seed": 42
@@ -26,38 +28,30 @@
     {
       "id": 2,
       "name": "Ritual",
-      "description": "Amphitheater steps/tiers, 6 big tiers from down to top, 7th tier is wall. static stone structure. above the steps are sky. vertical stone frame at the top center. ancient cyprus style. Full moon in the center of the frame. night, spiritual ethno-cypriot letters appear inside the frame and later move to the bottom tier center of the stage, rotating spiral above the ground, dark red sparkles circle the lying body.",
+      "description": "Nighttime ritual within the fixed ancient amphitheater. A full moon appears centered inside the rectangular opening of the central stone frame. Spiritual ethno-Cypriot letterforms appear as luminous symbolic shapes inside the frame, then conceptually descend toward the center of the lowest stage area. Dark red sparks and subtle glowing particles circle around a still lying human form at the bottom-center stage. Mystical, solemn and restrained atmosphere.",
       "elements": [
-        "amphitheater",
-        "steps",
-        "tiers",
-        "stone structure",
-        "sky",
-        "vertical stone panel",
-        "ancient cyprus style",
-        "full moon",
-        "andoveo letters",
-        "dark red sparkles",
-        "lying body"
+        "full moon inside central frame",
+        "symbolic ethno-cypriot letterforms",
+        "dark red sparks",
+        "lying human form",
+        "ritual atmosphere",
+        "night",
+        "stars"
       ],
       "subscenes": [],
       "seed": 42
     },
     {
       "id": 3,
-      "name": "Astarte Awakenes",
-      "description": "Amphitheater steps/tiers, 6 big tiers from down to top, 7th tier is wall. static stone structure. above the steps are sky. vertical stone frame at the top center. ancient cyprus style. Full moon in the center of the frame, bright white turns into a red blood moon; sand and yellow stone surroundings.",
+      "name": "Astarte Awakens",
+      "description": "The night amphitheater remains structurally unchanged. The moon centered inside the rectangular opening of the central stone frame transforms from bright white into a deep red blood moon. Desert sand and warm yellow limestone dominate the surrounding environment. The atmosphere becomes intense, sacred and foreboding.",
       "elements": [
-        "amphitheater",
-        "steps",
-        "tiers",
-        "stone structure",
-        "sky",
-        "vertical stone panel",
-        "ancient cyprus style",
-        "blood moon",
-        "sand",
-        "yellow stone"
+        "blood moon inside central frame",
+        "desert sand",
+        "yellow limestone",
+        "night",
+        "stars",
+        "sacred atmosphere"
       ],
       "subscenes": [],
       "seed": 42
@@ -65,12 +59,14 @@
     {
       "id": 4,
       "name": "Susta",
-      "description": "Amphitheater steps/tiers, 6 big tiers from down to top, 7th tier is wall. static stone structure. above the steps are sky. vertical stone frame at the top center. ancient cyprus style. Night desert sand gradually gives way to greenery and flourishing trees. The transformation reveals subtle water channels carved into stone, where twilight reflections create miniature oasis scenes within the amphitheater tiers.",
+      "description": "The ancient amphitheater remains structurally fixed while the surrounding desert gradually transforms into a living landscape. Desert sand gives way to greenery, low plants and flourishing trees growing naturally around and between the stone tiers. Subtle narrow water channels appear within existing stone surfaces without changing the tier geometry. Quiet nighttime atmosphere with soft natural illumination.",
       "elements": [
-        "amphitheater with six stone tiers",
-        "water channels creating desert-to-garden transformation",
-        "aquarius-themed twilight reflections",
-        "ancient cyprus architectural style"
+        "desert-to-garden transformation",
+        "greenery",
+        "trees",
+        "existing stone water channels",
+        "night",
+        "natural transformation"
       ],
       "subscenes": [],
       "seed": 42
@@ -78,30 +74,16 @@
     {
       "id": 5,
       "name": "Balance",
-      "description": "Amphitheater steps/tiers, 6 big tiers from down to top, 7th tier is wall. static stone structure. above the steps are sky. vertical stone frame at the top - center of the tier. ancient cyprus style. Water element is introduced, aquarius flowing calmly; trees and crops sway with the wind, springtime atmosphere at night. Highly detailed scene with extensive water features including elaborate water canals flowing through the amphitheater tiers. Multiple streams cascade down the stone steps, irrigating the greenery surrounding the structure. Abundant trees on both left and right sides of the tiers, their leaves rustling in the breeze. Water elements appear beneath the tiers, creating reflective surfaces. Golden and silver fountain - water flow statues from the wall. Rich vegetation blankets the stone surfaces, moss and creeping plants softening the ancient architecture. The water flows both above and below ground, creating a harmonious balance between stone and water in this Cypro-Phoenician Bronze Age ruin style landscape.",
+      "description": "Water enters the fixed ancient amphitheater in harmony with the existing architecture. Calm streams and narrow canals follow the natural horizontal and vertical stone geometry without altering the six tiers. Water gently cascades between existing levels and creates reflective surfaces. Trees, crops and spring vegetation grow around the edges and between stone structures. Leaves and crops suggest a gentle wind. Nighttime atmosphere with subtle reflections, abundance and balance between stone, water and life.",
       "elements": [
-        "amphitheater",
-        "six stone tiers",
-        "rear wall",
-        "central vertical stone frame",
-        "full moon casting shadows",
-        "ancient cyprus style",
-        "stone structure",
-        "elaborate water canals",
-        "water streams",
-        "waterfalls",
-        "abundant greenery",
+        "calm water canals",
+        "gentle cascades",
+        "reflective water",
         "trees",
-        "flowering plants",
-        "moss",
-        "creeping vegetation",
-        "wind",
-        "spring",
-        "night",
-        "stars",
-        "reflective water surfaces",
-        "water beneath tiers",
-        "irrigated landscape"
+        "crops",
+        "spring vegetation",
+        "gentle wind",
+        "night"
       ],
       "subscenes": [],
       "seed": 42
@@ -109,18 +91,15 @@
     {
       "id": 6,
       "name": "Lullaby",
-      "description": "Amphitheater steps/tiers, 6 big tiers from down to top, 7th tier is wall. static stone structure. above the steps are sky. vertical stone frame at the top center. ancient cyprus style. Water element persists, with increasingly abundant trees and greenery. structural statues and stone stays still and persists. Only vegetation grow like a timelapse. Abundance.",
+      "description": "Water persists throughout the fixed ancient amphitheater. Vegetation becomes increasingly abundant as if observed through a slow natural time-lapse. Trees, grasses, vines and greenery gradually fill spaces around the existing stone tiers while the architecture remains completely still and unchanged. Water continues calmly through the established channels. Quiet, fertile, abundant and dreamlike atmosphere.",
       "elements": [
-        "amphitheater",
-        "steps",
-        "tiers",
-        "stone structure",
-        "sky",
-        "vertical stone panel",
-        "ancient cyprus style",
-        "water",
-        "trees",
-        "greenery"
+        "persistent water",
+        "abundant trees",
+        "dense greenery",
+        "grasses",
+        "vines",
+        "slow natural growth",
+        "abundance"
       ],
       "subscenes": [],
       "seed": 42
@@ -128,19 +107,14 @@
     {
       "id": 7,
       "name": "Ether Walk",
-      "description": "Amphitheater steps/tiers, 6 big tiers from down to top, 7th tier is wall. static stone structure. above the steps are sky. vertical stone frame at the top center. ancient cyprus style. Smoke and wind elements dominate the stairs and the center of the stone frame. smokes between tears, and around bottom tier center. ",
+      "description": "The fixed ancient amphitheater becomes dominated by wind and drifting smoke. Thin layers of smoke move horizontally and diagonally across the existing stone tiers without obscuring their geometry. Smoke gathers around the bottom-center stage and rises gently through the rectangular opening of the central stone frame. The atmosphere is ethereal, weightless and mysterious.",
       "elements": [
-        "amphitheater",
-        "steps",
-        "tiers",
-        "stone structure",
-        "sky",
-        "vertical stone panel",
-        "ancient cyprus style",
-        "smoke",
+        "drifting smoke",
         "wind",
-        "stairs",
-        "white screen"
+        "ethereal atmosphere",
+        "smoke between tiers",
+        "bottom-center smoke",
+        "smoke through central frame"
       ],
       "subscenes": [],
       "seed": 42
@@ -148,17 +122,15 @@
     {
       "id": 8,
       "name": "Drag Queen",
-      "description": "Amphitheater steps/tiers, 6 big tiers from down to top, 7th tier is wall. static stone structure. above the steps are sky. vertical stone frame at the top center. ancient cyprus style. Calm nighttime in the village. fireflies flying around. wind feeling in greenery. miniature home lights within the tiers. make entire stage a village layers",
+      "description": "A calm nighttime village emerges within the existing amphitheater without changing the stone tier geometry. Warm miniature home lights appear integrated into the tier surfaces and existing architectural spaces. Small village-like illuminated details are distributed across the layered amphitheater while the six horizontal tiers remain clearly visible and structurally unchanged. Fireflies drift through the air. Existing greenery moves gently in the wind. Warm human presence is suggested through light, but no modern city architecture.",
       "elements": [
-        "amphitheater",
-        "steps",
-        "tiers",
-        "stone structure",
-        "sky",
-        "vertical stone panel",
-        "ancient cyprus style",
-        "night",
-        "village"
+        "layered ancient village",
+        "warm miniature home lights",
+        "integrated architectural lighting",
+        "fireflies",
+        "gentle wind",
+        "greenery",
+        "night"
       ],
       "subscenes": [],
       "seed": 42
@@ -166,24 +138,22 @@
     {
       "id": 9,
       "name": "March of Mourn",
-      "description": "Amphitheater steps/tiers, 6 big tiers from down to top, 7th tier is wall. static stone structure. above the steps are sky. vertical stone frame at the top center. ancient cyprus style. Tiers burn with the fire; blood moon returns on the center of frame, frame is on fire. all greenery burning. night time. very elegant thin blood canal flows to bottom tier center stage.",
+      "description": "The fixed ancient amphitheater burns during the night. Fire follows the existing horizontal tier boundaries without changing their geometry. Remaining greenery burns and glows. A deep red blood moon appears centered only inside the rectangular opening of the central stone frame. Flames surround the frame while preserving its rigid rectangular silhouette. A thin elegant blood-red canal flows downward through the existing architecture toward the bottom-center stage. Tragic, monumental and ritualistic atmosphere.",
       "elements": [
-        "amphitheater",
-        "steps",
-        "tiers",
-        "stone structure",
-        "sky",
-        "vertical stone panel",
-        "ancient cyprus style",
-        "fire",
-        "burning stairs",
-        "blood moon",
-        "white screen"
+        "fire following tier boundaries",
+        "burning vegetation",
+        "blood moon inside central frame",
+        "burning central frame",
+        "thin blood-red canal",
+        "night",
+        "tragic ritual atmosphere"
       ],
       "subscenes": [],
       "seed": 42
     }
   ],
-  "style_seed": "Cypro-Phoenician / Levantine Bronze Age ruin style \u2014 ashlar sandstone, mudbrick, weathered limestone blocks, no Doric/Ionic columns, no white Pentical marble, no Parthenon-silhouette structures",
-  "negative_prompt": "blurry, deformed text, extra objects, watermark"
+
+  "style_seed": "Cypro-Phoenician and Levantine Bronze Age ruin style. Weathered limestone, ashlar sandstone, mudbrick traces and ancient stone construction. Restrained ornamentation. No Doric or Ionic columns, no Classical Greek temple architecture, no Parthenon silhouettes, no white marble monuments.",
+
+  "negative_prompt": "distorted central frame, tilted frame, curved frame, broken frame, widened frame, narrowed frame, moved frame, moon outside frame, moon above frame, moon behind frame, extra architecture changing tier geometry, blurry, deformed text, watermark, modern buildings, modern city, Greek columns, Doric columns, Ionic columns"
 }
