@@ -1,12 +1,13 @@
 {
-  "guideline_image": "stage/depth_template.jpg",
-  "preprocess": "depth",
+  "guideline_image": "stage/guide_line_out.jpg",
+  "preprocess": "canny",
   "fal_model": "fal-ai/flux-control-lora-canny",
-  "control_start": 0.4,
-  "control_stop": 0.6,
+  "control_start": 0.0,
+  "control_stop": 1.0,
   "fal_control_strength": 0.8,
-  "num_inference_steps": 25,
+  "num_inference_steps": 28,
   "scenes_file": "data/scenes/ledras_scenes_v4.json",
   "output_dir": "assets/generated",
-  "image_size": "landscape_16_9"
+  "image_size": "landscape_16_9",
+  "seed": 42
 }

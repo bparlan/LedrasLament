@@ -163,6 +163,8 @@ def generate_stage(
         "control_start": config.get("control_start", 0.0),
         "control_stop": config.get("control_stop", 1.0),
     }
+    if "seed" in config:
+        arguments["seed"] = config["seed"]
     model_name = config.get("fal_model", "fal-ai/flux-control-lora-canny")
 
     # Estimate cost for debugging/monitoring
