@@ -4,7 +4,7 @@
   "fal_model": "fal-ai/flux-control-lora-canny",
   "control_start": 0.0,
   "control_stop": 1.0,
-  "fal_control_strength": 0.8,
+  "fal_control_strength": 0.6,
   "num_inference_steps": 28,
   "scenes_file": "data/scenes/ledras_scenes_v4.json",
   "output_dir": "assets/generated",

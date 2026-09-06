@@ -40,28 +40,7 @@
         "dark red sparkles",
         "lying body"
       ],
-      "subscenes": [
-        {
-          "step": "letters_appearance",
-          "description": "Letters appear one\u2011by\u2011one from right to left inside the box. Five image states are required:",
-          "images": [
-            "assets/box_empty.png",
-            "assets/box_letter1.png",
-            "assets/box_letter2.png",
-            "assets/box_letter3.png",
-            "assets/box_letter4.png"
-          ],
-          "order": ["empty", "first", "second", "third", "fourth"]
-        },
-        {
-          "step": "letters_move_center",
-          "description": "After all four letters are visible, they move down to the centre of the stage and start circulating (static positions only).",
-          "images": [
-            "assets/letters_center.png",
-            "assets/letters_center_circulate.png"
-          ]
-        }
-      ],
+      "subscenes": [],
       "seed": 42
     },
     {
@@ -90,15 +69,7 @@
       "elements": [
         "amphitheater",
         "steps",
-        "tiers",
-        "stone structure",
-        "sky",
-        "vertical stone panel",
-        "ancient cyprus style",
-        "night",
-        "desert sand",
-        "greenery",
-        "trees"
+        "tiers"
       ],
       "subscenes": [],
       "seed": 42
@@ -106,7 +77,7 @@
     {
       "id": 5,
       "name": "Balance",
-      "description": "Amphitheater steps/tiers, 6 big tiers from down to top, 7th tier is wall. static stone structure. above the steps are sky. vertical stone frame at the top - center of the tier. ancient cyprus style. Water element is introduced, aquarius flowing calmly; trees and crops sway with the wind, springtime atmosphere at night.",
+      "description": "Amphitheater steps/tiers, 6 big tiers from down to top, 7th tier is wall. static stone structure. above the steps are sky. vertical stone frame at the top - center of the tier. ancient cyprus style. Water element is introduced, aquarius flowing calmly; trees and crops sway with the wind, springtime atmosphere at night. Highly detailed scene with extensive water features including elaborate water canals flowing through the amphitheater tiers. Multiple streams cascade down the stone steps, irrigating the greenery surrounding the structure. Abundant trees on both left and right sides of the tiers, their leaves rustling in the breeze. Water elements appear beneath the tiers, creating reflective surfaces. Rich vegetation blankets the stone surfaces, moss and creeping plants softening the ancient architecture. The water flows both above and below ground, creating a harmonious balance between stone and water in this Cypro-Phoenician Bronze Age ruin style landscape.",
       "elements": [
         "amphitheater",
         "six stone tiers",
@@ -115,13 +86,21 @@
         "full moon casting shadows",
         "ancient cyprus style",
         "stone structure",
-        "water",
+        "elaborate water canals",
+        "water streams",
+        "waterfalls",
+        "abundant greenery",
         "trees",
-        "crops",
+        "flowering plants",
+        "moss",
+        "creeping vegetation",
         "wind",
         "spring",
         "night",
-        "stars"
+        "stars",
+        "reflective water surfaces",
+        "water beneath tiers",
+        "irrigated landscape"
       ],
       "subscenes": [],
       "seed": 42
