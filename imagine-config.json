@@ -1,15 +1,12 @@
 {
-  "guideline_image": "stage/guideline_line_out.png",
-  "scenes_file": "data/scenes/ledras_scenes_v4.json",
-  "output_dir": "assets/generated",
-  "image_size": "landscape_16_9",
-  "fallback_model": "google/gemini-2.5-flash-image",
-  "fallback_cost": "$0.0000028",
+  "guideline_image": "stage/depth_template.jpg",
+  "preprocess": "depth",
   "fal_model": "fal-ai/flux-control-lora-canny",
+  "control_start": 0.4,
+  "control_stop": 0.6,
   "fal_control_strength": 0.8,
   "num_inference_steps": 25,
-  "enable_prompt_expansion": false,
-  "preprocess": "canny",
-  "control_start": 0.4,
-  "control_stop": 0.6
+  "scenes_file": "data/scenes/ledras_scenes_v4.json",
+  "output_dir": "assets/generated",
+  "image_size": "landscape_16_9"
 }

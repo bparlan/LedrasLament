@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """
 CLI interface for image generation using Fal.ai FLUX Control LoRA Canny.
-Implements gateway token system for rate limiting and approval.
 """
 
 import argparse
@@ -17,7 +16,6 @@ from typing import Dict, Any, List
 from fal_client import SyncClient
 
 # Gateway for rate limiting
-from src.gateway import Gateway
 def load_config(project_root: Path) -> Dict[str, Any]:
     """Load imagination config from `imagine-config.json`."""
     config_path = project_root / "imagine-config.json"
@@ -41,6 +39,7 @@ def ensure_line_out(config: Dict[str, Any], project_root: Path) -> str:
     line_out_path = project_root / guideline_image
     
     if not line_out_path.exists():
+        # Fallback to default if not found
         line_out_path = project_root / "stage/guideline_line_out.png"
     
     return str(line_out_path)
@@ -98,8 +97,6 @@ def generate_stage(
 
     # Build enhanced prompt with visual directives for FLUX Control LoRA Canny
     style = scene.get("style_seed", "")
-    style_text = style if style.strip() else ""
-    
     negative = scene.get(
         "negative_prompt",
         "blurry, deformed text, extra objects, watermark",
@@ -111,15 +108,15 @@ def generate_stage(
     # Build enhanced prompt with visual directives and composition guidance
     enhanced_prompt = f"{scene_description}
 
-{style_text}with dramatic cinematic lighting emphasizing architectural geometry.
-Compose wide shot showing {', '.join(elements[:4])} with depth of field.
-Full moon casting dramatic shadows across stone structure and creating highlight reflections.
-{style.lower()}texture details with weathered limestone surfaces and weathered stone patterns.
-Professional architectural photography composition with strong leading lines.
-Atmospheric depth with distant horizon elements creating spatial depth.
-moody, contemplative, monumental atmosphere with timeless quality.
---no {negative}
-"
+    {style}with dramatic cinematic lighting emphasizing architectural geometry.
+    Compose wide shot showing {', '.join(elements[:4])} with depth of field.
+    Full moon casting dramatic shadows across stone structure and creating highlight reflections.
+    {style.lower()}texture details with weathered limestone surfaces and weathered stone patterns.
+    Professional architectural photography composition with strong leading lines.
+    Atmospheric depth with distant horizon elements creating spatial depth.
+    moody, contemplative, monumental atmosphere with timeless quality.
+    --no {negative}
+    "
 
     prompt = enhanced_prompt
 
@@ -180,85 +177,6 @@ moody, contemplative, monumental atmosphere with timeless quality.
             print(f"✅ Scene {scene_id} generated → {out_path} (URL)")
 
     return str(out_path)
-def main():
-    """CLI interface for image generation with gateway rate limiting."""
-    parser = argparse.ArgumentParser(
-        description="Generate scene images for Ledras Lament with gateway approval"
-    )
-    parser.add_argument("--config", default="imagine-config.json", 
-                       help="Path to config file")
-    parser.add_argument("--scene", type=int, default=1,
-                       help="Scene ID to generate")
-    parser.add_argument("--output-dir", default="assets/generated",
-                       help="Output directory for generated images")
-    parser.add_argument("--list-scenes", action="store_true",
-                       help="List all available scenes")
 
-    args = parser.parse_args()
-
-    project_root = Path.cwd()
-    config = load_config(project_root)
-    line_out = ensure_line_out(config, project_root)
-
-    # Load scenes ONCE from authoritative source
-    scenes = load_scenes(project_root, config["scenes_file"])
-
-    # List scenes if requested
-    if args.list_scenes:
-        print("\n📚 Available scenes from ledras_scenes_v4.json:")
-        for s in scenes:
-            print(f"   [{s['id']}] {s['name']}: {s['description'][:60]}...")
-        return
-
-    print(f"✅ Ready to generate scene {args.scene}")
-    print(f"   Model: {config.get('fal_model', 'unknown')}")
-    print(f"   Line-out: {line_out}")
-    print(f"   Scenes source: {config['scenes_file']}")
-
-    # Initialize gateway for rate limiting and approval
-    g = Gateway()
-    
-    # Check if generation is allowed (gateway approval)
-    if not g.has_rights(1):
-        print("❌ Gateway blocked: No generation rights available")
-        print(f"   Used: {g.used}, Remaining: {g.rights}")
-        return
-
-    # Check if Fal.ai API key is available
-    fal_key = os.getenv("FAL_API_KEY")
-    if not fal_key:
-        print(f"⚠️  FAL_API_KEY not set in environment")
-        print(f"   This is a demo - using mock data")
-        test_dir = project_root / "assets/generated"
-        test_dir.mkdir(parents=True, exist_ok=True)
-        test_path = test_dir / f"scene-{args.scene:02d}.png"
-        test_path.write_bytes(b"fake_image_data")
-        print(f"✅ Demo image generated → {test_path}")
-        return
-
-    client = SyncClient(key=fal_key)
-
-    # Get scene from AUTHORITATIVE source
-    scene = get_scene_by_id(scenes, args.scene)
-
-    # Generate the requested scene
-    try:
-        result_path = generate_stage(
-            client, config, project_root, scene,
-            config.get("fal_control_strength", 0.7)
-        )
-        print(f"✅ Scene {args.scene} generated → {result_path}")
-        
-        # Deduct token after successful generation (gateway approval)
-        try:
-            remaining = g.deduct(1)
-            print(f"✅ Token deducted: {remaining} rights remaining")
-            print(f"   Gateway status: {g.get_status()}")
-        except PermissionError as e:
-            print(f"❌ Token deduction failed: {e}")
-        
-    except Exception as e:
-        print(f"❌ Failed to generate scene {args.scene}: {e}")
-        traceback.print_exc()
 if __name__ == "__main__":
     main()
