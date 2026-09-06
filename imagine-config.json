@@ -1,5 +1,5 @@
 {
-  "guideline_image": "stage/guide_line_out.jpg",
+  "guideline_image": "stage/stage_v5_alphasky.png",
   "preprocess": "canny",
   "fal_model": "fal-ai/flux-control-lora-canny",
   "control_start": 0.0,
