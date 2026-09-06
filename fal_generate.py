@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Ledras Lament Scene Generator - Fixed
+Ledras Lament Scene Generator - Fixed with SyncClient Authentication
 This script generates images for Ledras Lament scenes using fal.ai API.
-FIXED VERSION with proper imports and API calls.
+FIXED VERSION with SyncClient for proper authentication.
 """
 
 import json
@@ -13,9 +13,9 @@ from pathlib import Path
 from typing import Dict, List, Any, Optional
 from datetime import datetime
 
-# Fal client imports - FIXED
+# Fal client imports - FIXED with SyncClient
 try:
-    from fal_client import run as fal_run, __version__ as fal_version
+    from fal_client import SyncClient, __version__ as fal_version
     print(f"✅ fal_client version {fal_version} imported successfully")
 except ImportError:
     print("❌ ERROR: fal_client not installed. Please install with: pip install fal-client")
@@ -83,17 +83,21 @@ class LedrasSceneGenerator:
 
     def setup_fal_client(self):
         """Setup fal client with environment-based authentication"""
+        # Get API key from environment
         self.api_key = os.environ.get('FAL_API_KEY')
         
         if not self.api_key:
             print("⚠️  WARNING: FAL_API_KEY not set. Image generation may fail.")
             print("   Set it using: export FAL_API_KEY='your-api-key'")
-            return
+            # Create client without key for now (will use default auth)
+            self.client = SyncClient()
+        else:
+            print("✅ FAL_API_KEY configured successfully")
+            # Create client with the API key
+            self.client = SyncClient(key=self.api_key)
             
-        print("✅ FAL_API_KEY configured successfully")
-        
         # For debugging: show key format (safely)
-        if ':' in self.api_key:
+        if hasattr(self, 'api_key') and self.api_key and ':' in self.api_key:
             uuid_part, suffix_part = self.api_key.split(':', 1)
             print(f"   Key format: UUID ({len(uuid_part)} chars) + suffix ({len(suffix_part)} chars)")
 
@@ -211,11 +215,7 @@ class LedrasSceneGenerator:
             }
 
     def generate_image(self, prompt: str, scene_id: int, role: str) -> Optional[Dict[str, Any]]:
-        """Generate a single image using fal.ai API"""
-        if not hasattr(self, 'api_key') or not self.api_key:
-            print(f"❌ No API key available for scene {scene_id}")
-            return None
-            
+        """Generate a single image using fal.ai API with SyncClient"""
         try:
             print(f"🎨 Generating image: Scene {scene_id}, Role: {role}")
             print(f"   Prompt preview: {prompt[:100]}..." if len(prompt) > 100 else f"   Prompt: {prompt}")
@@ -236,10 +236,10 @@ class LedrasSceneGenerator:
             if self.config.weathered_stone_texture:
                 fal_params["weathered_stone_texture"] = True
 
-            print(f"🤖 Calling fal.run() API with model: {self.config.fal_model}")
+            print(f"🤖 Calling SyncClient.run() API with model: {self.config.fal_model}")
             
-            # Call fal.ai API
-            result = fal_run(
+            # Use the SyncClient to call the API
+            result = self.client.run(
                 application=self.config.fal_model,
                 arguments=fal_params
             )
@@ -313,7 +313,7 @@ class LedrasSceneGenerator:
             # Step 2: Generate and validate prompts
             print("📝 Step 2: Generating and validating prompts...")
             prompt_report = self.validate_generated_prompts()
-            print(f"✅ Validation Pass Rate: {prompt_report['validation_summary']['validation_pass_rate']:.2f}%")
+            print(f"✅ Validation Pass Rate: {prompt_report.get('validation_pass_rate', 0.0):.2f}%")
 
             # Step 3: Save prompts
             self.save_prompts()
