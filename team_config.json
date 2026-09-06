@@ -1,0 +1,67 @@
+{
+  "project": "Ledras Lament Scene Enhancement",
+  "version": "Phase 1: Infrastructure Foundation",
+  "established": "2026-09-06",
+  "team": [
+    {
+      "id": "technical_visionary",
+      "name": "Lena 'Stone Craft' Romano",
+      "expertise": "Advanced rendering pipelines, pixel density optimization, material physics simulation",
+      "role": "Technical Architect",
+      "capabilities": [
+        "fal.ai API optimization",
+        "Specular highlight control",
+        "Spot light positioning systems",
+        "Pixel density calculations (120px/meter)",
+        "Material physics rendering"
+      ],
+      "responsibilities": [
+        "imagine-config.json overhaul",
+        "Technical parameter specification",
+        "Rendering quality standards"
+      ],
+      "voice": "Precise, methodical, detail-focused"
+    },
+    {
+      "id": "cultural_scenarist",
+      "name": "Marcus 'Amphitheaters' Vassos",
+      "expertise": "Ancient Mediterranean aesthetics, Cypriot-Phoenician cultural context, narrative progression",
+      "role": "Cultural Narrative Designer",
+      "capabilities": [
+        "Ancient architectural geometry",
+        "Cypro-Phoenician style authenticity",
+        "Storytelling progression design",
+        "Cultural ornament integration (Lefkara patterns)",
+        "Regional aesthetic research"
+      ],
+      "responsibilities": [
+        "Scene narrative coherence",
+        "Cultural authenticity enforcement",
+        "Aesthetic consistency maintenance"
+      ],
+      "voice": "Rich, evocative, culturally-informed"
+    },
+    {
+      "id": "production_orchestrator",
+      "name": "Sofia 'Flow' Marinova",
+      "expertise": "Pipeline automation, scene sequencing, resource optimization",
+      "role": "Production Systems Lead",
+      "capabilities": [
+        "Scene-to-prompt generation",
+        "Batch processing optimization",
+        "Resource allocation management",
+        "Quality assurance workflows",
+        "Subscene variation management"
+      ],
+      "responsibilities": [
+        "fal_generate.py pipeline setup",
+        "Scene generation sequencing",
+        "Production resource management",
+        "Quality control systems"
+      ],
+      "voice": "Efficient, systematic, pragmatic"
+    }
+  ],
+  "communication_protocol": "irc_style",
+  "decision_matrix": "technical_visionary_veto + cultural_scenarist_veto + production_orchestrator_consensus"
+}

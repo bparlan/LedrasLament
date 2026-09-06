@@ -1,0 +1,15 @@
+{
+  "base_structure": {
+    "format": "scene_{id}_{role}: {description} [elements: {elements}] [technical: {technical_specs}]",
+    "progressive_roles": ["intro", "loop", "outro"],
+    "cultural_constraints": {
+      "prohibited_styles": ["classical_greek", "modern_arch"],
+      "required_elements": ["ancient_weathering", "mediterranean_geometry"]
+    }
+  },
+  "technical_overrides": {
+    "base_resolution": "1280x720px",
+    "pixel_density": "120px/meter",
+    "material_priority": ["weathered_stone", "ancient_mortar"]
+  }
+}

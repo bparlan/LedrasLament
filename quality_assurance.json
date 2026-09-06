@@ -1,0 +1,19 @@
+{
+  "standards": {
+    "technical_accuracy": {
+      "pixel_density_tolerance": 0.05,
+      "material_physics": "weathered_stone_simulation",
+      "specular_highlight": "subtle_reflection_only"
+    },
+    "cultural_authenticity": {
+      "style_consistency": "cypro_phoenician",
+      "ornament_rules": "lefkara_patterns_optional",
+      "regional_context": "levantine_mediterranean"
+    }
+  },
+  "verification_checks": [
+    "architectural_geometry",
+    "cultural_authenticity",
+    "technical_render_fidelity"
+  ]
+}
