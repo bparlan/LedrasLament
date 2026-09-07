@@ -81,6 +81,18 @@ class LedrasSceneGenerator:
         )
         return f"{' '.join(parts)} {metadata}".strip()
 
+    def _build_subscene_prompt(self, scene: dict, subscene: dict) -> str:
+        """Build prompt from subscene description + scene elements."""
+        elements = scene.get('elements', [])
+        parts = [subscene.get('description', '')]
+        if elements:
+            parts.append("Key elements: " + ", ".join(elements))
+        metadata = (
+            f"[seed:{subscene.get('seed', self.config.seed)}] "
+            f"[team:{self.config.cultural_authenticity_level}] [{subscene.get('name', 'subscene')}]"
+        )
+        return f"{' '.join(parts)} {metadata}".strip()
+
     def generate_prompt(self, scene_id: int, role: str = "loop") -> str:
         """Generate prompt for specific scene and role."""
         try:
@@ -117,7 +129,9 @@ class LedrasSceneGenerator:
             print(f"❌ Error generating all prompts: {e}")
             return {}
 
-    def generate_image(self, prompt: str, scene_id: int, role: str) -> Optional[Dict[str, Any]]:
+    def generate_image(self, prompt: str, scene_id: int, role: str, *,
+                       seed: Optional[int] = None,
+                       sub_label: str = "") -> Optional[Dict[str, Any]]:
         """Generate a single image using fal.ai API with SyncClient"""
         try:
             print(f"🎨 Generating image: Scene {scene_id}, Role: {role}")
@@ -128,7 +142,7 @@ class LedrasSceneGenerator:
                 "prompt": prompt,
                 "control_lora_image_url": self.config.control_lora_image_url,
                 "image_size": self.config.image_size,
-                "seed": self.config.seed,
+                "seed": seed if seed is not None else self.config.seed,
                 "num_inference_steps": self.config.num_inference_steps,
                 "num_images": 1,
                 "output_format": "png",
@@ -154,8 +168,9 @@ class LedrasSceneGenerator:
                     print(f"✅ Image generation successful for scene {scene_id}!")
 
                     # Build deterministic file name and save image
-                    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                    filename = f"scene-{scene_id:02d}_v{self.config.seed:03d}_{timestamp}.png"
+                    image_seed = seed if seed is not None else self.config.seed
+                    sub_part = f"_{sub_label}" if sub_label else ""
+                    filename = f"scene-{scene_id:02d}{sub_part}_v{image_seed:03d}_{timestamp}.png"
                     output_path = os.path.join(self.config.output_dir, filename)
                     file_path = None
 
@@ -181,7 +196,7 @@ class LedrasSceneGenerator:
                     "image_data": image_data,
                     "generation_timestamp": datetime.now().isoformat(),
                     "model_used": self.config.fal_model,
-                    "seed": self.config.seed,
+                    "seed": seed if seed is not None else self.config.seed,
                     "file_path": file_path
                 }
             else:
@@ -226,6 +241,62 @@ class LedrasSceneGenerator:
 
         return generated
 
+    def generate_subscene_images(self, scene_ids: List[int]) -> Dict[int, Dict[str, Any]]:
+        """Generate images for all subscenes of given scenes."""
+        try:
+            with open(self.config.scenes_file, 'r') as f:
+                scenes_data = json.load(f)
+        except Exception as e:
+            print(f"❌ Error loading scenes: {e}")
+            return {}
+
+        total_subs = 0
+        for scene_id in scene_ids:
+            scene = next((s for s in scenes_data.get('scenes', [])
+                          if s.get('id') == scene_id), None)
+            if scene is None:
+                print(f"⚠️  Scene {scene_id} not found, skipping")
+                continue
+            total_subs += len(scene.get('subscenes', []))
+
+        print(f"🎨 Generating {total_subs} subscene images for scenes {scene_ids}")
+        print(f"📁 Output directory: {self.config.output_dir}")
+        print(f"🤖 Using model: {self.config.fal_model}")
+        print()
+
+        results: Dict[int, Dict[str, Any]] = {}
+
+        for scene_id in scene_ids:
+            scene = next((s for s in scenes_data.get('scenes', [])
+                          if s.get('id') == scene_id), None)
+            if scene is None:
+                continue
+
+            print(f"📸 Scene {scene_id}: {scene.get('name', '')}")
+            for sub in scene.get('subscenes', []):
+                sub_name = sub.get('name', 'unknown')
+                sub_id = sub.get('id', 0)
+                sub_seed = sub.get('seed', self.config.seed)
+                prompt = self._build_subscene_prompt(scene, sub)
+
+                print(f"  → Subscene {sub_id}: {sub_name} (seed {sub_seed})")
+                info = self.generate_image(
+                    prompt, scene_id, sub_name,
+                    seed=sub_seed, sub_label=str(sub_id),
+                )
+                if info:
+                    if scene_id not in results:
+                        results[scene_id] = {}
+                    results[scene_id][sub_name] = info
+                    print(f"  ✅ Subscene {sub_id} generated")
+                else:
+                    print(f"  ❌ Subscene {sub_id} failed")
+
+            print()
+
+        print(f"✅ Generated {sum(len(v) for v in results.values())} subscene images")
+        return results
+
     def run_complete_pipeline(self, target_scenes: List[int], target_role: str = "intro"):
         """Run the complete pipeline for target scenes"""
         print("=" * 60)
@@ -262,15 +333,27 @@ if __name__ == "__main__":
     try:
         generator = LedrasSceneGenerator()
 
-        # Accept scene IDs from CLI args (e.g. `python3 fal_generate.py 3 5`); default scene 6
-        scene_ids = [int(a) for a in sys.argv[1:]] if len(sys.argv) > 1 else [6]
+        # Parse CLI: `--subscenes` flag, remaining are scene IDs (default 1)
+        subscene_mode = "--subscenes" in sys.argv
+        args = [a for a in sys.argv[1:] if a != "--subscenes"]
+        scene_ids = [int(a) for a in args] if args else [1]
 
-        print(f"🎨 Generating scenes {scene_ids}...")
-        scenes = generator.generate_specific_images(scene_ids, "intro")
+        if subscene_mode:
+            print(f"🎨 Generating ALL subscenes for scenes {scene_ids}...")
+            scenes = generator.generate_subscene_images(scene_ids)
+            total = sum(len(v) for v in scenes.values())
+            print(f"\n✅ SUCCESS: {total} subscene images generated for scenes {scene_ids}")
+        else:
+            print(f"🎨 Generating scenes {scene_ids}...")
+            scenes = generator.generate_specific_images(scene_ids, "intro")
+            print(f"\n✅ SUCCESS: Scenes {scene_ids} generated successfully!")
+            print(f"📊 Generated: {len(scenes)} scenes")
 
-        print()
-        print(f"✅ SUCCESS: Scenes {scene_ids} generated successfully!")
-        print(f"📊 Generated: {len(scenes)} scenes")
+    except Exception as e:
+        print(f"❌ ERROR: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        exit(1)
 
     except Exception as e:
         print(f"❌ ERROR: {str(e)}")
