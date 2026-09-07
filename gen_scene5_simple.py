@@ -8,7 +8,6 @@ This script fixes all issues from the current implementation:
 4. Uses working approach from backup script
 """
 
-import argparse
 import json
 import os
 import base64
@@ -16,18 +15,8 @@ import re
 import sys
 from pathlib import Path
 from datetime import datetime
-
-# Add project root to path for imports
-sys.path.insert(0, str(Path(__file__).parent))
-
-# Import from the correct module paths
-try:
-    from fal_client import SyncClient
-    from gateway import Gateway
-except ImportError as e:
-    print(f"❌ Import error: {e}")
-    print("💡 Please ensure all dependencies are installed")
-    exit(1)
+from fal_client import SyncClient
+from gateway import Gateway
 
 
 def load_config(project_root: Path):
