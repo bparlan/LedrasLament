@@ -1,11 +1,11 @@
 {
   "fal_model": "fal-ai/flux-control-lora-canny",
   "num_inference_steps": 28,
-  "scenes_file": "data/sources/ledras_scenes_v7.json",
+  "scenes_file": "data/sources/ledras_scenes_v8.json",
   "output_dir": "assets/generated",
   "image_size": {"width": 1280, "height": 704},
   "seed": 42,
-  "subscene_variation_count": 2,
+  "subscene_variation_count": 6,
   "cultural_authenticity_level": "cypro_phoenician",
   "ornamentation_allowed": false,
   "guidance_scale": 3.5,

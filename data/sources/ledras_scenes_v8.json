@@ -1,6 +1,6 @@
 {
-  "title": "Ledras Lament Scenes - Enhanced v7",
-  "version": 7,
+  "title": "Ledras Lament Scenes - v8",
+  "version": 8,
   "author": "Ledras Lament Team",
   "status": "production",
   "global_structure": "Ancient stone amphitheater viewed straight on. Six broad horizontal stone seating tiers rise from foreground to background. A seventh rear wall spans behind the upper tier. A tall rigid rectangular stone frame stands at the exact top-center position. The frame has straight vertical sides, a straight top edge, sharp corners and a clear rectangular opening. The amphitheater geometry, tier boundaries, frame proportions, frontal perspective and overall composition remain fixed and unchanged.",
@@ -68,13 +68,13 @@
     {
       "id": 2,
       "name": "Ritual",
-      "description": "Nighttime ritual within the fixed ancient amphitheater. A full moon appears centered inside the rectangular opening of the central stone frame. Spiritual ethno-Cypriot letterforms appear as luminous symbolic shapes inside the frame, then conceptually descend toward the center of the lowest stage area. Dark red sparks and subtle glowing particles circle around a still lying human form at the bottom-center stage. Mystical, solemn and restrained atmosphere.",
+      "description": "Nighttime ritual within the fixed ancient amphitheater. A full moon appears centered inside the rectangular opening of the central stone frame. Faint luminous geometric light patterns appear as traceries inside the frame, then conceptually descend toward the center of the lowest stage area. Dark red sparks and subtle glowing particles circle above a low stone ritual altar platform at the bottom-center stage. Mystical, solemn and restrained atmosphere.",
       "elements": [
         "full moon centered inside frame",
-        "luminous ethno-Cypriot letterforms",
-        "descending symbolic shapes",
-        "dark red sparks and particles",
-        "still human form at bottom-center",
+        "luminous geometric light patterns",
+        "descending light traceries",
+        "dark red sparks and particles circling altar",
+        "low stone ritual altar at bottom-center",
         "spiritual ritual atmosphere",
         "restrained mystical quality"
       ],
@@ -82,44 +82,44 @@
         {
           "id": 200,
           "name": "Ritual - intro-start",
-          "description": "The moon glows at the center of the stone frame. Faint luminous shapes begin to form within the frame opening — ethno-Cypriot symbolic glyphs flickering like distant lamps. The still human form lies at the bottom-center stage. The ritual has not yet begun.",
+          "description": "The moon glows at the center of the stone frame. Faint luminous patterns begin to form within the frame opening — ethereal light geometries flickering like distant flames. Dark red sparks hover above a low stone ritual altar at the bottom-center stage. The ritual has not yet begun.",
           "seed": 42,
-          "cultural_notes": "The first appearance of luminous letterforms evokes the Cypro-Phoenician syllabary, a script native to Cyprus from the 11th–4th centuries BCE. These glyphs were used exclusively for ritual and funerary inscriptions."
+          "cultural_notes": "The appearance of luminous patterns within the frame opening mirrors the Cypro-Phoenician practice of sacred geometry — abstract light forms representing divine presence without human representation."
         },
         {
           "id": 201,
           "name": "Ritual - intro-end",
-          "description": "The luminous letterforms intensify and begin a slow descent from the frame toward the stage. Dark red sparks appear and orbit the central space. The still figure at the bottom-center is haloed by faint particles. The ritual awakens.",
+          "description": "The luminous patterns intensify and begin a slow descent from the frame toward the stage. Dark red sparks appear and orbit the central space, gathering above the stone altar at the bottom-center. The ritual awakens.",
           "seed": 43,
-          "cultural_notes": "The descending letterforms symbolize the Eteocypriot belief in written prayer as a physical bridge between worshiper and deity — words that travel downward into the earth."
+          "cultural_notes": "The descending light evokes the Cypriot ritual of 'thera' — divine illumination believed to descend from the sky opening into the sacred precinct, manifesting as contained light."
         },
         {
           "id": 202,
           "name": "Ritual - loop-start-end",
-          "description": "Symbolic glyphs hover in the air between the frame and the stage, glowing with restrained spiritual light. Dark red sparks circle the supine figure in a steady procession. Particles drift through the six tiers. The ritual finds its rhythm.",
+          "description": "Geometric light patterns hover in the air between the frame and the stage, glowing with restrained spiritual light. Dark red sparks circle the stone altar in a steady procession. Particles drift through the six tiers. The ritual finds its rhythm.",
           "seed": 44,
           "cultural_notes": "The orbiting sparks mirror archaeological evidence of ritual fire-handling in Cypriot sanctuaries. Priests would circle the altar with lamps and censing vessels."
         },
         {
           "id": 203,
           "name": "Ritual - loop-middle",
-          "description": "The luminous letterforms pulse gently in a repeating cycle. Sparks continue their orbit around the bottom-center figure. Smoke and particle trails weave through the amphitheater. The ritual sustains its solemn intensity.",
+          "description": "The luminous patterns pulse gently in a repeating cycle. Sparks continue their orbit around the stone altar platform. Smoke and particle trails weave through the amphitheater. The ritual sustains its solemn intensity.",
           "seed": 45,
-          "cultural_notes": "The supine figure represents the ritual practitioner in trance. Eteocypriot temple sites contain stone platforms interpreted as incubation beds for oracular dreaming."
+          "cultural_notes": "The stone altar at the stage center evokes the sacred offering platforms found in Cypriot sanctuaries at Kition and Idalion, where carved stone blocks served as focal points for ritual fire and incense."
         },
         {
           "id": 204,
           "name": "Ritual - end-begins",
-          "description": "The glyphs begin to fade, their light withdrawing upward toward the frame. Sparks diminish to occasional embers. The still figure rests in growing shadow. The ritual exhales.",
+          "description": "The light patterns begin to fade, withdrawing upward toward the frame. Sparks diminish to occasional embers above the altar stone. The ritual exhales.",
           "seed": 46,
-          "cultural_notes": "The fading glyphs suggest the oracle withdrawing. In Cypro-Phoenician practice, the moment of silence after ritual speech was as sacred as the words themselves."
+          "cultural_notes": "The fading light represents the closing of the divine channel. In Cypriot practice, the moment of silence after ritual was as sacred as the ceremony itself."
         },
         {
           "id": 205,
           "name": "Ritual - end-final",
-          "description": "The last traces of luminous forms dissolve within the frame opening. A few embers glow on the stone floor. The human form remains motionless in near-darkness. The amphitheater returns to its ancient silence.",
+          "description": "The last traces of luminous patterns dissolve within the frame opening. A few embers glow on the stone altar surface. The amphitheater returns to its ancient silence.",
           "seed": 47,
-          "cultural_notes": "Final stillness echoes the Phoenician 'shalem' — the state of completeness after ritual, when the divine presence returns to its realm leaving the material world untouched."
+          "cultural_notes": "Final stillness echoes the Phoenician 'shalem' — the state of completeness after ritual, when the divine presence withdraws leaving the stones untouched."
         }
       ],
       "seed": 42
@@ -143,7 +143,7 @@
           "name": "Astarte Awakens - intro-start",
           "description": "The moon within the frame opening begins to shift — a faint reddish tint spreads from its center outward. The limestone walls catch a warm glow. The atmosphere subtly changes, gaining weight and anticipation.",
           "seed": 42,
-          "cultural_notes": "The blood moon transformation invokes the Canaanite goddess Astarte's descent narrative. In Ugaritic texts, the moon darkens as she passes through the underworld gates. Transformation begins at the lunar limen."
+          "cultural_notes": "The blood moon transformation invokes the Canaanite goddess Astarte's descent narrative. In Ugaritic myth, the moon darkens as she passes through the underworld gates. Transformation begins at the lunar limen."
         },
         {
           "id": 301,
@@ -424,15 +424,16 @@
     {
       "id": 8,
       "name": "Village",
-      "description": "A calm nighttime village emerges within the existing amphitheater without changing the stone tier geometry. Warm miniature home lights appear integrated into the tier surfaces and existing architectural spaces. Small village-like illuminated details are distributed across the layered amphitheater while the six horizontal tiers remain clearly visible and structurally unchanged. Fireflies drift through the air. Existing greenery moves gently in the wind. Warm human presence is suggested through light, but no modern city architecture.",
+      "description": "A calm nighttime village emerges within the existing amphitheater without changing the stone tier geometry. Warm miniature home lights appear integrated into the tier surfaces and existing architectural spaces. Small village-like illuminated details are distributed across the layered amphitheater while the six horizontal tiers remain clearly visible and structurally unchanged. Fireflies drift through the air. Existing greenery moves gently in the wind. Warm habitation is suggested through lamps and embers alone, with no figures present. No modern city architecture.",
       "elements": [
         "warm miniature home lights",
         "village integration into stone architecture",
         "illuminated architectural details",
         "fireflies drifting through air",
         "existing greenery in wind",
-        "warm human presence suggested",
-        "traditional village aesthetic"
+        "habitation suggested by lamps and embers only",
+        "traditional village aesthetic",
+        "no inhabitants, no figures"
       ],
       "subscenes": [
         {
@@ -452,21 +453,21 @@
         {
           "id": 802,
           "name": "Village - loop-start-end",
-          "description": "Celebration night in the amphitheater village. Lanterns and decorative lights enhance the warm miniature architecture. Villagers gather in the spaces between stone tiers, creating a lively atmosphere while maintaining the ancient geometric constraints. The lighting creates a festive yet authentic scene that respects the architectural permanence.",
+          "description": "Celebration night in the amphitheater village. Lanterns and decorative lights enhance the warm miniature architecture. The stone tiers glow with festive illumination, creating a lively atmosphere while maintaining the ancient geometric constraints. Fireflies and drifting embers animate the space as if for celebration. The lighting creates a festive yet authentic scene that respects the architectural permanence.",
           "seed": 44,
           "cultural_notes": "Festival lighting adds cultural vibrancy while maintaining architectural integrity"
         },
         {
           "id": 803,
           "name": "Village - loop-middle",
-          "description": "The village hums with quiet activity. Lights glow steadily from homes embedded in the tier architecture. Fireflies drift in lazy patterns between the stone levels. Warm smoke rises from cooking fires. A living community within ancient walls.",
+          "description": "The village hums with quiet activity. Lights glow steadily from homes embedded in the tier architecture. Fireflies drift in lazy patterns between the stone levels. Warm smoke rises from cooking hearths, suggesting recent use. A settled presence within ancient walls.",
           "seed": 45,
           "cultural_notes": "Quiet community activity mirrors the daily market and gathering rhythms of ancient Cypriot village life. The agora was the heart of the settlement where daily exchange occurred."
         },
         {
           "id": 804,
           "name": "Village - end-begins",
-          "description": "Autumn harvest celebration within the amphitheater. Warm light from home fires reflects on surfaces, suggesting abundance and community. Villagers gather crops and provisions, their activities following the natural patterns established by the stone geometry. The harvest scene emphasizes community and seasonal cycles within the ancient space.",
+          "description": "Autumn harvest celebration within the amphitheater. Warm light from home fires reflects on surfaces, suggesting abundance and community. Bundles of crops and gathered provisions rest against the stone tier edges. The scene emphasizes seasonal cycles within the ancient space through the traces of harvest activity left among the architecture.",
           "seed": 46,
           "cultural_notes": "Harvest activities emphasize community and seasonal rhythms within architectural constraints"
         },
@@ -540,6 +541,6 @@
       "seed": 42
     }
   ],
-  "style_seed": "Cypro-Phoenician and Levantine Bronze Age ruin style. Weathered limestone, ashlar sandstone, mudbrick traces and ancient stone construction. Restrained ornamentation. No Doric or Ionic columns, no Classical Greek temple architecture, no Parthenon silhouettes, no white marble monuments.",
-  "negative_prompt": "any text, writing, letters, characters, symbols, labels, tags, latin alphabet, greek alphabet, calligraphy, inscriptions, deformed text, watermark, distorted central frame, tilted frame, curved frame, broken frame, widened frame, narrowed frame, moved frame, moon outside frame, moon above frame, moon behind frame, extra architecture changing tier geometry, blurry, deformed text, watermark, modern buildings, modern city, Greek columns, Doric columns, Ionic columns"
+  "style_seed": "Cypro-Phoenician and Levantine Bronze Age ruin style. Weathered limestone, ashlar sandstone, mudbrick traces and ancient stone construction. No human figures or faces. Restrained ornamentation. No Doric or Ionic columns, no Classical Greek temple architecture, no Parthenon silhouettes, no white marble monuments.",
+  "negative_prompt": "human figure, human body, human face, person, people, crowd, silhouette of person, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, distorted central frame, tilted frame, curved frame, broken frame, widened frame, narrowed frame, moved frame, moon outside frame, moon above frame, moon behind frame, extra architecture changing tier geometry, blurry, modern buildings, modern city, Greek columns, Doric columns, Ionic columns"
 }
