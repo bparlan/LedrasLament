@@ -3,13 +3,13 @@
   "num_inference_steps": 28,
   "scenes_file": "data/sources/ledras_scenes_v7.json",
   "output_dir": "assets/generated",
-  "image_size": {"width": 1280, "height": 720},
+  "image_size": {"width": 1280, "height": 704},
   "seed": 42,
   "subscene_variation_count": 2,
   "cultural_authenticity_level": "cypro_phoenician",
   "ornamentation_allowed": false,
   "guidance_scale": 3.5,
   "enable_safety_checker": true,
-  "control_lora_strength": 0.7,
+  "control_lora_strength": 0.6,
   "control_lora_image_url": "https://v3b.fal.media/files/b/0aa973e6/MtLDIzqHz7Jo77z5Q8rX8_stage_v6_alphasky.png"
 }

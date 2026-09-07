@@ -2,7 +2,7 @@ def get_resolution(config):
     """Convert image_size config to (width, height) tuple.
     
     NOTE: The fal API's `landscape_16_9` enum produces 1024×576, not 1280×720.
-    The project uses explicit {"width": 1280, "height": 720} — this function
+    The project uses explicit {"width": 1280, "height": 704} — this function
     is only used for cost estimation, not actual API calls.
     
     Supports:

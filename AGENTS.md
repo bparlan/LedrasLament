@@ -55,7 +55,7 @@
 - Rationale: Prevents guide domination; enforces artistic reinterpretation of structure
 
 ### Rule D: Control Strength Limits
-- Full control window (0.0–1.0) → `control_strength ≤ 0.7`, or use partial window (0.2–0.8)
+- Full control window (0.0–1.0) → `control_strength ≤ 0.6`, or use partial window (0.2–0.8)
 - Action: Validate before generation; warn or auto-adjust parameters
 - Rationale: High control window + high strength = output repetition of guide instead of reinterpretation
 

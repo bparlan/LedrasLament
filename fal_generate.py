@@ -8,10 +8,10 @@ Combines ALL required parameters with multi-scene support.
 User-Requested Parameters:
 - guidance_scale: 3.5
 - enable_safety_checker: True
-- control_lora_strength: 0.7
+- control_lora_strength: 0.6
 - control_lora_image_url
 - num_inference_steps: 28
-- image_size: {"width": 1280, "height": 720}
+- image_size: {"width": 1280, "height": 704}
 """
 
 import json
@@ -37,7 +37,7 @@ class LedrasConfig:
         # FALAI API parameters (validated against fal-ai/flux-control-lora-canny schema)
         self.fal_model = "fal-ai/flux-control-lora-canny"
         self.num_inference_steps = 28
-        self.image_size = {"width": 1280, "height": 720}
+        self.image_size = {"width": 1280, "height": 704}
         self.seed = 42
         self.subscene_variation_count = 2
         self.cultural_authenticity_level = "cypro_phoenician"
@@ -46,7 +46,7 @@ class LedrasConfig:
         # Additional user-requested parameters
         self.guidance_scale = 3.5
         self.enable_safety_checker = True
-        self.control_lora_strength = 0.7
+        self.control_lora_strength = 0.6
 
         # Load from imagine-config.json if available
         self.load_imagine_config()

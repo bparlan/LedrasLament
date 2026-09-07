@@ -18,9 +18,9 @@ failures = 0
 # ── get_resolution ────────────────────────────────────────────────
 
 # Explicit dict
-w, h = get_resolution({"image_size": {"width": 1280, "height": 720}})
-assert (w, h) == (1280, 720), f"explicit 1280×720: got {w}x{h}"
-print("✅ get_resolution explicit dict → 1280x720")
+w, h = get_resolution({"image_size": {"width": 1280, "height": 704}})
+assert (w, h) == (1280, 704), f"explicit 1280×704: got {w}x{h}"
+print("✅ get_resolution explicit dict → 1280x704")
 
 # landscape_16_9 enum (actual fal API output)
 w, h = get_resolution({"image_size": "landscape_16_9"})
@@ -44,8 +44,8 @@ print("✅ get_resolution missing key → fallback 1024x576")
 
 # ── estimate_cost ─────────────────────────────────────────────────
 
-cost = estimate_cost(1280, 720, "fal-ai/flux-control-lora-canny")
-expected = (1280 * 720) / 1_000_000 * 0.005
+cost = estimate_cost(1280, 704, "fal-ai/flux-control-lora-canny")
+expected = (1280 * 704) / 1_000_000 * 0.005
 assert abs(cost - expected) < 0.00001, f"cost: got {cost}, expected {expected}"
 print(f"✅ estimate_cost → ${cost:.4f}")
 
@@ -93,14 +93,14 @@ VALID_KEYS = {
 fake_params = {
     "prompt": "test",
     "control_lora_image_url": "https://example.com/img.png",
-    "image_size": {"width": 1280, "height": 720},
+    "image_size": {"width": 1280, "height": 704},
     "seed": 42,
     "num_inference_steps": 28,
     "num_images": 1,
     "output_format": "png",
     "guidance_scale": 3.5,
     "enable_safety_checker": True,
-    "control_lora_strength": 0.7,
+    "control_lora_strength": 0.6,
 }
 extra = set(fake_params.keys()) - VALID_KEYS
 assert not extra, f"unexpected keys in fal_params: {extra}"
