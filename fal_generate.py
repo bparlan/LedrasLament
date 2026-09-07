@@ -8,60 +8,46 @@ Combines ALL required parameters with multi-scene support.
 User-Requested Parameters:
 - guidance_scale: 3.5
 - enable_safety_checker: True
-- control_lora_strength: 0.6
-- control_start: 0.0
-- control_stop: 1.0
+- control_lora_strength: 0.7
 - control_lora_image_url
 - num_inference_steps: 28
-- image_size: 1280x720
+- image_size: {"width": 1280, "height": 720}
 """
 
 import json
 import os
 import requests
+import sys
 from typing import Dict, List, Any, Optional
 from datetime import datetime
 
-# Fal client imports
 from fal_client import SyncClient
-# Re-export utilities from utils for test compatibility
 from utils import get_resolution, estimate_cost
+from src.gateway import Gateway
+
 __all__ = ["get_resolution", "estimate_cost"]
 
-# ====================================================
-# CONFIGURATION CLASS (from src/fal_generate_fixed.py)
-# ====================================================
-
-# ====================================================
-# CONFIGURATION CLASS (from src/fal_generate_fixed.py)
-# ====================================================
 
 class LedrasConfig:
     def __init__(self):
-        # Core configuration parameters
-        self.guideline_image = "stage/stage_v5_alphasky.png"
+        # Core configuration
         self.output_dir = "assets/generated"
-        self.scenes_file = "data/sources/ledras_scenes_v6.json"
-        
-        # FALAI API parameters - ALL USER-REQUESTED VALUES
-        self.preprocess = "canny"
+        self.scenes_file = "data/sources/ledras_scenes_v7.json"
+
+        # FALAI API parameters (validated against fal-ai/flux-control-lora-canny schema)
         self.fal_model = "fal-ai/flux-control-lora-canny"
-        self.control_start = 0.0
-        self.control_stop = 1.0
-        self.fal_control_strength = 0.6
         self.num_inference_steps = 28
-        self.image_size = "1280x720"
+        self.image_size = {"width": 1280, "height": 720}
         self.seed = 42
-        self.weathered_stone_texture = True
         self.subscene_variation_count = 2
         self.cultural_authenticity_level = "cypro_phoenician"
         self.ornamentation_allowed = False
-        
+
         # Additional user-requested parameters
         self.guidance_scale = 3.5
         self.enable_safety_checker = True
-        self.control_lora_strength = 0.6
-        
+        self.control_lora_strength = 0.7
+
         # Load from imagine-config.json if available
         self.load_imagine_config()
 
@@ -84,9 +70,6 @@ class LedrasConfig:
         """Set default configuration values"""
         print("✅ Default configuration applied")
 
-# ====================================================
-# SCENE GENERATOR CLASS (from src/fal_generate_fixed.py)
-# ====================================================
 
 class LedrasSceneGenerator:
     def __init__(self):
@@ -109,63 +92,51 @@ class LedrasSceneGenerator:
             uuid_part, suffix_part = self.api_key.split(':', 1)
             print(f"   Key format: UUID ({len(uuid_part)} chars) + suffix ({len(suffix_part)} chars)")
 
+    def _build_prompt(self, scene: dict, role: str = "intro") -> str:
+        """Build canonical prompt: description + elements + metadata."""
+        description = scene.get('description', '')
+        elements = scene.get('elements', [])
+        parts = [description]
+        if elements:
+            parts.append("Key elements: " + ", ".join(elements))
+        metadata = (
+            f"[seed:{scene.get('seed', self.config.seed)}] "
+            f"[team:{self.config.cultural_authenticity_level}] [{role}]"
+        )
+        return f"{' '.join(parts)} {metadata}".strip()
+
     def generate_prompt(self, scene_id: int, role: str = "loop") -> str:
-        """Generate prompt for specific scene and role"""
+        """Generate prompt for specific scene and role."""
         try:
             with open(self.config.scenes_file, 'r') as f:
                 scenes_data = json.load(f)
-
-            scenes = scenes_data.get('scenes', [])
-
-            for scene in scenes:
-                if scene.get('id') == scene_id:
-                    roles = scene.get('roles', {})
-                    if role in roles:
-                        prompt = roles[role]
-                    elif 'intro' in roles:
-                        prompt = roles['intro']
-                    else:
-                        prompt = scene.get('description', '')
-
-                    metadata = f"[seed:{scene.get('seed', self.config.seed)}] [team:{self.config.cultural_authenticity_level}]"
-                    return f"{prompt} {metadata}"
-
-            print(f"⚠️  Scene {scene_id} not found")
-            return ""
-
+            scene = next(
+                (s for s in scenes_data.get('scenes', []) if s.get('id') == scene_id),
+                None,
+            )
+            if scene is None:
+                print(f"⚠️  Scene {scene_id} not found")
+                return ""
+            return self._build_prompt(scene, role)
         except Exception as e:
             print(f"❌ Error generating prompt for scene {scene_id}: {e}")
             return ""
 
     def generate_all_prompts(self) -> Dict[int, Dict[str, str]]:
-        """Generate prompts for all scenes and roles"""
+        """Generate prompts for all scenes and roles."""
         try:
             with open(self.config.scenes_file, 'r') as f:
                 scenes_data = json.load(f)
-
-            scenes = scenes_data.get('scenes', [])
             prompts = {}
-
-            for scene in scenes:
+            for scene in scenes_data.get('scenes', []):
                 scene_id = scene.get('id')
                 if not scene_id:
                     continue
-
-                scene_prompts = {}
-                description = scene.get('description', '')
-
-                # Generate intro prompt
-                intro_metadata = f"[seed:{scene.get('seed', self.config.seed)}] [team:{self.config.cultural_authenticity_level}] [intro]"
-                scene_prompts['intro'] = f"{description} {intro_metadata}"
-
-                # Generate loop prompt
-                loop_metadata = f"[seed:{scene.get('seed', self.config.seed)}] [team:{self.config.cultural_authenticity_level}] [loop]"
-                scene_prompts['loop'] = f"{description} {loop_metadata}"
-
-                prompts[scene_id] = scene_prompts
-
+                prompts[scene_id] = {
+                    'intro': self._build_prompt(scene, 'intro'),
+                    'loop': self._build_prompt(scene, 'loop'),
+                }
             return prompts
-
         except Exception as e:
             print(f"❌ Error generating all prompts: {e}")
             return {}
@@ -176,27 +147,19 @@ class LedrasSceneGenerator:
             print(f"🎨 Generating image: Scene {scene_id}, Role: {role}")
             print(f"   Prompt preview: {prompt[:100]}..." if len(prompt) > 100 else f"   Prompt: {prompt}")
 
-            # Prepare fal.ai API parameters with ALL user-requested values
+            # Prepare fal.ai API parameters — validated against fal-ai/flux-control-lora-canny input schema
             fal_params = {
+                "prompt": prompt,
+                "control_lora_image_url": self.config.control_lora_image_url,
                 "image_size": self.config.image_size,
                 "seed": self.config.seed,
                 "num_inference_steps": self.config.num_inference_steps,
-                "control_strength": self.config.fal_control_strength,
-                "output_format": "png",
-                "prompt": prompt,
-                # User-requested parameters
-                "preprocess": self.config.preprocess,
-                "control_lora_image_url": self.config.control_lora_image_url,
                 "num_images": 1,
+                "output_format": "png",
                 "guidance_scale": self.config.guidance_scale,
                 "enable_safety_checker": self.config.enable_safety_checker,
                 "control_lora_strength": self.config.control_lora_strength,
-                "control_start": self.config.control_start,
-                "control_stop": self.config.control_stop,
             }
-
-            if self.config.weathered_stone_texture:
-                fal_params["weathered_stone_texture"] = True
 
             print(f"🤖 Calling SyncClient.run() API with model: {self.config.fal_model}")
 
@@ -253,14 +216,15 @@ class LedrasSceneGenerator:
         print(f"🎨 Starting image generation for scenes {scene_ids}, role: {role}")
         print(f"📁 Output directory: {self.config.output_dir}")
         print(f"🤖 Using model: {self.config.fal_model}")
-        print(f"🎯 Control strength: {self.config.fal_control_strength}")
+        print(f"🎯 Control strength: {self.config.control_lora_strength}")
         print(f"🌱 Cultural authenticity: {self.config.cultural_authenticity_level}")
         print()
+
+        prompts = self.generate_all_prompts()
 
         for scene_id in scene_ids:
             print(f"📸 Processing Scene {scene_id} ({role}):")
 
-            prompts = self.generate_all_prompts()
             prompt = prompts.get(scene_id, {}).get(role, "")
 
             if not prompt:
@@ -283,12 +247,9 @@ class LedrasSceneGenerator:
         """Save generated prompts to JSON file"""
         try:
             prompts = self.generate_all_prompts()
-
             with open(output_path, 'w') as f:
                 json.dump(prompts, f, indent=2)
-
             print(f"✅ Prompts saved to {output_path}")
-
         except Exception as e:
             print(f"❌ Error saving prompts: {e}")
 
@@ -331,7 +292,6 @@ class LedrasSceneGenerator:
         print(f"🎭 Target Role: {target_role}")
         print()
 
-        # Generate prompts first
         print("📝 Step 1: Generating prompts...")
         self.save_prompts()
 
@@ -343,7 +303,6 @@ class LedrasSceneGenerator:
         print("✅ Step 3: Pipeline completed!")
         print(f"📊 Generated: {len(generated)}/{len(target_scenes)} scenes")
 
-        # Validate prompts
         print()
         print("🔍 Step 4: Validating prompts...")
         validation = self.validate_generated_prompts()
@@ -355,7 +314,7 @@ class LedrasSceneGenerator:
         print(f"✅ Total scenes generated: {len(generated)}")
         print(f"✅ Validation pass rate: {validation['validation_pass_rate']:.2f}%")
         print(f"✅ Model used: {self.config.fal_model}")
-        print(f"✅ Control strength: {self.config.fal_control_strength}")
+        print(f"✅ Control strength: {self.config.control_lora_strength}")
         print(f"✅ Cultural authenticity: {self.config.cultural_authenticity_level}")
         print("=" * 60)
 
@@ -365,32 +324,28 @@ class LedrasSceneGenerator:
         """Allow instance to be called as a function"""
         return self.run_complete_pipeline([5, 8], "intro")
 
-# ====================================================
-# MAIN EXECUTION
-# ====================================================
 
 if __name__ == "__main__":
     print("=== Ledras Lament Scene Generation Pipeline ===")
     print()
 
     try:
-        # Setup Gateway for rate limiting
         gateway = Gateway()
 
-        # Check if we have rights
         if not gateway.has_rights():
             print("❌ No available tokens. Please wait and try again.")
             exit(1)
 
-        # Create scene generator
         generator = LedrasSceneGenerator()
 
-        # Generate the requested scene
-        print(f"🎨 Generating scene 6...")
-        scenes = generator.generate_specific_images([6], "intro")
+        # Accept scene IDs from CLI args (e.g. `python3 fal_generate.py 3 5`); default scene 6
+        scene_ids = [int(a) for a in sys.argv[1:]] if len(sys.argv) > 1 else [6]
+
+        print(f"🎨 Generating scenes {scene_ids}...")
+        scenes = generator.generate_specific_images(scene_ids, "intro")
 
         print()
-        print("✅ SUCCESS: Scene 6 generated successfully!")
+        print(f"✅ SUCCESS: Scenes {scene_ids} generated successfully!")
         print(f"📊 Generated: {len(scenes)} scenes")
 
     except Exception as e:
