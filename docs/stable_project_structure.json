@@ -1,0 +1,67 @@
+{
+  "project": "ledraslament",
+  "updated": "2026-09-07",
+  "aim": "Generate cinematic scene images for the Ledras Lament narrative using fal.ai FLUX Control LoRA Canny, driven by a Canny edge map of a fixed amphitheater stage guide.",
+
+  "settings": {
+    "imagine-config.json": "Runtime config: model, resolution, control_lora_image_url (stage guide), seed, scene file path.",
+    "gateway.json": "Token budget for fal.ai API calls. Deducted per generation. Resets to 1 on manual edit."
+  },
+
+  "folders": {
+    "stage/": {
+      "aim": "Guide images for Canny edge conditioning — the architectural invariant that all generations conform to.",
+      "key": [
+        "stage_v6_alphasky.png",
+        "guide_line_out.jpg",
+        "depth_template.jpg"
+      ]
+    },
+    "data/sources/": {
+      "aim": "Canonical scene definitions.",
+      "key": "ledras_scenes_v7.json — 9 scenes (Intro → Outro) with descriptions, elements, seeds."
+    },
+    "src/": {
+      "aim": "Support modules.",
+      "key": [
+        "gateway.py — token budget gate (has_rights/deduct).",
+        "project_structure_checker.py — optional structural audit."
+      ]
+    },
+    "tests/": {
+      "aim": "Test suite for fal_generate pipeline.",
+      "key": "test_fal_generate.py — 9 assertions: resolution mapping, cost est, prompt building, schema compliance."
+    },
+    "assets/generated/": {
+      "aim": "Output images (scene-NN-vNNN_timestamp.png) + generation metadata logs.",
+      "key": [
+        "scene-03-v042_20260907_124714.png",
+        "generation_metadata.json"
+      ]
+    },
+    "recyclebin/": {
+      "aim": "Archived legacy files. No active code depends on these.",
+      "notable": [
+        "environment_api_handler.py",
+        "data_scenes_backup/ — stale scene version files"
+      ]
+    },
+    "docs/": {
+      "aim": "Reference docs, context, production notes. Not consumed by code.",
+      "key": [
+        "PRODUCTION.md",
+        "VISUAL_CONTEXT.md",
+        "SYSTEM.md",
+        "context/imagegen-grok.md"
+      ]
+    }
+  },
+
+  "root_files": [
+    "fal_generate.py — Main generator. LedrasConfig + LedrasSceneGenerator. CLI: `python3 fal_generate.py [scene_ids]`.",
+    "utils.py — get_resolution() and estimate_cost() helpers.",
+    "run_tests.py — Runner that imports tests/test_fal_generate.py.",
+    "imagine-config.json — Config (see settings above).",
+    "gateway.json — Token budget (see settings above)."
+  ]
+}
