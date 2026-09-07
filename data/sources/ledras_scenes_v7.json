@@ -31,7 +31,6 @@
         "luminous ethno-Cypriot letterforms",
         "descending symbolic shapes",
         "dark red sparks and particles",
-        "still human form at bottom-center",
         "spiritual ritual atmosphere",
         "restrained mystical quality"
       ],
@@ -183,6 +182,6 @@
       "seed": 42
     }
   ],
-  "style_seed": "Cypro-Phoenician and Levantine Bronze Age ruin style. Weathered limestone, ashlar sandstone, mudbrick traces and ancient stone construction. Restrained ornamentation. No Doric or Ionic columns, no Classical Greek temple architecture, no Parthenon silhouettes, no white marble monuments.",
+  "style_seed": "Cypro-Phoenician and Levantine Bronze Age ruin style. ashlar sandstone, mudbrick traces and ancient stone construction. Restrained ornamentation. No Doric or Ionic columns, no Classical Greek temple architecture, no Parthenon silhouettes, no white marble monuments.",
   "negative_prompt": "distorted central frame, tilted frame, curved frame, broken frame, widened frame, narrowed frame, moved frame, moon outside frame, moon above frame, moon behind frame, extra architecture changing tier geometry, blurry, deformed text, watermark, modern buildings, modern city, Greek columns, Doric columns, Ionic columns"
 }
