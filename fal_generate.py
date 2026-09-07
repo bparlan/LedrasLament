@@ -39,7 +39,7 @@ class LedrasConfig:
         # Core configuration parameters (defaults – overridden by imagine-config.json)
         self.guideline_image = "stage/stage_v6_alphasky.png"
         self.output_dir = "assets/generated"
-        self.scenes_file = "data/scenes/ledras_scenes_v7.json"
+        self.scenes_file = "data/sources/ledras_scenes_v7.json"
 
         # API defaults – may be overridden by config file
         self.preprocess = "canny"
@@ -50,6 +50,10 @@ class LedrasConfig:
         self.num_inference_steps = 28
         self.image_size = "1280x720"
         self.seed = 42
+        self.guidance_scale = 3.5
+        self.enable_safety_checker = True
+        self.control_lora_strength = 0.6
+        self.control_lora_image_url = None
         self.weathered_stone_texture = True
         self.subscene_variation_count = 2
         self.cultural_authenticity_level = "cypro_phoenician"
@@ -98,10 +102,20 @@ class LedrasSceneGenerator:
             raise RuntimeError("FAL_API_KEY environment variable is required for image generation.")
         print("✅ FAL_API_KEY configured successfully")
         self.client = SyncClient(key=self.api_key)
-
         if hasattr(self, 'api_key') and self.api_key and ':' in self.api_key:
             uuid_part, suffix_part = self.api_key.split(':', 1)
             print(f"   Key format: UUID ({len(uuid_part)} chars) + suffix ({len(suffix_part)} chars)")
+
+    def _load_scenes(self):
+        """Load scenes from the scenes file configured in LedrasConfig"""
+        try:
+            scenes_path = Path(self.config.scenes_file)
+            with open(scenes_path, 'r') as f:
+                scenes_data = json.load(f)
+            return scenes_data.get('scenes', [])
+        except Exception as e:
+            print(f"❌ Error loading scenes from {self.config.scenes_file}: {e}")
+            return []
 
     def generate_prompt(self, scene_id: int, role: str = "loop") -> str:
         """Generate prompt for a specific scene and role using cached scenes."""
@@ -297,16 +311,7 @@ class LedrasSceneGenerator:
 
         print()
         print("✅ Step 3: Pipeline completed!")
-    def _load_scenes(self):
-        """Load scenes from the scenes file configured in LedrasConfig"""
-        try:
-            scenes_path = Path(self.config.scenes_file)
-            with open(scenes_path, 'r') as f:
-                scenes_data = json.load(f)
-            return scenes_data.get('scenes', [])
-        except Exception as e:
-            print(f"❌ Error loading scenes from {self.config.scenes_file}: {e}")
-            return []
+        print(f"📊 Generated: {len(generated)}/{len(target_scenes)} scenes")
 
         # Validate prompts
         print()
@@ -328,7 +333,7 @@ class LedrasSceneGenerator:
 
     def __call__(self):
         """Allow instance to be called as a function"""
-        return self.run_complete_pipeline([7], "ritual")
+        return self.run_complete_pipeline([8], "intro")
 
 # ====================================================
 # MAIN EXECUTION
@@ -351,3 +356,4 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"❌ FATAL ERROR: {str(e)}")
         exit(1)
+
