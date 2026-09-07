@@ -8,6 +8,9 @@ Fixes all infrastructure bugs in fal_generate.py:
 3. Asset management & upload (ensure_line_out, b64 encoding)
 4. Version tracking & atomic image saving (get_next_version_number, save_image)
 5. Robust main CLI interface with Gateway rate-limiting integration
+
+Uses the WORKING parameter format from the backup script (fal_run function)
+Also resolves the fal_client authentication issues by ensuring the key is correctly used.
 """
 
 import argparse
@@ -26,9 +29,9 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
-# Fal.ai sync client
+# Fal.ai sync client - use run function like the working backup script
 try:
-    from fal_client import SyncClient
+    from fal_client import SyncClient, run as fal_run
 except ImportError:
     print("❌ ERROR: fal_client not installed. Please install with: pip install fal-client")
     sys.exit(1)
@@ -168,7 +171,7 @@ def generate_stage(
     role: str = "intro"
 ) -> str:
     """
-    Generate a single scene stage image via fal-ai API.
+    Generate a single scene stage image via fal-ai API using the working backup script approach.
     
     Returns:
         Path string to the saved versioned output file.
@@ -182,34 +185,34 @@ def generate_stage(
     cost = estimate_cost(width, height, config.get("fal_model", ""))
     print(f"💰 Estimated cost: ${cost:.4f}")
 
-    guideline_file = ensure_line_out(config, project_root)
-    with open(guideline_file, "rb") as f:
-        guideline_b64 = base64.b64encode(f.read()).decode("utf-8")
+    # Prepare parameters using the EXACT working format from backup script
+    fal_params = {
+        "image_size": f"{width}x{height}",
+        "seed": config.get("seed", 42),
+        "num_inference_steps": config.get("num_inference_steps", 28),
+        "control_strength": control_strength,
+        "preprocess": config.get("preprocess", "canny"),
+        "guideline_image": config.get("guideline_image"),
+        "num_images": 1,
+        "output_format": "png",
+        "prompt": prompt,
+    }
+    
+    if config.get("weathered_stone_texture"):
+        fal_params["weathered_stone_texture"] = True
 
     model = config.get("fal_model", "fal-ai/flux-control-lora-canny")
     print(f"🤖 Requesting Fal.ai execution on model: {model}")
 
-    result = client.run(
-        model,
-        arguments={
-            "prompt": prompt,
-            "image_size": f"{width}x{height}",
-            "seed": config.get("seed", 42),
-            "num_inference_steps": config.get("num_inference_steps", 28),
-            "control_strength": control_strength,
-            "preprocess": config.get("preprocess", "canny"),
-            "control_lora_image": guideline_b64,
-            "num_images": 1,
-            "output_format": "png",
-        }
-    )
+    # Use the fal_run function, it picks up the key from the client instance
+    result = fal_run(model, arguments=fal_params, client=client)
 
-    if not result or "images" not in result or not result["images"]:
+    if not result or not hasattr(result, "images") or not result.images:
         raise ValueError("No valid image data returned from Fal.ai response")
 
-    raw_img = result["images"][0]
+    raw_img = result.images[0]
     
-    # Handle base64 string or nested dict structures from fal response
+    # Handle image data structure from fal response
     if isinstance(raw_img, dict):
         if "image" in raw_img:
             if isinstance(raw_img["image"], str):
@@ -257,10 +260,12 @@ def main():
 
         scene = get_scene_by_id(scenes, args.scene)
 
+        # Get API key from environment variables
         fal_key = os.getenv("FAL_API_KEY") or os.getenv("FAL_KEY")
         if not fal_key:
             raise ValueError("FAL_API_KEY or FAL_KEY environment variable is not set")
 
+        # Initialize SyncClient explicitly with the key
         client = SyncClient(key=fal_key)
         gateway = Gateway(project_root)
 
