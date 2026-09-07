@@ -1,120 +1,81 @@
-# AGENTS.md - Ledras Lament Engineering Rules
+# Ledras Lament Engineering Rules
 
-## 🔒 PRODUCTION STABILITY RULES
+## Production Stability
 
-### 1. Validation Before Execution
+### Validation
+- Always validate before starting work
+- Clear problem statement, solution, expected outcome
+- Ask clarification when requirements are ambiguous
 
-- **MANDATORY**: Always validate user requests before starting any work.
-- **REQUIRED**: Provide clear problem statement, proposed solution, and expected outcome.
-- **QUESTION**: Ask for clarification when requirements are ambiguous or contradictory.
+### Code Changes
+- ONLY fix bugs in existing code
+- NEVER modify working code for new features without approval
+- Verify non-bugfix changes before proceeding
+- Document all changes with reasoning
 
-### 2. Code Modification Policy
+### File Handling
+- READ files completely before editing
+- Create backups before modifications
+- Make minimal changes only
+- Test all changes before completion
+- Use surgical edits when possible
 
-- **ONLY EDIT** to fix identified bugs or issues in EXISTING CODE.
-- **NEVER MODIFY** working code for feature additions without explicit user approval.
-- **ASK VERIFICATION** before any non-bugfix changes.
-- **DOCUMENT** all changes with clear reasoning.
+### Image Generation
+- NEVER generate images for verification
+- ONLY generate when explicitly requested
+- ASK before any image creation
+- Respect "NO" decisions immediately
 
-### 3. File Editing Constraints
+## Current Configuration
 
-- **READ FIRST**: Always read existing files completely before editing.
-- **BACKUP REQUIRED**: Create backup before significant modifications.
-- **MINIMAL CHANGE**: Make the smallest change necessary to fix the issue.
-- **TEST AFTER EDIT**: Verify changes work correctly.
-- **TOKEN EFFICIENCY**: Utilize surgical edits; touch only touched lines. Never re-write entire files when surgical updates suffice.
+### Guideline Image
+- `stage/stage_v6_alphasky.png`
 
-### 4. Image Generation Policy
+### Prompt Source
+- `data/scenes/ledras_scenes_v7.json`
 
-- **NEVER GENERATE** images for verification purposes.
-- **ONLY GENERATE** when explicitly requested with clear intent.
-- **ASK CONFIRMATION** before any image creation.
-- **RESPECT "NO"**: Never suggest visual verification as alternative.
+## Critical Rules
 
-## 🏛️ LEDRAS LAMENT PROJECT AWARENESS CONTEXT
+### Rule A: Model-Preprocessing Pair
+- FLUX Control LoRA Canny MUST use Canny preprocessing only
+- Mixing Canny with depth preprocessing creates structural noise
+- Assert before generation → abort with explicit configuration error
+- Rationale: Canny requires Canny preprocessing; depth requires depth preprocessing. Mixing creates structural noise
 
-### Project Architecture & Identity
+### Rule B: Canvas Geometry Conformance
+- Output canvas dimensions MUST exactly match projection guide dimensions
+- No post-processing warping allowed
+- Action: `(width, height) = guide_dimensions; abort on mismatch`
+- Rationale: Projected content must align with physical projection geometry. No post-processing warping
 
-- **Repository**: `Ledras Lament` (`/Users/bparlan/devcode/ledraslament`)
-- **Domain**: Automated scene visual generation pipeline using fal.ai AI infrastructure for the Ledras Lament artistic/narrative production.
-- **Active Model Pipeline**: FLUX.1 [dev] Control LoRA Canny (`fal-ai/flux-control-lora-canny`).
-- **Control Input Strategy**: Guideline line-out (`stage/guideline_line_out.png`) via Canny edge detection. Control strength set to `1.5` for strict structural adherence.
+### Rule C: Structural-Only Conditioning
+- NO `image_url` when no initial artwork exists
+- Use prompt + `control_lora_image_url` ONLY
+- Action: Verify `image_url` field is omitted in text-to-image endpoint requests
+- Rationale: Prevents guide domination; enforces artistic reinterpretation of structure
 
-### Core Component Map
+### Rule D: Control Strength Limits
+- Full control window (0.0–1.0) → `control_strength ≤ 0.7`, or use partial window (0.2–0.8)
+- Action: Validate before generation; warn or auto-adjust parameters
+- Rationale: High control window + high strength = output repetition of guide instead of reinterpretation
 
-```
-/Users/bparlan/devcode/ledraslament/
-├── imagine-config.json               # Primary generation pipeline configuration
-│   ├── fal_model: "fal-ai/flux-control-lora-canny"
-│   ├── fal_control_strength: 1.5
-│   ├── preprocess: "canny"
-│   └── guideline_image: "stage/guideline_line_out.png"
-├── data/scenes/
-│   └── ledras_scenes_v4.json         # Authoritative 9-scene database with visual/narrative prompts
-├── src/
-│   └── fal_generate.py               # Main CLI & fal_client driver (fixed version, now at repo root)
-    # (removed legacy src/fal_generate.py, moved to repository root as fal_generate.py)
-    # (src/fal_generate.py.broken and src/fal_generate_fixed.py archived in recyclebin)
-├── stage/                            # Structural guideline & depth assets
-│   ├── guideline_line_out.png        # Canny edge control template
-│   └── depth_template.jpg            # Depth map control template
-├── assets/generated/                 # Production output directory
-│   ├── scene-01-v002.png             # Active versioned outputs
-│   └── scene-05-v002.png
-├── session_context_logs/             # Session audit & context reports
-│   └── session_report_*.md           # Historical execution logs for agent continuity
-└── README.md                         # Command & usage documentation
-```
+### Rule E: Guide Image Selection Hierarchy
+- `guide_line_out.jpg` > `guideline_line_out.png` > `depth_template.jpg`
+- Action: Primary selector; depth ONLY for depth-aware models (not Canny)
+- Rationale: `guide_line_out.jpg` is architectural line guide; depth is spatial depth. Wrong model → wrong guide
 
-### Production Data Invariants
+### Rule F: Issue/Problem Reporting Protocol
+- When any issue or blocker arises during execution, never silence it
+- Action: 
+  1. Immediately document the exact problem and root cause
+  2. Surface the issue with clear, non-technical explanation
+  3. Propose specific, actionable infrastructure-level fixes
+  4. Never proceed without resolution unless explicitly instructed
+- Rationale: Silent failures lead to wasted effort and degraded trust. Transparent issue reporting enables rapid troubleshooting and prevents downstream cascade failures
 
-1. **Single Request = Single Image**: `generate_stage` MUST invoke `client.run` exactly ONCE per scene execution.
-2. **Authoritative Scene Source**: All prompts, style seeds, and negative prompts derive strictly from `data/scenes/ledras_scenes_v4.json`.
-3. **Output Naming Standard**: Output files MUST be named with explicit scene ID and versioning: `assets/generated/scene-{scene_id:02d}-v{version}.png`.
-
-## 🛡️ CURRENT PRODUCTION STATUS
-
-**Status**: ACTIVE PRODUCTION
-**Generation Method**: FLUX Control LoRA Canny (`fal-ai/flux-control-lora-canny`)
-**Preprocessing Mode**: Canny (`stage/guideline_line_out.png`)
-**Control Strength**: 1.5 (High structural fidelity)
-**Output Naming Pattern**: `assets/generated/scene-XX-v002.png`
-
-## 🚨 CRITICAL OPERATIONAL RULES
-
-### RULE A: MODEL-PREPROCESSING PAIR VALIDATOR
-
-- **Rule**: `fal-ai/flux-control-lora-canny` CANNOT use depth preprocessing
-- **Action**: Assert before generation → abort with explicit configuration error
-- **Rationale**: Canny requires Canny preprocessing; depth requires depth preprocessing. Mixing creates structural noise.
-
-### RULE B: CANVAS GEOMETRY CONFORMITY
-
-- **Rule**: Output canvas MUST equal projection guide dimensions exactly
-- **Action**: `(width, height) = guide_dimensions; abort on mismatch`
-- **Rationale**: Projected content must align with physical projection geometry. No post-processing warping.
-
-### RULE C: STRUCTURAL-ONLY CONDITIONING
-
-- **Rule**: NO `image_url` when no initial artwork exists; use prompt + `control_lora_image_url` ONLY
-- **Action**: Verify `image_url` field is omitted in text-to-image endpoint requests
-- **Rationale**: Prevents guide domination; enforces artistic reinterpretation of structure.
-
-### RULE D: CONTROL OVER-STRENGTHING LIMITS
-
-- **Rule**: Full control window (0.0–1.0) → `control_strength ≤ 0.7`, or use partial window (0.2–0.8)
-- **Action**: Validate before generation; warn or auto-adjust parameters
-- **Rationale**: High control window + high strength = output repetition of guide instead of reinterpretation.
-
-### RULE E: GUIDE IMAGE SELECTION HIERARCHY
-
-- **Rule**: `guide_line_out.jpg` > `guideline_line_out.png` > `depth_template.jpg`
-- **Action**: Primary selector; depth ONLY for depth-aware models (not Canny)
-- **Rationale**: `guide_line_out.jpg` is architectural line guide; depth is spatial depth. Wrong model → wrong guide.
-
-## ✅ VALIDATION CHECKLIST
+## Validation Checklist
 
 Before each task:
-
 1. [ ] Is this a BUG FIX or NEW FEATURE?
 2. [ ] If NEW FEATURE: Did I ask for verification?
 3. [ ] Am I only fixing EXISTING broken code?
@@ -125,15 +86,14 @@ Before each task:
 
 ---
 
-## 🆘 PRODUCTION SAFETY RULES
+## Production Safety
 
 ### Data Integrity Protection
-
-- **NEVER REMOVE**: Previous generation versions or historical outputs
-- **MANDATORY**: Preserve all existing generated files (scene-_-v_.png, stage-_-_.png)
-- **VERSIONING**: Always increment version numbers for new generations
-- **BACKUP REQUIRED**: Never overwrite existing production files without explicit approval
-- **AUDIT TRAIL**: Keep all generated outputs for reproducibility and rollback
+- NEVER REMOVE: Previous generation versions or historical outputs
+- MANDATORY: Preserve all existing generated files (scene-_-v_.png, stage-_-_.png)
+- VERSIONING: Always increment version numbers for new generations
+- BACKUP REQUIRED: Never overwrite existing production files without explicit approval
+- AUDIT TRAIL: Keep all generated outputs for reproducibility and rollback
 
 **Rationale**: Generated images contain artistic and narrative content that may be referenced by users or used in subsequent workflows. Removing historical versions breaks reproducibility and user workflows.
 

@@ -34,9 +34,9 @@ from src.gateway import Gateway
 class LedrasConfig:
     def __init__(self):
         # Core configuration parameters
-        self.guideline_image = "stage/stage_v5_alphasky.png"
+        self.guideline_image = "stage/stage_v6_alphasky.png"
         self.output_dir = "assets/generated"
-        self.scenes_file = "data/sources/ledras_scenes_v6.json"
+        self.scenes_file = "data/scenes/ledras_scenes_v7.json"
         
         # FALAI API parameters - ALL USER-REQUESTED VALUES
         self.preprocess = "canny"
@@ -368,12 +368,13 @@ if __name__ == "__main__":
         # Create scene generator
         generator = LedrasSceneGenerator()
 
-        # Generate the requested scene
-        print(f"🎨 Generating scene 6...")
-        scenes = generator.generate_specific_images([6], "intro")
+# Generate the requested scene
+        print(f"🎨 Generating scene 4...")
+        scenes = generator.generate_specific_images([4], "intro")
 
         print()
-        print("✅ SUCCESS: Scene 6 generated successfully!")
+        print("✅ SUCCESS: Scene 4 generated successfully!")
+        print(f"📊 Generated: {len(scenes)} scenes")
         print(f"📊 Generated: {len(scenes)} scenes")
 
     except Exception as e:
