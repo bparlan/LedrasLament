@@ -25,9 +25,7 @@ from datetime import datetime
 
 # Fal client imports
 from fal_client import SyncClient
-
-# Gateway for rate limiting
-from gateway import Gateway
+from src.gateway import Gateway
 
 # ====================================================
 # CONFIGURATION CLASS (from src/fal_generate_fixed.py)
@@ -38,7 +36,7 @@ class LedrasConfig:
         # Core configuration parameters
         self.guideline_image = "stage/stage_v5_alphasky.png"
         self.output_dir = "assets/generated"
-        self.scenes_file = "data/scenes/ledras_scenes_v7.json"
+        self.scenes_file = "data/sources/ledras_scenes_v6.json"
         
         # FALAI API parameters - ALL USER-REQUESTED VALUES
         self.preprocess = "canny"
@@ -359,16 +357,27 @@ if __name__ == "__main__":
     print()
 
     try:
-        # Create and run the scene generator
+        # Setup Gateway for rate limiting
+        gateway = Gateway()
+
+        # Check if we have rights
+        if not gateway.has_rights():
+            print("❌ No available tokens. Please wait and try again.")
+            exit(1)
+
+        # Create scene generator
         generator = LedrasSceneGenerator()
-        result = generator.run_complete_pipeline([5, 8], "intro")
+
+        # Generate the requested scene
+        print(f"🎨 Generating scene 6...")
+        scenes = generator.generate_specific_images([6], "intro")
 
         print()
-        print("🎉 SUCCESS: Pipeline completed successfully!")
-        print(f"📊 Generated {len(result)} scenes")
+        print("✅ SUCCESS: Scene 6 generated successfully!")
+        print(f"📊 Generated: {len(scenes)} scenes")
 
     except Exception as e:
-        print(f"❌ ERROR: Pipeline failed: {str(e)}")
+        print(f"❌ ERROR: {str(e)}")
         import traceback
         traceback.print_exc()
         exit(1)
