@@ -169,27 +169,34 @@ class LedrasSceneGenerator:
                 arguments=fal_params
             )
 
-            if result and hasattr(result, 'images') and result.images:
-                image_data = result.images[0]
-                print(f"✅ Image generation successful for scene {scene_id}!")
+            if result:
+                # Handle both dict-style (fal SDK) and attribute-style responses
+                images = (result.get("images", []) if isinstance(result, dict)
+                          else (result.images if hasattr(result, 'images') else []))
+                if images:
+                    image_data = images[0]
+                    print(f"✅ Image generation successful for scene {scene_id}!")
 
-                # Build deterministic file name and save image
-                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-                filename = f"scene-{scene_id:02d}_v{self.config.seed:03d}_{timestamp}.png"
-                output_path = os.path.join(self.config.output_dir, filename)
-                file_path = None
+                    # Build deterministic file name and save image
+                    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                    filename = f"scene-{scene_id:02d}_v{self.config.seed:03d}_{timestamp}.png"
+                    output_path = os.path.join(self.config.output_dir, filename)
+                    file_path = None
 
-                if hasattr(image_data, 'url'):
-                    try:
-                        response = requests.get(image_data.url)
-                        response.raise_for_status()
-                        os.makedirs(self.config.output_dir, exist_ok=True)
-                        with open(output_path, 'wb') as f:
-                            f.write(response.content)
-                        print(f"✅ Image saved to: {output_path}")
-                        file_path = output_path
-                    except Exception as e:
-                        print(f"⚠️  Failed to download image: {e}")
+                    # Handle both dict and attribute-style image_data
+                    image_url = (image_data.get("url") if isinstance(image_data, dict)
+                                 else (image_data.url if hasattr(image_data, 'url') else None))
+                    if image_url:
+                        try:
+                            response = requests.get(image_url)
+                            response.raise_for_status()
+                            os.makedirs(self.config.output_dir, exist_ok=True)
+                            with open(output_path, 'wb') as f:
+                                f.write(response.content)
+                            print(f"✅ Image saved to: {output_path}")
+                            file_path = output_path
+                        except Exception as e:
+                            print(f"⚠️  Failed to download image: {e}")
 
                 return {
                     "scene_id": scene_id,
