@@ -6,7 +6,7 @@
   "control_stop": 1.0,
   "fal_control_strength": 0.7,
   "num_inference_steps": 28,
-  "scenes_file": "data/scenes/ledras_scenes_v7.json",
+  "scenes_file": "data/sources/ledras_scenes_v6.json",
   "output_dir": "assets/generated",
   "image_size": "landscape_16_9",
   "seed": 42,
