@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """Test the corrected fal_generate.py module."""
 
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from fal_generate import get_resolution, estimate_cost
 
 # Test get_resolution
@@ -19,8 +23,7 @@ print(f"Unknown size defaulted to: {width2}x{height2}")
 
 print("✅ All functions work correctly!")
 
- # Test other configs
- config3 = {'image_size': 'landscape_4_3'}
- width3, height3 = get_resolution(config3)
- print(f"Landscape 4:3 resolution: {width3}x{height3}")
- print("✅ All functions work correctly!")
+# Test other configs
+config3 = {'image_size': 'landscape_4_3'}
+width3, height3 = get_resolution(config3)
+print(f"Landscape 4:3 resolution: {width3}x{height3}")

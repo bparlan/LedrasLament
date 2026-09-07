@@ -297,7 +297,16 @@ class LedrasSceneGenerator:
 
         print()
         print("✅ Step 3: Pipeline completed!")
-        print(f"📊 Generated: {len(generated)}/{len(target_scenes)} scenes")
+    def _load_scenes(self):
+        """Load scenes from the scenes file configured in LedrasConfig"""
+        try:
+            scenes_path = Path(self.config.scenes_file)
+            with open(scenes_path, 'r') as f:
+                scenes_data = json.load(f)
+            return scenes_data.get('scenes', [])
+        except Exception as e:
+            print(f"❌ Error loading scenes from {self.config.scenes_file}: {e}")
+            return []
 
         # Validate prompts
         print()
@@ -319,7 +328,7 @@ class LedrasSceneGenerator:
 
     def __call__(self):
         """Allow instance to be called as a function"""
-        return self.run_complete_pipeline([5, 8], "intro")
+        return self.run_complete_pipeline([7], "ritual")
 
 # ====================================================
 # MAIN EXECUTION

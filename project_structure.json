@@ -1,0 +1,650 @@
+{
+  "project": "ledraslament",
+  "description": "Ledras Lament Scene Generation System - Consolidated and Refactored",
+  "last_updated": "2026-09-07",
+  "structure": {
+    "root": {
+      "files": [
+        {
+          "name": "fal_generate.py",
+          "type": "main_application",
+          "description": "Main consolidated image generation script with scene caching, API integration, and prompt generation",
+          "status": "active",
+          "size_bytes": 13454,
+          "key_exports": ["LedrasConfig", "LedrasSceneGenerator", "get_resolution", "estimate_cost"],
+          "dependencies": ["utils", "fal_client.SyncClient", "data/scenes/ledras_scenes_v7.json", "imagine-config.json"]
+        },
+        {
+          "name": "utils.py",
+          "type": "utility_module",
+          "description": "Centralized utility functions for resolution calculation and cost estimation",
+          "status": "active",
+          "size_bytes": 1000,
+          "key_exports": ["get_resolution", "estimate_cost"],
+          "supported_resolutions": ["landscape_16_9", "landscape_4_3"]
+        },
+        {
+          "name": "run_fal_tests.py",
+          "type": "test_runner",
+          "description": "Test runner script for executing fal_generate utility tests",
+          "status": "active",
+          "size_bytes": 845,
+          "imports_from": ["fal_generate"]
+        },
+        {
+          "name": "run_tests.py",
+          "type": "test_runner",
+          "description": "Legacy test runner (deprecated - use run_fal_tests.py)",
+          "status": "deprecated",
+          "size_bytes": 200
+        },
+        {
+          "name": "fix_generator.py",
+          "type": "utility_script",
+          "description": "Small fix script for generator issues",
+          "status": "active",
+          "size_bytes": 437
+        },
+        {
+          "name": "environment_api_handler.py",
+          "type": "utility_module",
+          "description": "Environment-based API key handler following security best practices",
+          "status": "active",
+          "size_bytes": 7400,
+          "purpose": "API key management"
+        },
+        {
+          "name": "project_structure_checker.py",
+          "type": "analysis_tool",
+          "description": "Evidence-first structural analysis tool for maintaining project quality",
+          "status": "active",
+          "size_bytes": 24000
+        },
+        {
+          "name": "update_main.py",
+          "type": "utility_script",
+          "description": "Main update script for project maintenance",
+          "status": "active",
+          "size_bytes": 2400
+        },
+        {
+          "name": "AGENTS.md",
+          "type": "documentation",
+          "description": "Agent instructions and engineering rules",
+          "status": "active",
+          "size_bytes": 4900
+        },
+        {
+          "name": "README.md",
+          "type": "documentation",
+          "description": "Project documentation with quick start guide and system overview",
+          "status": "active",
+          "size_bytes": 4100
+        },
+        {
+          "name": "imagine-config.json",
+          "type": "configuration",
+          "description": "Central configuration for fal.ai API and image render pipeline",
+          "status": "active",
+          "size_bytes": 530,
+          "contains": ["fal_model", "control_strength", "image_size", "guidance_scale", "enable_safety_checker"]
+        },
+        {
+          "name": "gateway.json",
+          "type": "configuration",
+          "description": "Gateway rate limiting configuration",
+          "status": "active",
+          "size_bytes": 38
+        },
+        {
+          "name": "theteam.config",
+          "type": "configuration",
+          "description": "Multi-agent team configuration for collaborative review",
+          "status": "active",
+          "size_bytes": 2100
+        },
+        {
+          "name": ".env",
+          "type": "environment",
+          "description": "Environment file (contains secrets - not tracked)",
+          "status": "active",
+          "size_bytes": 126,
+          "note": "Contains FAL_API_KEY and other secrets"
+        },
+        {
+          "name": ".gitignore",
+          "type": "configuration",
+          "description": "Git ignore rules",
+          "status": "active",
+          "size_bytes": 548
+        }
+      ],
+      "directories": {
+        "tests": {
+          "description": "Organized test suite",
+          "status": "active",
+          "files": [
+            {
+              "name": "test_fal_generate.py",
+              "type": "unit_test",
+              "description": "Tests for fal_generate utility functions (get_resolution, estimate_cost)",
+              "status": "active",
+              "size_bytes": 845,
+              "imports_from": ["fal_generate"],
+              "tests": ["get_resolution", "estimate_cost"]
+            }
+          ]
+        },
+        "data": {
+          "description": "Scene data and control images",
+          "status": "active",
+          "subdirectories": {
+            "scenes": {
+              "description": "Scene definitions (multiple versions)",
+              "files": [
+                {
+                  "name": "ledras_scenes_v7.json",
+                  "type": "data",
+                  "description": "Primary authoritative scene database (v7) - production ready",
+                  "status": "active",
+                  "size_bytes": 15000,
+                  "scenes": 9,
+                  "subscenes": 11,
+                  "used_by": ["fal_generate.py"]
+                },
+                {
+                  "name": "ledras_scenes_v6.json",
+                  "type": "data",
+                  "description": "Previous version (v6) - backup reference",
+                  "status": "archived",
+                  "size_bytes": 12000
+                },
+                {
+                  "name": "ledras_scenes_v5.json",
+                  "type": "data",
+                  "description": "Previous version (v5) - backup reference",
+                  "status": "archived",
+                  "size_bytes": 10000
+                },
+                {
+                  "name": "ledras_scenes_v4.json",
+                  "type": "data",
+                  "description": "Previous version (v4) - backup reference",
+                  "status": "archived",
+                  "size_bytes": 8000
+                },
+                {
+                  "name": "ledras_scenes_v4.json.backup",
+                  "type": "data",
+                  "description": "Backup of v4",
+                  "status": "archived"
+                },
+                {
+                  "name": "ledras_scenes_v3.json",
+                  "type": "data",
+                  "description": "Previous version (v3) - backup reference",
+                  "status": "archived"
+                },
+                {
+                  "name": "ledras_scenes_v3.md",
+                  "type": "documentation",
+                  "description": "Scene documentation v3",
+                  "status": "archived"
+                },
+                {
+                  "name": "ledras_scenes.json",
+                  "type": "data",
+                  "description": "Original scene database",
+                  "status": "archived"
+                }
+              ]
+            },
+            "sources": {
+              "description": "Source scene files",
+              "files": [
+                {
+                  "name": "ledras_scenes_v7.json",
+                  "type": "data",
+                  "description": "Source copy of v7 scenes",
+                  "status": "active",
+                  "duplicate_of": "data/scenes/ledras_scenes_v7.json"
+                }
+              ]
+            },
+            "control_images": {
+              "description": "Control/guideline images for structured generation",
+              "files": [
+                {
+                  "name": "stage_v6_alphasky.png",
+                  "type": "asset",
+                  "description": "Primary control image (Canny edge map) for fal.ai flux-control-lora-canny",
+                  "status": "active",
+                  "resolution": "1280x720",
+                  "used_by": ["fal_generate.py"],
+                  "format": "PNG with alpha channel"
+                }
+              ]
+            }
+          }
+        },
+        "stage": {
+          "description": "Stage/guideline images for projection mapping",
+          "status": "active",
+          "files": [
+            {
+              "name": "stage_v6_alphasky.png",
+              "type": "asset",
+              "description": "Primary stage guideline image with alpha sky",
+              "status": "active",
+              "resolution": "1280x720",
+              "primary": true
+            },
+            {
+              "name": "guide_line_out.jpg",
+              "type": "asset",
+              "description": "Architectural line guide (primary selector per Rule E)",
+              "status": "active",
+              "priority": 1
+            },
+            {
+              "name": "guide_line_out.png",
+              "type": "asset",
+              "description": "Architectural line guide (PNG variant)",
+              "status": "active",
+              "priority": 2
+            },
+            {
+              "name": "guideline_line_out.png",
+              "type": "asset",
+              "description": "Alternative line guide",
+              "status": "active"
+            },
+            {
+              "name": "stage_v5_alphasky.png",
+              "type": "asset",
+              "description": "Previous version stage image",
+              "status": "archived"
+            },
+            {
+              "name": "depth_template.jpg",
+              "type": "asset",
+              "description": "Depth template (only for depth-aware models, not Canny)",
+              "status": "active",
+              "note": "Per Rule E: depth ONLY for depth-aware models"
+            }
+          ]
+        },
+        "assets": {
+          "description": "Generated outputs and reference images",
+          "status": "active",
+          "subdirectories": {
+            "generated": {
+              "description": "Generated scene images with version tracking",
+              "files": [
+                {
+                  "name": "scene-01-v002.png",
+                  "type": "output",
+                  "description": "Scene 1 (Intro) generated image v2",
+                  "status": "active"
+                },
+                {
+                  "name": "scene-05-v002.png",
+                  "type": "output",
+                  "description": "Scene 5 (Balance) generated image v2",
+                  "status": "active"
+                },
+                {
+                  "name": "scene-05-v003.png",
+                  "type": "output",
+                  "description": "Scene 5 (Balance) generated image v3",
+                  "status": "active"
+                },
+                {
+                  "name": "scene-05-v004.png",
+                  "type": "output",
+                  "description": "Scene 5 (Balance) generated image v4",
+                  "status": "active"
+                },
+                {
+                  "name": "scene-05-v005.png",
+                  "type": "output",
+                  "description": "Scene 5 (Balance) generated image v5",
+                  "status": "active"
+                },
+                {
+                  "name": "scene-06-v001.png",
+                  "type": "output",
+                  "description": "Scene 6 (Overflow) generated image v1",
+                  "status": "active"
+                },
+                {
+                  "name": "scene-08-v001.png",
+                  "type": "output",
+                  "description": "Scene 8 (Village) generated image v1",
+                  "status": "active"
+                },
+                {
+                  "name": "scene-08-v002.png",
+                  "type": "output",
+                  "description": "Scene 8 (Village) generated image v2",
+                  "status": "active"
+                },
+                {
+                  "name": "scene-08-v003.png",
+                  "type": "output",
+                  "description": "Scene 8 (Village) generated image v3",
+                  "status": "active"
+                },
+                {
+                  "name": "scene-08-v004.png",
+                  "type": "output",
+                  "description": "Scene 8 (Village) generated image v4",
+                  "status": "active"
+                },
+                {
+                  "name": "stage-09-001.png",
+                  "type": "output",
+                  "description": "Scene 9 (Fire) generated image v1",
+                  "status": "active"
+                },
+                {
+                  "name": "stage-09-002.png",
+                  "type": "output",
+                  "description": "Scene 9 (Fire) generated image v2",
+                  "status": "active"
+                },
+                {
+                  "name": "stage-09-003.png",
+                  "type": "output",
+                  "description": "Scene 9 (Fire) generated image v3",
+                  "status": "active"
+                },
+                {
+                  "name": "stage-09-004.png",
+                  "type": "output",
+                  "description": "Scene 9 (Fire) generated image v4",
+                  "status": "active"
+                },
+                {
+                  "name": "stage-09-005.png",
+                  "type": "output",
+                  "description": "Scene 9 (Fire) generated image v5",
+                  "status": "active"
+                },
+                {
+                  "name": "stage-09-006.png",
+                  "type": "output",
+                  "description": "Scene 9 (Fire) generated image v6",
+                  "status": "active"
+                },
+                {
+                  "name": "stage-09.png",
+                  "type": "output",
+                  "description": "Scene 9 base image",
+                  "status": "active"
+                },
+                {
+                  "name": "gqQ4YjUJd5zA2ZBs3in7E.jpg",
+                  "type": "output",
+                  "description": "Fal.ai generated reference image",
+                  "status": "active"
+                },
+                {
+                  "name": "lzhYtDUoqscDZDEhPrx_i.jpg",
+                  "type": "output",
+                  "description": "Fal.ai generated reference image",
+                  "status": "active"
+                },
+                {
+                  "name": "generation_metadata.json",
+                  "type": "metadata",
+                  "description": "Latest generation metadata",
+                  "status": "active"
+                },
+                {
+                  "name": "generation_metadata_v003.json",
+                  "type": "metadata",
+                  "description": "Generation metadata version 3",
+                  "status": "archived"
+                }
+              ]
+            }
+          },
+          "root_files": [
+            {
+              "name": "andoveo.png",
+              "type": "reference",
+              "description": "Reference image"
+            },
+            {
+              "name": "cypriot_letters.png",
+              "type": "reference",
+              "description": "Ethno-Cypriot letterforms reference"
+            }
+          ]
+        },
+        "docs": {
+          "description": "Project documentation",
+          "status": "active",
+          "files": [
+            {
+              "name": "OMP-FreeLLMAPI-image-gen.md",
+              "type": "documentation",
+              "description": "Token-efficient image generation guide for OhMyPi + FreeLLMAPI"
+            },
+            {
+              "name": "PRODUCTION.md",
+              "type": "documentation",
+              "description": "Production deployment and agent-as-director patterns"
+            },
+            {
+              "name": "PROMPTS_V1.md",
+              "type": "documentation",
+              "description": "Image-Gen Prompts - Choreographer Stage Flow"
+            },
+            {
+              "name": "PeaceDrop Lament Notes.md",
+              "type": "documentation",
+              "description": "Project notes and agent-as-director patterns"
+            },
+            {
+              "name": "SYSTEM.md",
+              "type": "documentation",
+              "description": "System controller rules for visual art project"
+            },
+            {
+              "name": "VISUAL_CONTEXT.md",
+              "type": "documentation",
+              "description": "Visual context and style guidelines"
+            },
+            {
+              "name": "ZIMAGES_ANALYSIS.md",
+              "type": "documentation",
+              "description": "Billing analysis for fal.ai Z-Image Turbo ControlNet API"
+            }
+          ],
+          "subdirectories": {
+            "context": {
+              "files": [
+                {
+                  "name": "artproject-chatgpt.md",
+                  "type": "documentation",
+                  "description": "ChatGPT art project context"
+                },
+                {
+                  "name": "imagegen-grok.md",
+                  "type": "documentation",
+                  "description": "Token-efficient image generation guide for Grok"
+                }
+              ]
+            },
+            "raw_data": {
+              "files": [
+                {
+                  "name": "practical-image-gen.md",
+                  "type": "documentation",
+                  "description": "Practical image generation workflow"
+                }
+              ]
+            }
+          }
+        },
+        "recyclebin": {
+          "description": "Legacy files preserved for reference",
+          "status": "archived",
+          "note": "Do not edit - only read for reference",
+          "documentation": [
+            {
+              "name": "LEGACY_FILES.md",
+              "type": "documentation",
+              "description": "Documentation of all legacy image generation scripts"
+            },
+            {
+              "name": "HANDOVER.md",
+              "type": "documentation",
+              "description": "Handover notes"
+            }
+          ],
+          "legacy_generators": [
+            "fal_generate.py",
+            "fal_generate.py.broken",
+            "fal_generate_fixed.py",
+            "gen_scene5.py",
+            "gen_scene5_simple.py",
+            "gen_scene5_working.py",
+            "generate_scene5_final.py",
+            "generate_scenes_5_8.py",
+            "generate_scenes_5_8_minimal.py",
+            "ledras_complete_generator.py",
+            "ledras_final_generator.py",
+            "ledras_scene_generator.py",
+            "ledras_scene_generator_working.py",
+            "scene5_generator.py",
+            "scene5_generator_fixed.py",
+            "fix_scene4.py"
+          ],
+          "legacy_tests": [
+            "test_fal.py",
+            "test_fal_auth.py",
+            "test_quality_validation.py"
+          ],
+          "legacy_configs": [
+            "quality_assurance.json",
+            "quality_validator.py",
+            "scene_templates.json",
+            "team_config.json",
+            "generated_prompts.json",
+            "validation_report.json"
+          ],
+          "legacy_fal": [
+            "fal_api_key_usage.py"
+          ]
+        },
+        "src": {
+          "description": "Source modules (legacy location)",
+          "status": "deprecated",
+          "note": "Functionality moved to root level fal_generate.py",
+          "files": [
+            {
+              "name": "gateway.py",
+              "type": "module",
+              "description": "Gateway rate limiting module",
+              "status": "deprecated"
+            },
+            {
+              "name": "__init__.py",
+              "type": "module",
+              "description": "Package init",
+              "status": "deprecated"
+            },
+            {
+              "name": "fal_generate.py.backup",
+              "type": "backup",
+              "description": "Backup of src fal_generate",
+              "status": "archived"
+            }
+          ]
+        },
+        "session_context_logs": {
+          "description": "Session reports and logs",
+          "status": "active",
+          "files": [
+            {
+              "name": "session_report_2026-09-05.md",
+              "type": "log"
+            },
+            {
+              "name": "session_report_2026-09-05_21-37-37.md",
+              "type": "log"
+            },
+            {
+              "name": "session_report_2026-09-06.md",
+              "type": "log"
+            },
+            {
+              "name": "best_prompt_example.txt",
+              "type": "reference"
+            }
+          ]
+        },
+        "reports": {
+          "description": "Team evaluation reports",
+          "status": "active",
+          "files": [
+            {
+              "name": "theteam-eval-agentes-2026-09-07-19-08-33.md",
+              "type": "report"
+            }
+          ]
+        },
+        "eval": {
+          "description": "Evaluation artifacts",
+          "status": "active",
+          "files": [
+            {
+              "name": "stage-eval.svg",
+              "type": "visualization"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "summary": {
+    "total_active_files": 25,
+    "total_archived_files": 45,
+    "total_directories": 12,
+    "main_application": "fal_generate.py",
+    "utility_module": "utils.py",
+    "test_suite": "tests/",
+    "primary_data": "data/scenes/ledras_scenes_v7.json",
+    "primary_control_image": "stage/stage_v6_alphasky.png",
+    "primary_guide_image": "stage/guide_line_out.jpg"
+  },
+  "refactoring_status": {
+    "completed_tasks": 8,
+    "pending_tasks": 0,
+    "all_tasks_completed": true,
+    "tasks": [
+      "Export get_resolution and estimate_cost from main module",
+      "Consolidate configuration defaults to imagine-config.json",
+      "Enforce mandatory FAL_API_KEY presence",
+      "Refactor prompt generation to avoid repeated file reads",
+      "Create utils.py for shared helper functions",
+      "Update imports to use utils",
+      "Adjust test imports to work with new exports",
+      "Remove unused imports (base64, Gateway)"
+    ]
+  },
+  "image_generation_pipeline": {
+    "model": "fal-ai/flux-control-lora-canny",
+    "control_preprocessing": "canny",
+    "resolution": "1280x720 (landscape_16_9)",
+    "supported_aspect_ratios": ["landscape_16_9", "landscape_4_3"],
+    "control_strength": 0.6,
+    "guidance_scale": 3.5,
+    "num_inference_steps": 28,
+    "seed": 42,
+    "safety_checker": true
+  }
+}
