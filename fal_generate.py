@@ -16,6 +16,7 @@ User-Requested Parameters:
 
 import json
 import os
+import random
 import requests
 import sys
 import time
@@ -131,9 +132,9 @@ class LedrasSceneGenerator:
             return {}
 
     def generate_image(self, prompt: str, scene_id: int, role: str, *,
-                       seed: Optional[int] = None,
                        sub_label: str = "") -> Optional[Dict[str, Any]]:
         """Generate a single image using fal.ai API with SyncClient"""
+        request_seed = random.randint(1, 2**31 - 1)
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         try:
             print(f"🎨 Generating image: Scene {scene_id}, Role: {role}")
@@ -144,7 +145,7 @@ class LedrasSceneGenerator:
                 "prompt": prompt,
                 "control_lora_image_url": self.config.control_lora_image_url,
                 "image_size": self.config.image_size,
-                "seed": seed if seed is not None else self.config.seed,
+                "seed": request_seed,
                 "num_inference_steps": self.config.num_inference_steps,
                 "num_images": 1,
                 "output_format": "png",
@@ -170,7 +171,7 @@ class LedrasSceneGenerator:
                     print(f"✅ Image generation successful for scene {scene_id}!")
 
                     # Build deterministic file name and save image
-                    image_seed = seed if seed is not None else self.config.seed
+                    image_seed = request_seed
                     sub_part = f"_{sub_label}" if sub_label else ""
                     filename = f"scene-{scene_id:02d}{sub_part}_v{image_seed:03d}_{timestamp}.png"
                     output_path = os.path.join(self.config.output_dir, filename)
@@ -220,7 +221,7 @@ class LedrasSceneGenerator:
                     "image_data": image_data,
                     "generation_timestamp": datetime.now().isoformat(),
                     "model_used": self.config.fal_model,
-                    "seed": seed if seed is not None else self.config.seed,
+                    "seed": request_seed,
                     "file_path": file_path
                 }
             else:
@@ -300,13 +301,12 @@ class LedrasSceneGenerator:
             for sub in scene.get('subscenes', []):
                 sub_name = sub.get('name', 'unknown')
                 sub_id = sub.get('id', 0)
-                sub_seed = sub.get('seed', self.config.seed)
                 prompt = self._build_subscene_prompt(scene, sub)
 
-                print(f"  → Subscene {sub_id}: {sub_name} (seed {sub_seed})")
+                print(f"  → Subscene {sub_id}: {sub_name}")
                 info = self.generate_image(
                     prompt, scene_id, sub_name,
-                    seed=sub_seed, sub_label=str(sub_id),
+                    sub_label=str(sub_id),
                 )
                 if info:
                     if scene_id not in results:
