@@ -4,7 +4,6 @@
   "author": "Ledras Lament Team",
   "status": "production",
   "description": "Enhanced visual language scene definitions for Ledras Lament. Preserves v8 narrative and cultural foundation while adding cinematic lighting, texture specificity, composition framing, atmospheric depth, and mood direction. Each subscene includes a ready-to-use full prompt combining narrative description, temporal visual brief, and cinematic footer for reliable high-quality FLUX image generation.",
-
   "prompt_architecture": {
     "template": "subscene_description + subscene_visual_brief + scene_prompt_suffix + model_negative_suffix",
     "rationale": "Three-layer prompt construction: narrative grounding (description), temporal moment (visual_brief), and cinematic quality constraints (prompt_suffix). Model negative suffix appended via --no for FLUX compatibility.",
@@ -18,16 +17,15 @@
       "control_start": 0,
       "control_stop": 1
     },
+    "control_image_path": "data/control_images/stage_v6_alphasky.png",
+    "control_image_url_path": "data/control_images/stage_v6_alphasky.png",
+    "control_lora_image_url": "https://v3b.fal.media/files/b/0aa96efc/TUAt8eL9nzq2H3jP6Nzbu_stage_v6_alphasky.png",
     "control_lora_strength": {
-      "guide_line_out": {
+      "stage_v6_alphasky": {
         "default": 0.7,
-        "dense_texture_scenes": 0.7,
         "water_vegetation_scenes": 0.6,
-        "rationale": "0.7 allows model freedom to follow dense prompt descriptions. 0.6 provides tighter structural adherence when water/vegetation details could blur geometric boundaries."
-      },
-      "depth_template": {
-        "default": 0.6,
-        "rationale": "Depth-constrained models benefit from slightly lower strength to prevent over-constraining volumetric atmospheric elements like smoke, fog, and dispersed light."
+        "fire_scene": 0.6,
+        "rationale": "0.7 default gives the model creative freedom to follow dense prompt descriptions while maintaining structural adherence. 0.6 for scenes where water, vegetation, or fire details could blur geometric boundaries — tighter adherence preserves the amphitheater lines."
       }
     },
     "per_scene_camera": {
@@ -64,16 +62,15 @@
       "9": "hot orange-red-yellow fire dominant with cool blood moon above"
     }
   },
-
   "global_structure": "Ancient stone amphitheater viewed straight on. Six broad horizontal stone seating tiers rise from foreground to background. A seventh rear wall spans behind the upper tier. A tall rigid rectangular stone frame stands at the exact top-center position. The frame has straight vertical sides, a straight top edge, sharp corners and a clear rectangular opening. The amphitheater geometry, tier boundaries, frame proportions, frontal perspective and overall composition remain fixed and unchanged.",
-
   "global_frame_rule": "The central rectangular stone frame is a permanent architectural invariant. Do not move, distort, widen, narrow, tilt, decorate, replace or break it. Preserve its exact rectangular silhouette and vertical symmetry. Any moon or celestial disk must appear only inside the rectangular opening of the frame, never above, behind, beside or outside it.",
-
   "scenes": [
     {
       "id": 1,
       "name": "Intro",
       "description": "Night over the ancient amphitheater. A full moon appears centered inside the rectangular opening of the central stone frame. Star-filled sky, weathered limestone, soft desert sand, low drifting smoke and thin fog. Sparse traces of an ancient ruined landscape. Dark, mysterious and monumental atmosphere.",
+      "control_image": "data/control_images/stage_v6_alphasky.png",
+      "control_lora_strength": 0.7,
       "visual_language": {
         "texture": "Weathered limestone surfaces with ancient stone patterns, soft desert sand textures, star-filled sky above, pale moonlit stone surfaces showing rough ashlar masonry, subtle mudbrick traces in shadowed tier areas",
         "lighting": "Cool silver full moon centered inside frame casting pale directional shadows across all six tiers. Moonlight highlights stone edges and creates long diagonal shadows fallen across the seating. Ambient starlight provides subtle fill on shadow sides. Thin fog catches and scatters moonlight into soft halos around the frame opening.",
@@ -83,11 +80,49 @@
         "atmospheric_depth": "Layered fog settling between lower stone tiers. Drifting smoke at multiple depths creating atmospheric perspective. Star-filled sky above the frame opening. Distant ruined landscape elements visible through thin haze."
       },
       "elements": {
-        "visual": ["full moon centered inside frame", "weathered limestone textures", "soft desert sand surface", "low drifting smoke", "thin fog atmospheric effect", "ancient ruined landscape remnants", "circular moon light inside frame opening"],
-        "texture_materials": ["weathered limestone surfaces", "ancient stone patterns", "soft desert sand textures", "rough ashlar masonry", "mudbrick architectural traces", "moonlit stone surfaces"],
-        "composition": ["wide establishing shot", "straight-on architectural axis", "tier 4 elevation", "strong horizontal leading lines", "moon centered in rectangular frame", "balanced negative space", "professional architectural photography"],
-        "lighting": ["cool silver full moon", "directional moonlight shadows", "long diagonal shadows across tiers", "ambient starlight fill", "fog-scattered moon halos", "highlight reflections on stone edges"],
-        "atmosphere": ["mysterious", "monumental", "timeless", "watchful", "ancient night", "low drifting fog", "thin smoke layers"]
+        "visual": [
+          "full moon centered inside frame",
+          "weathered limestone textures",
+          "soft desert sand surface",
+          "low drifting smoke",
+          "thin fog atmospheric effect",
+          "ancient ruined landscape remnants",
+          "circular moon light inside frame opening"
+        ],
+        "texture_materials": [
+          "weathered limestone surfaces",
+          "ancient stone patterns",
+          "soft desert sand textures",
+          "rough ashlar masonry",
+          "mudbrick architectural traces",
+          "moonlit stone surfaces"
+        ],
+        "composition": [
+          "wide establishing shot",
+          "straight-on architectural axis",
+          "tier 4 elevation",
+          "strong horizontal leading lines",
+          "moon centered in rectangular frame",
+          "balanced negative space",
+          "professional architectural photography"
+        ],
+        "lighting": [
+          "cool silver full moon",
+          "directional moonlight shadows",
+          "long diagonal shadows across tiers",
+          "ambient starlight fill",
+          "fog-scattered moon halos",
+          "highlight reflections on stone edges"
+        ],
+        "atmosphere": [
+          "mysterious",
+          "monumental",
+          "timeless",
+          "watchful",
+          "ancient night",
+          "low drifting fog",
+          "thin smoke layers"
+        ]
       },
       "prompt_suffix": "Dramatic cinematic moonlight emphasizing architectural geometry. Full moon centered inside the frame opening casting pale silver directional shadows across weathered limestone tiers and creating highlight reflections on stone edges. Texture details with weathered limestone surfaces, ancient ashlar stone patterns and soft desert sand textures. Professional architectural photography composition with strong horizontal leading lines through the six amphitheater tiers, straight-on axis preserving full symmetry, moon at exact center of the rectangular stone frame. Atmospheric depth with star-filled sky, thin fog settling between lower stone levels, drifting smoke creating depth layering, and distant horizon elements visible through thin haze. Dark, mysterious, monumental atmosphere with timeless quality.",
       "subscenes": [
@@ -95,7 +130,7 @@
           "id": 100,
           "name": "Intro - intro-start",
           "description": "First stars appear over the silent amphitheater. The moon begins to rise inside the rectangular opening of the central stone frame, casting pale silver light across the weathered limestone tiers. Thin wisps of smoke drift upward from the lowest stage.",
-          "seed": 42,
+          "seed": 100,
           "cultural_notes": "The rising moon through the frame opening mirrors the Phoenician lunar calendar's first day. In Cypro-Phoenician ritual sites, the rectangular stone opening (fenestella) frames celestial events as divine communication.",
           "visual_brief": "First stars beginning to appear in the darkening sky above the amphitheater. Moon rising from the lower edge of the frame opening, still partially hidden, casting its first pale silver rays across the uppermost tiers. Thin wisps of smoke rising vertically from the lowest stage. The scene is at its quietest and most subtle, the atmosphere holding potential.",
           "prompt": "First stars appear over the silent amphitheater. The moon begins to rise inside the rectangular opening of the central stone frame, casting pale silver light across the weathered limestone tiers. Thin wisps of smoke drift upward from the lowest stage. First stars beginning to appear in the darkening sky above the amphitheater. Moon rising from the lower edge of the frame opening, still partially hidden, casting its first pale silver rays across the uppermost tiers. Thin wisps of smoke rising vertically from the lowest stage. The scene is at its quietest and most subtle, the atmosphere holding potential. Dramatic cinematic moonlight emphasizing architectural geometry. Full moon centered inside the frame opening casting pale silver directional shadows across weathered limestone tiers and creating highlight reflections on stone edges. Texture details with weathered limestone surfaces, ancient ashlar stone patterns and soft desert sand textures. Professional architectural photography composition with strong horizontal leading lines through the six amphitheater tiers, straight-on axis preserving full symmetry, moon at exact center of the rectangular stone frame. Atmospheric depth with star-filled sky, thin fog settling between lower stone levels, drifting smoke creating depth layering, and distant horizon elements visible through thin haze. Dark, mysterious, monumental atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
@@ -104,7 +139,7 @@
           "id": 101,
           "name": "Intro - intro-end",
           "description": "The moon rises to center the frame opening. Stars fill the sky above. Low fog settles between the stone seating tiers. Ancient ruined landscape remnants catch the soft moonlight. The atmosphere deepens into quiet mystery.",
-          "seed": 43,
+          "seed": 101,
           "cultural_notes": "The moon at frame-center marks the moment of celestial alignment. Cypriot megalithic structures commonly feature framed openings oriented to capture lunar standstills.",
           "visual_brief": "Moon rises to fill the exact center of the rectangular frame opening. Stars now fully visible across the night sky. Low fog settling between the tier gaps, catching the moonlight and creating soft glowing bands across the amphitheater. Ancient ruined landscape remnants in the foreground and background caught in passive moonlight.",
           "prompt": "The moon rises to center the frame opening. Stars fill the sky above. Low fog settles between the stone seating tiers. Ancient ruined landscape remnants catch the soft moonlight. The atmosphere deepens into quiet mystery. Moon rises to fill the exact center of the rectangular frame opening. Stars now fully visible across the night sky. Low fog settling between the tier gaps, catching the moonlight and creating soft glowing bands across the amphitheater. Ancient ruined landscape remnants in the foreground and background caught in passive moonlight. Dramatic cinematic moonlight emphasizing architectural geometry. Full moon centered inside the frame opening casting pale silver directional shadows across weathered limestone tiers and creating highlight reflections on stone edges. Texture details with weathered limestone surfaces, ancient ashlar stone patterns and soft desert sand textures. Professional architectural photography composition with strong horizontal leading lines through the six amphitheater tiers, straight-on axis preserving full symmetry, moon at exact center of the rectangular stone frame. Atmospheric depth with star-filled sky, thin fog settling between lower stone levels, drifting smoke creating depth layering, and distant horizon elements visible through thin haze. Dark, mysterious, monumental atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
@@ -113,7 +148,7 @@
           "id": 102,
           "name": "Intro - loop-start-end",
           "description": "The moon holds steady at the center of the stone frame. Starlight and moonlight balance across the amphitheater geometry. Drifting smoke moves in slow horizontal layers between tiers. The night breathes in a suspended moment.",
-          "seed": 44,
+          "seed": 102,
           "cultural_notes": "The balanced moonlight across all six tiers reflects the Bronze Age principle of sacred geometry — the horizontal tiers representing the six directions of the earthly realm.",
           "visual_brief": "Moon holding perfectly still at frame center. Balanced illumination where moonlight and starlight blend across all tiers equally. Drifting smoke moving horizontally between tiers in slow motion, creating gentle flowing layers. A suspended, breathing stillness where the amphitheater geometry is fully readable at its most balanced.",
           "prompt": "The moon holds steady at the center of the stone frame. Starlight and moonlight balance across the amphitheater geometry. Drifting smoke moves in slow horizontal layers between tiers. The night breathes in a suspended moment. Moon holding perfectly still at frame center. Balanced illumination where moonlight and starlight blend across all tiers equally. Drifting smoke moving horizontally between tiers in slow motion, creating gentle flowing layers. A suspended, breathing stillness where the amphitheater geometry is fully readable at its most balanced. Dramatic cinematic moonlight emphasizing architectural geometry. Full moon centered inside the frame opening casting pale silver directional shadows across weathered limestone tiers and creating highlight reflections on stone edges. Texture details with weathered limestone surfaces, ancient ashlar stone patterns and soft desert sand textures. Professional architectural photography composition with strong horizontal leading lines through the six amphitheater tiers, straight-on axis preserving full symmetry, moon at exact center of the rectangular stone frame. Atmospheric depth with star-filled sky, thin fog settling between lower stone levels, drifting smoke creating depth layering, and distant horizon elements visible through thin haze. Dark, mysterious, monumental atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
@@ -122,7 +157,7 @@
           "id": 103,
           "name": "Intro - loop-middle",
           "description": "Deep night settles over the amphitheater. The moon at the center of the frame casts long silver shadows across the six stone tiers. Fog and smoke interweave around the stage. The ancient space feels watchful and still.",
-          "seed": 45,
+          "seed": 103,
           "cultural_notes": "Deep night in Cypro-Phoenician tradition is the hour when the veil between the living world and the underworld grows thin. Smoke and fog carry prayers to the ancestors.",
           "visual_brief": "Deepest night with moon at full intensity, casting the longest shadows across the tiers. Fog and smoke interweaving at the stage level, creating a dense atmospheric layer. The space feels most ancient and watchful at this hour, shadows extending diagonally across every tier surface.",
           "prompt": "Deep night settles over the amphitheater. The moon at the center of the frame casts long silver shadows across the six stone tiers. Fog and smoke interweave around the stage. The ancient space feels watchful and still. Deepest night with moon at full intensity, casting the longest shadows across the tiers. Fog and smoke interweaving at the stage level, creating a dense atmospheric layer. The space feels most ancient and watchful at this hour, shadows extending diagonally across every tier surface. Dramatic cinematic moonlight emphasizing architectural geometry. Full moon centered inside the frame opening casting pale silver directional shadows across weathered limestone tiers and creating highlight reflections on stone edges. Texture details with weathered limestone surfaces, ancient ashlar stone patterns and soft desert sand textures. Professional architectural photography composition with strong horizontal leading lines through the six amphitheater tiers, straight-on axis preserving full symmetry, moon at exact center of the rectangular stone frame. Atmospheric depth with star-filled sky, thin fog settling between lower stone levels, drifting smoke creating depth layering, and distant horizon elements visible through thin haze. Dark, mysterious, monumental atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
@@ -131,7 +166,7 @@
           "id": 104,
           "name": "Intro - end-begins",
           "description": "The moon begins a subtle descent within the frame opening. Smoke thins and spreads into a high veil. Stars dim slightly as the deepest hour approaches. The atmosphere prepares for transition.",
-          "seed": 46,
+          "seed": 104,
           "cultural_notes": "The moon's descent signals the closing of the nightly ritual window. In ancient Cypriot practice, the hour before dawn belongs to the chthonic deities.",
           "visual_brief": "Moon beginning a subtle descent from frame center, moving slightly downward. Smoke thinning and spreading into a high veil across the tiers. Stars beginning to dim. The atmosphere shifting, preparing for transition from deep night toward dawn. Shadows becoming slightly less defined.",
           "prompt": "The moon begins a subtle descent within the frame opening. Smoke thins and spreads into a high veil. Stars dim slightly as the deepest hour approaches. The atmosphere prepares for transition. Moon beginning a subtle descent from frame center, moving slightly downward. Smoke thinning and spreading into a high veil across the tiers. Stars beginning to dim. The atmosphere shifting, preparing for transition from deep night toward dawn. Shadows becoming slightly less defined. Dramatic cinematic moonlight emphasizing architectural geometry. Full moon centered inside the frame opening casting pale silver directional shadows across weathered limestone tiers and creating highlight reflections on stone edges. Texture details with weathered limestone surfaces, ancient ashlar stone patterns and soft desert sand textures. Professional architectural photography composition with strong horizontal leading lines through the six amphitheater tiers, straight-on axis preserving full symmetry, moon at exact center of the rectangular stone frame. Atmospheric depth with star-filled sky, thin fog settling between lower stone levels, drifting smoke creating depth layering, and distant horizon elements visible through thin haze. Dark, mysterious, monumental atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
@@ -140,18 +175,20 @@
           "id": 105,
           "name": "Intro - end-final",
           "description": "Minimal moonlight remains. Smoke dissipates to almost nothing. The amphitheater exists in near-silhouette, its geometry suggested by starlight alone. A held breath before dawn.",
-          "seed": 47,
+          "seed": 105,
           "cultural_notes": "Starlit silence before dawn echoes the Phoenician concept of 'raqia' — the moment of cosmic pause between cycles, when creation holds its breath before renewal.",
           "visual_brief": "Moonlight reduced to minimum, moon descending to lower edge of frame. Amphitheater in near-silhouette with the six tiers outlined by starlight alone. Smoke almost entirely dissipated. The geometry is suggested rather than fully illuminated, a held breath before the transition. Minimal luminance, maximum atmosphere.",
           "prompt": "Minimal moonlight remains. Smoke dissipates to almost nothing. The amphitheater exists in near-silhouette, its geometry suggested by starlight alone. A held breath before dawn. Moonlight reduced to minimum, moon descending to lower edge of frame. Amphitheater in near-silhouette with the six tiers outlined by starlight alone. Smoke almost entirely dissipated. The geometry is suggested rather than fully illuminated, a held breath before the transition. Minimal luminance, maximum atmosphere. Dramatic cinematic moonlight emphasizing architectural geometry. Full moon centered inside the frame opening casting pale silver directional shadows across weathered limestone tiers and creating highlight reflections on stone edges. Texture details with weathered limestone surfaces, ancient ashlar stone patterns and soft desert sand textures. Professional architectural photography composition with strong horizontal leading lines through the six amphitheater tiers, straight-on axis preserving full symmetry, moon at exact center of the rectangular stone frame. Atmospheric depth with star-filled sky, thin fog settling between lower stone levels, drifting smoke creating depth layering, and distant horizon elements visible through thin haze. Dark, mysterious, monumental atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
         }
       ],
-      "seed": 42
+      "seed": 100
     },
     {
       "id": 2,
       "name": "Ritual",
       "description": "Nighttime ritual within the fixed ancient amphitheater. A full moon appears centered inside the rectangular opening of the central stone frame. Faint luminous geometric light patterns appear as traceries inside the frame, then conceptually descend toward the center of the lowest stage area. Dark red sparks and subtle glowing particles circle above a low stone ritual altar platform at the bottom-center stage. Mystical, solemn and restrained atmosphere.",
+      "control_image": "data/control_images/stage_v6_alphasky.png",
+      "control_lora_strength": 0.6,
       "visual_language": {
         "texture": "Weathered limestone altar surfaces at bottom-center stage, rough ashlar stone patterns catching warm red glow from below, moonlit smooth stone on upper tiers, mudbrick traces in shadow areas between tiers, ancient stone construction with visible tool marks",
         "lighting": "Bicolor lighting: cool silver full moonlight illuminating the upper tiers and frame opening from above, warm red-orange ritual glow emanating from the altar stage and lower tiers below. The two light sources create a vertical color temperature gradient across the amphitheater. Dark red sparks create small point-light accents orbiting the altar.",
@@ -161,11 +198,49 @@
         "atmospheric_depth": "Faint smoke or haze carrying the red glow upward through the tiers. Dark red sparks at varying depths orbiting the altar. Geometric light lines descending through the air toward the stage. Fog settling between the lowest stone levels."
       },
       "elements": {
-        "visual": ["full moon centered inside frame", "luminous geometric light patterns", "descending light traceries", "dark red sparks and particles circling altar", "low stone ritual altar at bottom-center", "spiritual ritual atmosphere", "restrained mystical quality"],
-        "texture_materials": ["weathered limestone altar surfaces", "rough ashlar stone patterns", "mudbrick traces in shadows", "moonlit smooth upper stone", "warm-lit lower stone surfaces", "ancient tool marks on stone"],
-        "composition": ["wide shot", "tier 3 elevation", "straight-on architectural axis", "vertical axis moon-to-altar", "geometric light traceries as diagonal elements", "altar as lower focal point", "professional architectural photography"],
-        "lighting": ["bicolor cool silver and warm red-orange", "full moon illuminating upper tiers", "ritual fire glow warming lower stone", "vertical color temperature gradient", "dark red spark point lights", "ember glow on altar surface"],
-        "atmosphere": ["mystical", "solemn", "restrained", "sacred", "spiritual", "quietly intense", "geometric sacred presence"]
+        "visual": [
+          "full moon centered inside frame",
+          "luminous geometric light patterns",
+          "descending light traceries",
+          "dark red sparks and particles circling altar",
+          "low stone ritual altar at bottom-center",
+          "spiritual ritual atmosphere",
+          "restrained mystical quality"
+        ],
+        "texture_materials": [
+          "weathered limestone altar surfaces",
+          "rough ashlar stone patterns",
+          "mudbrick traces in shadows",
+          "moonlit smooth upper stone",
+          "warm-lit lower stone surfaces",
+          "ancient tool marks on stone"
+        ],
+        "composition": [
+          "wide shot",
+          "tier 3 elevation",
+          "straight-on architectural axis",
+          "vertical axis moon-to-altar",
+          "geometric light traceries as diagonal elements",
+          "altar as lower focal point",
+          "professional architectural photography"
+        ],
+        "lighting": [
+          "bicolor cool silver and warm red-orange",
+          "full moon illuminating upper tiers",
+          "ritual fire glow warming lower stone",
+          "vertical color temperature gradient",
+          "dark red spark point lights",
+          "ember glow on altar surface"
+        ],
+        "atmosphere": [
+          "mystical",
+          "solemn",
+          "restrained",
+          "sacred",
+          "spiritual",
+          "quietly intense",
+          "geometric sacred presence"
+        ]
       },
       "prompt_suffix": "Dramatic cinematic lighting with bicolor cool moonlight and warm ritual firelight. Full moon casting silver highlights on upper tiers while dark red-amber ritual glow illuminates the lower stone surfaces. Texture details with weathered limestone surfaces, rough altar stone and ancient stone patterns illuminated by dual light sources creating vertical color gradient. Professional architectural photography composition with geometric leading lines connecting the moon through the frame opening down to the altar stage, camera at tier 3 elevation. Atmospheric depth with luminous geometric light traceries descending through air, dark red ember particles floating between tiers, and smoke carrying the warm glow upward. Mystical, solemn, restrained atmosphere with timeless quality.",
       "subscenes": [
@@ -173,7 +248,7 @@
           "id": 200,
           "name": "Ritual - intro-start",
           "description": "The moon glows at the center of the stone frame. Faint luminous patterns begin to form within the frame opening — ethereal light geometries flickering like distant flames. Dark red sparks hover above a low stone ritual altar at the bottom-center stage. The ritual has not yet begun.",
-          "seed": 42,
+          "seed": 200,
           "cultural_notes": "The appearance of luminous patterns within the frame opening mirrors the Cypro-Phoenician practice of sacred geometry — abstract light forms representing divine presence without human representation.",
           "visual_brief": "Moon at center of frame. Faint luminous geometric patterns just beginning to appear within the frame opening, like distant flames flickering in a dark space. Dark red sparks hovering stationary above the altar, not yet orbiting. The ritual atmosphere is potential, waiting to activate. Cool moonlight dominant, warm ritual glow just beginning.",
           "prompt": "The moon glows at the center of the stone frame. Faint luminous patterns begin to form within the frame opening — ethereal light geometries flickering like distant flames. Dark red sparks hover above a low stone ritual altar at the bottom-center stage. The ritual has not yet begun. Moon at center of frame. Faint luminous geometric patterns just beginning to appear within the frame opening, like distant flames flickering in a dark space. Dark red sparks hovering stationary above the altar, not yet orbiting. The ritual atmosphere is potential, waiting to activate. Cool moonlight dominant, warm ritual glow just beginning. Dramatic cinematic lighting with bicolor cool moonlight and warm ritual firelight. Full moon casting silver highlights on upper tiers while dark red-amber ritual glow illuminates the lower stone surfaces. Texture details with weathered limestone surfaces, rough altar stone and ancient stone patterns illuminated by dual light sources creating vertical color gradient. Professional architectural photography composition with geometric leading lines connecting the moon through the frame opening down to the altar stage, camera at tier 3 elevation. Atmospheric depth with luminous geometric light traceries descending through air, dark red ember particles floating between tiers, and smoke carrying the warm glow upward. Mystical, solemn, restrained atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
@@ -182,7 +257,7 @@
           "id": 201,
           "name": "Ritual - intro-end",
           "description": "The luminous patterns intensify and begin a slow descent from the frame toward the stage. Dark red sparks appear and orbit the central space, gathering above the stone altar at the bottom-center. The ritual awakens.",
-          "seed": 43,
+          "seed": 201,
           "cultural_notes": "The descending light evokes the Cypriot ritual of 'thera' — divine illumination believed to descend from the sky opening into the sacred precinct, manifesting as contained light.",
           "visual_brief": "Luminous patterns intensifying and beginning slow descent from the frame opening downward through the air toward the stage. Dark red sparks now orbiting the space above the altar, their movement creating circular trails. The ritual activates with warm glow strengthening across lower tiers while cool moonlight persists above. Vertical light movement established.",
           "prompt": "The luminous patterns intensify and begin a slow descent from the frame toward the stage. Dark red sparks appear and orbit the central space, gathering above the stone altar at the bottom-center. The ritual awakens. Luminous patterns intensifying and beginning slow descent from the frame opening downward through the air toward the stage. Dark red sparks now orbiting the space above the altar, their movement creating circular trails. The ritual activates with warm glow strengthening across lower tiers while cool moonlight persists above. Vertical light movement established. Dramatic cinematic lighting with bicolor cool moonlight and warm ritual firelight. Full moon casting silver highlights on upper tiers while dark red-amber ritual glow illuminates the lower stone surfaces. Texture details with weathered limestone surfaces, rough altar stone and ancient stone patterns illuminated by dual light sources creating vertical color gradient. Professional architectural photography composition with geometric leading lines connecting the moon through the frame opening down to the altar stage, camera at tier 3 elevation. Atmospheric depth with luminous geometric light traceries descending through air, dark red ember particles floating between tiers, and smoke carrying the warm glow upward. Mystical, solemn, restrained atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
@@ -191,7 +266,7 @@
           "id": 202,
           "name": "Ritual - loop-start-end",
           "description": "Geometric light patterns hover in the air between the frame and the stage, glowing with restrained spiritual light. Dark red sparks circle the stone altar in a steady procession. Particles drift through the six tiers. The ritual finds its rhythm.",
-          "seed": 44,
+          "seed": 202,
           "cultural_notes": "The orbiting sparks mirror archaeological evidence of ritual fire-handling in Cypriot sanctuaries. Priests would circle the altar with lamps and censing vessels.",
           "visual_brief": "Geometric light patterns established in the space between frame opening and stage, glowing steadily. Dark red sparks circling the altar in a steady rhythmic procession. Particles drifting through all six tiers, some rising upward carrying the warm glow. The bicolor lighting is at its most balanced. The ritual has found its steady state.",
           "prompt": "Geometric light patterns hover in the air between the frame and the stage, glowing with restrained spiritual light. Dark red sparks circle the stone altar in a steady procession. Particles drift through the six tiers. The ritual finds its rhythm. Geometric light patterns established in the space between frame opening and stage, glowing steadily. Dark red sparks circling the altar in a steady rhythmic procession. Particles drifting through all six tiers, some rising upward carrying the warm glow. The bicolor lighting is at its most balanced. The ritual has found its steady state. Dramatic cinematic lighting with bicolor cool moonlight and warm ritual firelight. Full moon casting silver highlights on upper tiers while dark red-amber ritual glow illuminates the lower stone surfaces. Texture details with weathered limestone surfaces, rough altar stone and ancient stone patterns illuminated by dual light sources creating vertical color gradient. Professional architectural photography composition with geometric leading lines connecting the moon through the frame opening down to the altar stage, camera at tier 3 elevation. Atmospheric depth with luminous geometric light traceries descending through air, dark red ember particles floating between tiers, and smoke carrying the warm glow upward. Mystical, solemn, restrained atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
@@ -200,7 +275,7 @@
           "id": 203,
           "name": "Ritual - loop-middle",
           "description": "The luminous patterns pulse gently in a repeating cycle. Sparks continue their orbit around the stone altar platform. Smoke and particle trails weave through the amphitheater. The ritual sustains its solemn intensity.",
-          "seed": 45,
+          "seed": 203,
           "cultural_notes": "The stone altar at the stage center evokes the sacred offering platforms found in Cypriot sanctuaries at Kition and Idalion, where carved stone blocks served as focal points for ritual fire and incense.",
           "visual_brief": "Luminous patterns pulsing gently in a repeating cycle through the frame opening. Sparks maintaining steady orbit around the altar. Smoke and particle trails weaving through the amphitheater space at multiple levels. The ritual sustains peak intensity without escalation, a held meditative state. Warm glow steady across lower half.",
           "prompt": "The luminous patterns pulse gently in a repeating cycle. Sparks continue their orbit around the stone altar platform. Smoke and particle trails weave through the amphitheater. The ritual sustains its solemn intensity. Luminous patterns pulsing gently in a repeating cycle through the frame opening. Sparks maintaining steady orbit around the altar. Smoke and particle trails weaving through the amphitheater space at multiple levels. The ritual sustains peak intensity without escalation, a held meditative state. Warm glow steady across lower half. Dramatic cinematic lighting with bicolor cool moonlight and warm ritual firelight. Full moon casting silver highlights on upper tiers while dark red-amber ritual glow illuminates the lower stone surfaces. Texture details with weathered limestone surfaces, rough altar stone and ancient stone patterns illuminated by dual light sources creating vertical color gradient. Professional architectural photography composition with geometric leading lines connecting the moon through the frame opening down to the altar stage, camera at tier 3 elevation. Atmospheric depth with luminous geometric light traceries descending through air, dark red ember particles floating between tiers, and smoke carrying the warm glow upward. Mystical, solemn, restrained atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
@@ -209,7 +284,7 @@
           "id": 204,
           "name": "Ritual - end-begins",
           "description": "The light patterns begin to fade, withdrawing upward toward the frame. Sparks diminish to occasional embers above the altar stone. The ritual exhales.",
-          "seed": 46,
+          "seed": 204,
           "cultural_notes": "The fading light represents the closing of the divine channel. In Cypriot practice, the moment of silence after ritual was as sacred as the ceremony itself.",
           "visual_brief": "Luminous patterns fading and withdrawing upward toward the frame opening. Sparks diminishing from steady orbit to occasional embers hovering above the altar stone. The warm glow receding, cool moonlight becoming more dominant again. The ritual exhales, returning toward silence.",
           "prompt": "The light patterns begin to fade, withdrawing upward toward the frame. Sparks diminish to occasional embers above the altar stone. The ritual exhales. Luminous patterns fading and withdrawing upward toward the frame opening. Sparks diminishing from steady orbit to occasional embers hovering above the altar stone. The warm glow receding, cool moonlight becoming more dominant again. The ritual exhales, returning toward silence. Dramatic cinematic lighting with bicolor cool moonlight and warm ritual firelight. Full moon casting silver highlights on upper tiers while dark red-amber ritual glow illuminates the lower stone surfaces. Texture details with weathered limestone surfaces, rough altar stone and ancient stone patterns illuminated by dual light sources creating vertical color gradient. Professional architectural photography composition with geometric leading lines connecting the moon through the frame opening down to the altar stage, camera at tier 3 elevation. Atmospheric depth with luminous geometric light traceries descending through air, dark red ember particles floating between tiers, and smoke carrying the warm glow upward. Mystical, solemn, restrained atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
@@ -218,18 +293,20 @@
           "id": 205,
           "name": "Ritual - end-final",
           "description": "The last traces of luminous patterns dissolve within the frame opening. A few embers glow on the stone altar surface. The amphitheater returns to its ancient silence.",
-          "seed": 47,
+          "seed": 205,
           "cultural_notes": "Final stillness echoes the Phoenician 'shalem' — the state of completeness after ritual, when the divine presence withdraws leaving the stones untouched.",
           "visual_brief": "Last luminous pattern traces dissolving into the frame opening. Only a few faint embers remaining on the altar stone surface, barely visible. Amphitheater returned to near-intro state with cool moonlight dominant over empty stone. The ritual concluded, leaving only the ancient architecture. Near-silence in light.",
           "prompt": "The last traces of luminous patterns dissolve within the frame opening. A few embers glow on the stone altar surface. The amphitheater returns to its ancient silence. Last luminous pattern traces dissolving into the frame opening. Only a few faint embers remaining on the altar stone surface, barely visible. Amphitheater returned to near-intro state with cool moonlight dominant over empty stone. The ritual concluded, leaving only the ancient architecture. Near-silence in light. Dramatic cinematic lighting with bicolor cool moonlight and warm ritual firelight. Full moon casting silver highlights on upper tiers while dark red-amber ritual glow illuminates the lower stone surfaces. Texture details with weathered limestone surfaces, rough altar stone and ancient stone patterns illuminated by dual light sources creating vertical color gradient. Professional architectural photography composition with geometric leading lines connecting the moon through the frame opening down to the altar stage, camera at tier 3 elevation. Atmospheric depth with luminous geometric light traceries descending through air, dark red ember particles floating between tiers, and smoke carrying the warm glow upward. Mystical, solemn, restrained atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
         }
       ],
-      "seed": 42
+      "seed": 200
     },
     {
       "id": 3,
       "name": "Astarte Awakens",
       "description": "The night amphitheater remains structurally unchanged. The moon centered inside the rectangular opening of the central stone frame transforms from bright white into a deep red blood moon. Desert sand and warm yellow limestone dominate the surrounding environment. The atmosphere becomes intense, sacred and foreboding.",
+      "control_image": "data/control_images/stage_v6_alphasky.png",
+      "control_lora_strength": 0.7,
       "visual_language": {
         "texture": "Warm yellow limestone surfaces absorbing and reflecting red light, desert sand textures glowing amber, rough ashlar patterns emphasized by directional red shadows, ancient stone patterns saturated in warm tones, mudbrick traces rendered in deep red-brown",
         "lighting": "Deep red blood moon centered in frame casting warm crimson directional light across the entire amphitheater. Limestone surfaces absorb the red and glow with warm amber tones. Long red shadows stretch diagonally across all six tiers. The silver moonlight completely replaced by blood moon warmth. Rich color saturation across the scene.",
@@ -239,11 +316,47 @@
         "atmospheric_depth": "Warm red haze filling the space between tiers. Heat shimmer rising from the stone. Desert sand particles caught in the red light. Distant horizon through the frame opening rendered in warm silhouette."
       },
       "elements": {
-        "visual": ["blood moon transformation", "warm yellow limestone", "intense sacred atmosphere", "foreboding mood", "unchanged amphitheater structure", "dramatic lighting contrast", "heightened emotional tension"],
-        "texture_materials": ["warm yellow limestone", "desert sand textures glowing amber", "rough ashlar patterns in red light", "ancient stone patterns saturated warm", "mudbrick traces in deep red-brown"],
-        "composition": ["wide shot", "straight-on architectural axis", "tier 4 elevation", "slightly tighter on frame opening", "blood moon as central focal point", "professional architectural photography"],
-        "lighting": ["deep red blood moon", "warm crimson directional light", "amber limestone glow", "long red diagonal shadows", "saturated warm color palette", "no cool tones remaining"],
-        "atmosphere": ["intense", "sacred", "foreboding", "monumental", "transformed", "active presence", "warm red haze"]
+        "visual": [
+          "blood moon transformation",
+          "warm yellow limestone",
+          "intense sacred atmosphere",
+          "foreboding mood",
+          "unchanged amphitheater structure",
+          "dramatic lighting contrast",
+          "heightened emotional tension"
+        ],
+        "texture_materials": [
+          "warm yellow limestone",
+          "desert sand textures glowing amber",
+          "rough ashlar patterns in red light",
+          "ancient stone patterns saturated warm",
+          "mudbrick traces in deep red-brown"
+        ],
+        "composition": [
+          "wide shot",
+          "straight-on architectural axis",
+          "tier 4 elevation",
+          "slightly tighter on frame opening",
+          "blood moon as central focal point",
+          "professional architectural photography"
+        ],
+        "lighting": [
+          "deep red blood moon",
+          "warm crimson directional light",
+          "amber limestone glow",
+          "long red diagonal shadows",
+          "saturated warm color palette",
+          "no cool tones remaining"
+        ],
+        "atmosphere": [
+          "intense",
+          "sacred",
+          "foreboding",
+          "monumental",
+          "transformed",
+          "active presence",
+          "warm red haze"
+        ]
       },
       "prompt_suffix": "Dramatic cinematic lighting with deep red blood moon. Full blood moon casting warm crimson directional light across yellow limestone surfaces and creating intense saturated highlight reflections on stone edges. Texture details with warm weathered limestone absorbing red light, ancient stone patterns glowing amber and desert sand textures catching the warm glow. Professional architectural photography composition with strong horizontal tier leading lines, blood moon centered inside rectangular stone frame as the focal point. Atmospheric depth with warm red haze filling the space between tiers, heat shimmer rising from stone, desert particles caught in red light, and distant horizon elements rendered in warm silhouette. Intense, sacred, foreboding atmosphere with monumental timeless quality.",
       "subscenes": [
@@ -251,7 +364,7 @@
           "id": 300,
           "name": "Astarte Awakens - intro-start",
           "description": "The moon within the frame opening begins to shift — a faint reddish tint spreads from its center outward. The limestone walls catch a warm glow. The atmosphere subtly changes, gaining weight and anticipation.",
-          "seed": 42,
+          "seed": 300,
           "cultural_notes": "The blood moon transformation invokes the Canaanite goddess Astarte's descent narrative. In Ugaritic myth, the moon darkens as she passes through the underworld gates. Transformation begins at the lunar limen.",
           "visual_brief": "Moon beginning transformation: faint reddish tint spreading from the moon's center outward like a slow stain across the white surface. Limestone walls catching the first warm glow, just beginning to shift from silver to amber. The atmosphere gains weight, the earliest stage of foreboding. Cool silver still partially present but receding.",
           "prompt": "The moon within the frame opening begins to shift — a faint reddish tint spreads from its center outward. The limestone walls catch a warm glow. The atmosphere subtly changes, gaining weight and anticipation. Moon beginning transformation: faint reddish tint spreading from the moon's center outward like a slow stain across the white surface. Limestone walls catching the first warm glow, just beginning to shift from silver to amber. The atmosphere gains weight, the earliest stage of foreboding. Cool silver still partially present but receding. Dramatic cinematic lighting with deep red blood moon. Full blood moon casting warm crimson directional light across yellow limestone surfaces and creating intense saturated highlight reflections on stone edges. Texture details with warm weathered limestone absorbing red light, ancient stone patterns glowing amber and desert sand textures catching the warm glow. Professional architectural photography composition with strong horizontal tier leading lines, blood moon centered inside rectangular stone frame as the focal point. Atmospheric depth with warm red haze filling the space between tiers, heat shimmer rising from stone, desert particles caught in red light, and distant horizon elements rendered in warm silhouette. Intense, sacred, foreboding atmosphere with monumental timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
@@ -260,7 +373,7 @@
           "id": 301,
           "name": "Astarte Awakens - intro-end",
           "description": "The blood moon deepens to a rich red, fully transformed at the center of the frame. Warm shadows fall across the six tiers. Yellow limestone reflects the crimson light. Sacred tension builds across the amphitheater.",
-          "seed": 43,
+          "seed": 301,
           "cultural_notes": "Deep red illumination over the limestone recalls the ritual blood sacrifices of the Phoenician tophet. The limestone absorbs warmth as the sacred precinct receives the offering.",
           "visual_brief": "Blood moon reaches full deep red saturation, completely transformed at frame center. Warm crimson shadows falling across all six tiers, each tier edge catching highlight. Yellow limestone glowing amber in the red light. The sacred tension actively building, the transformation complete. No cool tones remain.",
           "prompt": "The blood moon deepens to a rich red, fully transformed at the center of the frame. Warm shadows fall across the six tiers. Yellow limestone reflects the crimson light. Sacred tension builds across the amphitheater. Blood moon reaches full deep red saturation, completely transformed at frame center. Warm crimson shadows falling across all six tiers, each tier edge catching highlight. Yellow limestone glowing amber in the red light. The sacred tension actively building, the transformation complete. No cool tones remain. Dramatic cinematic lighting with deep red blood moon. Full blood moon casting warm crimson directional light across yellow limestone surfaces and creating intense saturated highlight reflections on stone edges. Texture details with warm weathered limestone absorbing red light, ancient stone patterns glowing amber and desert sand textures catching the warm glow. Professional architectural photography composition with strong horizontal tier leading lines, blood moon centered inside rectangular stone frame as the focal point. Atmospheric depth with warm red haze filling the space between tiers, heat shimmer rising from stone, desert particles caught in red light, and distant horizon elements rendered in warm silhouette. Intense, sacred, foreboding atmosphere with monumental timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
@@ -269,7 +382,7 @@
           "id": 302,
           "name": "Astarte Awakens - loop-start-end",
           "description": "The blood moon burns at full intensity within the rectangular frame opening. The entire amphitheater is bathed in deep red light. Limestone glows warm amber. The space holds its breath in sacred foreboding.",
-          "seed": 44,
+          "seed": 302,
           "cultural_notes": "The fully crimson moon at frame-center mirrors the 'hrn' (sacred enclosure) of Cypriot open-air sanctuaries, where a framed view of the sky focused sacrificial attention.",
           "visual_brief": "Blood moon at peak intensity, burning fully within the frame opening. Entire amphitheater bathed in deep saturated red light across all surfaces. Limestone glowing with maximum warm amber luminescence. The space holds its breath in fully realized sacred foreboding. Rich red haze between tiers at maximum density.",
           "prompt": "The blood moon burns at full intensity within the rectangular frame opening. The entire amphitheater is bathed in deep red light. Limestone glows warm amber. The space holds its breath in sacred foreboding. Blood moon at peak intensity, burning fully within the frame opening. Entire amphitheater bathed in deep saturated red light across all surfaces. Limestone glowing with maximum warm amber luminescence. The space holds its breath in fully realized sacred foreboding. Rich red haze between tiers at maximum density. Dramatic cinematic lighting with deep red blood moon. Full blood moon casting warm crimson directional light across yellow limestone surfaces and creating intense saturated highlight reflections on stone edges. Texture details with warm weathered limestone absorbing red light, ancient stone patterns glowing amber and desert sand textures catching the warm glow. Professional architectural photography composition with strong horizontal tier leading lines, blood moon centered inside rectangular stone frame as the focal point. Atmospheric depth with warm red haze filling the space between tiers, heat shimmer rising from stone, desert particles caught in red light, and distant horizon elements rendered in warm silhouette. Intense, sacred, foreboding atmosphere with monumental timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
@@ -278,7 +391,7 @@
           "id": 303,
           "name": "Astarte Awakens - loop-middle",
           "description": "Intense crimson light radiates steadily from the blood moon. The tier surfaces show stark red-and-amber contrasts. The atmosphere remains at peak sacred tension, suspended in time.",
-          "seed": 45,
+          "seed": 303,
           "cultural_notes": "Sustained sacred intensity reflects the Phoenician concept of 'qadosh' — a state of maintained holiness that requires continuous ritual attention to prevent dissipation.",
           "visual_brief": "Crimson light radiating steadily from the blood moon, sustained at peak saturation. Stark red-and-amber contrasts across every tier surface, with highlight edges catching the warmest amber. The atmosphere suspended at maximum sacred tension, held in time without escalation or decline. Peak state maintained.",
           "prompt": "Intense crimson light radiates steadily from the blood moon. The tier surfaces show stark red-and-amber contrasts. The atmosphere remains at peak sacred tension, suspended in time. Crimson light radiating steadily from the blood moon, sustained at peak saturation. Stark red-and-amber contrasts across every tier surface, with highlight edges catching the warmest amber. The atmosphere suspended at maximum sacred tension, held in time without escalation or decline. Peak state maintained. Dramatic cinematic lighting with deep red blood moon. Full blood moon casting warm crimson directional light across yellow limestone surfaces and creating intense saturated highlight reflections on stone edges. Texture details with warm weathered limestone absorbing red light, ancient stone patterns glowing amber and desert sand textures catching the warm glow. Professional architectural photography composition with strong horizontal tier leading lines, blood moon centered inside rectangular stone frame as the focal point. Atmospheric depth with warm red haze filling the space between tiers, heat shimmer rising from stone, desert particles caught in red light, and distant horizon elements rendered in warm silhouette. Intense, sacred, foreboding atmosphere with monumental timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
@@ -287,7 +400,7 @@
           "id": 304,
           "name": "Astarte Awakens - end-begins",
           "description": "The blood moon begins to cool, red receding toward a muted rose. Shadows soften. The limestone warm glow starts to fade. Sacred intensity slowly releases its hold.",
-          "seed": 46,
+          "seed": 304,
           "cultural_notes": "The receding red symbolizes Astarte's return journey. In the mythology, the goddess must re-emerge with gifts of dawn, leaving traces of divine fire on the stones she passes.",
           "visual_brief": "Blood moon beginning to cool, red receding from deep crimson toward muted rose at the moon's edges. Shadows softening as light intensity drops. Limestone warm glow starting to fade, amber cooling toward neutral stone tones. Sacred intensity slowly releasing, the transformation reversing. Traces of warmth lingering on stone surfaces.",
           "prompt": "The blood moon begins to cool, red receding toward a muted rose. Shadows soften. The limestone warm glow starts to fade. Sacred intensity slowly releases its hold. Blood moon beginning to cool, red receding from deep crimson toward muted rose at the moon's edges. Shadows softening as light intensity drops. Limestone warm glow starting to fade, amber cooling toward neutral stone tones. Sacred intensity slowly releasing, the transformation reversing. Traces of warmth lingering on stone surfaces. Dramatic cinematic lighting with deep red blood moon. Full blood moon casting warm crimson directional light across yellow limestone surfaces and creating intense saturated highlight reflections on stone edges. Texture details with warm weathered limestone absorbing red light, ancient stone patterns glowing amber and desert sand textures catching the warm glow. Professional architectural photography composition with strong horizontal tier leading lines, blood moon centered inside rectangular stone frame as the focal point. Atmospheric depth with warm red haze filling the space between tiers, heat shimmer rising from stone, desert particles caught in red light, and distant horizon elements rendered in warm silhouette. Intense, sacred, foreboding atmosphere with monumental timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
@@ -296,13 +409,720 @@
           "id": 305,
           "name": "Astarte Awakens - end-final",
           "description": "The moon returns to a pale white, blood transformation complete. Normal moonlight restores silver tones across the amphitheater. Traces of warmth linger on the stone. The sacred moment has passed.",
-          "seed": 47,
+          "seed": 305,
           "cultural_notes": "The return to pale moonlight represents cosmic equilibrium restored. Cypro-Phoenician theology prized balance — the goddess's transformation is a cycle, not a permanent alteration.",
           "visual_brief": "Moon returned to pale white, blood transformation fully complete. Normal cool silver moonlight restored across the amphitheater. Traces of warmth lingering on the stone surfaces like residual heat, a memory of the transformation. The sacred moment passed, the space returning to its quiet night state but carrying the memory of intensity on the stone.",
           "prompt": "The moon returns to a pale white, blood transformation complete. Normal moonlight restores silver tones across the amphitheater. Traces of warmth linger on the stone. The sacred moment has passed. Moon returned to pale white, blood transformation fully complete. Normal cool silver moonlight restored across the amphitheater. Traces of warmth lingering on the stone surfaces like residual heat, a memory of the transformation. The sacred moment passed, the space returning to its quiet night state but carrying the memory of intensity on the stone. Dramatic cinematic lighting with deep red blood moon. Full blood moon casting warm crimson directional light across yellow limestone surfaces and creating intense saturated highlight reflections on stone edges. Texture details with warm weathered limestone absorbing red light, ancient stone patterns glowing amber and desert sand textures catching the warm glow. Professional architectural photography composition with strong horizontal tier leading lines, blood moon centered inside rectangular stone frame as the focal point. Atmospheric depth with warm red haze filling the space between tiers, heat shimmer rising from stone, desert particles caught in red light, and distant horizon elements rendered in warm silhouette. Intense, sacred, foreboding atmosphere with monumental timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
         }
       ],
-      "seed": 42
+      "seed": 300
+    },
+    {
+      "id": 4,
+      "name": "Water Emergence",
+      "description": "The ancient amphitheater remains structurally fixed while the surrounding desert gradually transforms into a living landscape. Desert sand gives way to greenery, low plants and flourishing trees growing naturally around and between the stone tiers. Subtle narrow water channels appear within existing stone surfaces without changing the tier geometry. Quiet nighttime atmosphere with soft natural illumination.",
+      "control_image": "data/control_images/stage_v6_alphasky.png",
+      "control_lora_strength": 0.6,
+      "visual_language": {
+        "texture": "Moisture-darkened weathered limestone with wet stone patterns, reflective water surfaces on emerging channels, damp sand textures at channel edges, moss traces appearing on water-adjacent stone, rough ashlar surfaces darkened by moisture, subtle green growth along water lines",
+        "lighting": "Cool silver moonlight reflecting off newly emerged water surfaces, creating shimmering highlight streaks along the narrow channels. Wet stone surfaces catch and scatter moonlight into subtle glow. Ambient starlight fills shadow areas with soft blue-silver. The water surfaces act as secondary light sources, bouncing moonlight upward onto the underside of stone tiers.",
+        "composition": "Wide shot at tier 2 elevation for water-level perspective across the emerging channels. Water lines create new horizontal leading lines that follow the existing tier geometry. Camera slightly lower than Scene 1 to emphasize the water surface reflections in the foreground. Professional architectural photography composition with wet surfaces adding reflective depth.",
+        "mood": "Quiet, fertile, dreamlike, awakening. The birth of water in a desert space, a gentle transformation that feels inevitable and right.",
+        "camera": "Tier 2 elevation, straight-on axis, wider field of view to include foreground water channels, moisture-level perspective",
+        "atmospheric_depth": "Moisture haze rising from wet stone, creating a thin shimmering layer just above the water surfaces. Damp air particles catching moonlight. Distant horizon elements through the frame opening, now softened by increased humidity."
+      },
+      "elements": {
+        "visual": [
+          "desert transformation to greenery",
+          "low plants and flourishing trees",
+          "narrow water channels",
+          "subtle stone surface water features",
+          "quiet nighttime atmosphere",
+          "soft natural illumination",
+          "organic growth integration"
+        ],
+        "texture_materials": [
+          "moisture-darkened weathered limestone",
+          "wet stone patterns",
+          "reflective water surfaces",
+          "damp sand textures",
+          "moss traces on water-adjacent stone",
+          "rough ashlar darkened by moisture",
+          "green growth along water lines"
+        ],
+        "composition": [
+          "wide shot",
+          "tier 2 water-level elevation",
+          "straight-on architectural axis",
+          "water channels as leading lines",
+          "foreground water reflections",
+          "professional architectural photography"
+        ],
+        "lighting": [
+          "cool silver moonlight",
+          "water surface reflections",
+          "shimmering highlight streaks",
+          "wet stone scatter light",
+          "reflected moonlight under tiers"
+        ],
+        "atmosphere": [
+          "quiet",
+          "fertile",
+          "dreamlike",
+          "awakening",
+          "gentle transformation",
+          "moisture haze",
+          "new life emerging"
+        ]
+      },
+      "prompt_suffix": "Dramatic cinematic moonlight emphasizing water reflections on architectural geometry. Full moon casting silver light across moisture-darkened limestone surfaces and creating shimmering highlight reflections on emerging water channels. Texture details with wet weathered limestone surfaces, reflective water patterns, damp stone textures and moisture-darkened ancient stone. Professional architectural photography composition with water channels creating new horizontal leading lines through the amphitheater tiers, camera at water level. Atmospheric depth with moisture haze rising from wet stone, reflective pools catching moonlight and distant horizon elements softened by increased humidity. Quiet, fertile, dreamlike atmosphere with timeless quality.",
+      "subscenes": [
+        {
+          "id": 400,
+          "name": "Water Emergence - intro-start",
+          "description": "Barely visible moisture glistens on the lowest stone tier surfaces. A subtle dampness spreads across the desert sand at the amphitheater base. The first hint of transformation — water touching ancient stone.",
+          "seed": 400,
+          "cultural_notes": "The first moisture on stone mirrors the Cypriot karst spring phenomenon — water emerging from limestone after seasonal rains. In ancient Cyprus, these sudden springs were considered divine gifts.",
+          "visual_brief": "The subtlest beginning: barely visible moisture glistening on the lowest stone tier surfaces, catching the faintest moonlight. A thin dampness spreading across desert sand at the amphitheater base, darkening the pale sand. The first microscopic hint of water touching ancient stone, no channels yet, just surface moisture. The quietest moment of the entire arc.",
+          "prompt": "Barely visible moisture glistens on the lowest stone tier surfaces. A subtle dampness spreads across the desert sand at the amphitheater base. The first hint of transformation — water touching ancient stone. The subtlest beginning: barely visible moisture glistening on the lowest stone tier surfaces, catching the faintest moonlight. A thin dampness spreading across desert sand at the amphitheater base, darkening the pale sand. The first microscopic hint of water touching ancient stone, no channels yet, just surface moisture. The quietest moment of the entire arc. Dramatic cinematic moonlight emphasizing water reflections on architectural geometry. Full moon casting silver light across moisture-darkened limestone surfaces and creating shimmering highlight reflections on emerging water channels. Texture details with wet weathered limestone surfaces, reflective water patterns, damp stone textures and moisture-darkened ancient stone. Professional architectural photography composition with water channels creating new horizontal leading lines through the amphitheater tiers, camera at water level. Atmospheric depth with moisture haze rising from wet stone, reflective pools catching moonlight and distant horizon elements softened by increased humidity. Quiet, fertile, dreamlike atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 401,
+          "name": "Water Emergence - intro-end",
+          "description": "Narrow water channels emerge along the existing tier boundaries. Thin streams trace the horizontal geometry without altering it. Moisture darkens the stone. Green shoots appear at the edges of the water paths.",
+          "seed": 401,
+          "cultural_notes": "Water channels following the tier boundaries reflect the Bronze Age qanat irrigation systems used across Cyprus. These underground channels brought water without altering surface geography.",
+          "visual_brief": "Narrow water channels now visible along the existing tier boundaries forming narrow streams that trace the horizontal lines of the amphitheater geometry. Moisture visibly darkening the stone along the channel edges. First green shoots appearing at the edges of the water paths. The transformation visibly underway but still minimal. Water catching moonlight with thin reflections.",
+          "prompt": "Narrow water channels emerge along the existing tier boundaries. Thin streams trace the horizontal geometry without altering it. Moisture darkens the stone. Green shoots appear at the edges of the water paths. Narrow water channels now visible along the existing tier boundaries forming narrow streams that trace the horizontal lines of the amphitheater geometry. Moisture visibly darkening the stone along the channel edges. First green shoots appearing at the edges of the water paths. The transformation visibly underway but still minimal. Water catching moonlight with thin reflections. Dramatic cinematic moonlight emphasizing water reflections on architectural geometry. Full moon casting silver light across moisture-darkened limestone surfaces and creating shimmering highlight reflections on emerging water channels. Texture details with wet weathered limestone surfaces, reflective water patterns, damp stone textures and moisture-darkened ancient stone. Professional architectural photography composition with water channels creating new horizontal leading lines through the amphitheater tiers, camera at water level. Atmospheric depth with moisture haze rising from wet stone, reflective pools catching moonlight and distant horizon elements softened by increased humidity. Quiet, fertile, dreamlike atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 402,
+          "name": "Water Emergence - loop-start-end",
+          "description": "Water flows steadily through the established channels, following the tier geometry. Shallow pools form on lower surfaces. Low greenery and small plants grow around the water lines. The transformation gains momentum.",
+          "seed": 402,
+          "cultural_notes": "The flowing water symbolizes the Phoenician deity Melqart, associated with springs and renewal. His sanctuaries were always built near natural watercourses.",
+          "visual_brief": "Water flowing steadily through established channels, following the horizontal tier geometry precisely. Shallow pools forming on lower tier surfaces, creating distinct reflective patches. Low greenery and small plants visibly growing around the water lines. The transformation gaining visible momentum. Water reflections becoming stronger and more defined across the amphitheater.",
+          "prompt": "Water flows steadily through the established channels, following the tier geometry. Shallow pools form on lower surfaces. Low greenery and small plants grow around the water lines. The transformation gains momentum. Water flowing steadily through established channels, following the horizontal tier geometry precisely. Shallow pools forming on lower tier surfaces, creating distinct reflective patches. Low greenery and small plants visibly growing around the water lines. The transformation gaining visible momentum. Water reflections becoming stronger and more defined across the amphitheater. Dramatic cinematic moonlight emphasizing water reflections on architectural geometry. Full moon casting silver light across moisture-darkened limestone surfaces and creating shimmering highlight reflections on emerging water channels. Texture details with wet weathered limestone surfaces, reflective water patterns, damp stone textures and moisture-darkened ancient stone. Professional architectural photography composition with water channels creating new horizontal leading lines through the amphitheater tiers, camera at water level. Atmospheric depth with moisture haze rising from wet stone, reflective pools catching moonlight and distant horizon elements softened by increased humidity. Quiet, fertile, dreamlike atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 403,
+          "name": "Water Emergence - loop-middle",
+          "description": "Flourishing greenery frames the water channels. Narrow streams cascade gently between tiers. Trees and shrubs grow naturally around the stone architecture. The amphitheater hosts a living landscape without losing its form.",
+          "seed": 403,
+          "cultural_notes": "The integration of wet and dry elements mirrors the Cypro-Phoenician concept of 'harmonia' — a balance of opposites maintained by sacred architecture.",
+          "visual_brief": "Flourishing greenery now visibly framing the water channels on both sides. Small cascades forming where water drops between tier levels creating miniature waterfalls. Trees and shrubs growing naturally around the stone architecture integrating into the ancient site. The amphitheater now hosts a living landscape without losing its architectural form. Water and greenery in balance.",
+          "prompt": "Flourishing greenery frames the water channels. Narrow streams cascade gently between tiers. Trees and shrubs grow naturally around the stone architecture. The amphitheater hosts a living landscape without losing its form. Flourishing greenery now visibly framing the water channels on both sides. Small cascades forming where water drops between tier levels creating miniature waterfalls. Trees and shrubs growing naturally around the stone architecture integrating into the ancient site. The amphitheater now hosts a living landscape without losing its architectural form. Water and greenery in balance. Dramatic cinematic moonlight emphasizing water reflections on architectural geometry. Full moon casting silver light across moisture-darkened limestone surfaces and creating shimmering highlight reflections on emerging water channels. Texture details with wet weathered limestone surfaces, reflective water patterns, damp stone textures and moisture-darkened ancient stone. Professional architectural photography composition with water channels creating new horizontal leading lines through the amphitheater tiers, camera at water level. Atmospheric depth with moisture haze rising from wet stone, reflective pools catching moonlight and distant horizon elements softened by increased humidity. Quiet, fertile, dreamlike atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 404,
+          "name": "Water Emergence - end-begins",
+          "description": "Water flow begins to slow. Greenery reaches full growth but activity quiets. The streams narrow slightly. The living landscape settles into equilibrium with the ancient stone.",
+          "seed": 404,
+          "cultural_notes": "Slowing water suggests the end of the wet season. In Cypriot agricultural ritual, the closing of irrigation channels was marked with a simple offering to the spring spirit.",
+          "visual_brief": "Water flow beginning to slow, streams narrowing slightly. Greenery reaching its established full growth but the activity quiets. The living landscape settling into equilibrium with the stone. The dynamic transformation stabilizes into a sustained state. Water still present but no longer expanding.",
+          "prompt": "Water flow begins to slow. Greenery reaches full growth but activity quiets. The streams narrow slightly. The living landscape settles into equilibrium with the ancient stone. Water flow beginning to slow, streams narrowing slightly. Greenery reaching its established full growth but the activity quiets. The living landscape settling into equilibrium with the stone. The dynamic transformation stabilizes into a sustained state. Water still present but no longer expanding. Dramatic cinematic moonlight emphasizing water reflections on architectural geometry. Full moon casting silver light across moisture-darkened limestone surfaces and creating shimmering highlight reflections on emerging water channels. Texture details with wet weathered limestone surfaces, reflective water patterns, damp stone textures and moisture-darkened ancient stone. Professional architectural photography composition with water channels creating new horizontal leading lines through the amphitheater tiers, camera at water level. Atmospheric depth with moisture haze rising from wet stone, reflective pools catching moonlight and distant horizon elements softened by increased humidity. Quiet, fertile, dreamlike atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 405,
+          "name": "Water Emergence - end-final",
+          "description": "Still water pools reflect starlight. Greenery rustles in a faint breeze. The water channels lie calm, their work complete. The amphitheater rests in its transformed state.",
+          "seed": 405,
+          "cultural_notes": "Still pools reflecting starlight recall the sacred springs of Kourion, where ritual mirrors were used to capture moonlight for divination into the Roman period.",
+          "visual_brief": "Water now still, calm pools reflecting starlight and moonlight perfectly. Greenery rustling in a faint nighttime breeze. Water channels lying calm and complete, their transformation work finished. The amphitheater resting in its fully transformed state, water and greenery now permanent features integrated with ancient stone.",
+          "prompt": "Still water pools reflect starlight. Greenery rustles in a faint breeze. The water channels lie calm, their work complete. The amphitheater rests in its transformed state. Water now still, calm pools reflecting starlight and moonlight perfectly. Greenery rustling in a faint nighttime breeze. Water channels lying calm and complete, their transformation work finished. The amphitheater resting in its fully transformed state, water and greenery now permanent features integrated with ancient stone. Dramatic cinematic moonlight emphasizing water reflections on architectural geometry. Full moon casting silver light across moisture-darkened limestone surfaces and creating shimmering highlight reflections on emerging water channels. Texture details with wet weathered limestone surfaces, reflective water patterns, damp stone textures and moisture-darkened ancient stone. Professional architectural photography composition with water channels creating new horizontal leading lines through the amphitheater tiers, camera at water level. Atmospheric depth with moisture haze rising from wet stone, reflective pools catching moonlight and distant horizon elements softened by increased humidity. Quiet, fertile, dreamlike atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        }
+      ],
+      "seed": 400
+    },
+    {
+      "id": 5,
+      "name": "Balance",
+      "description": "Water enters the fixed ancient amphitheater in harmony with the existing architecture. Calm streams and narrow canals follow the natural horizontal and vertical stone geometry without altering the six tiers. Water gently cascades between existing levels and creates reflective surfaces. Trees, crops and spring vegetation grow around the edges and between stone structures. Leaves and crops suggest a gentle wind. Nighttime atmosphere with subtle reflections, abundance and balance between stone, water and life.",
+      "control_image": "data/control_images/stage_v6_alphasky.png",
+      "control_lora_strength": 0.6,
+      "visual_language": {
+        "texture": "Water-polished weathered limestone, moss-covered stone at waterline, reflective canal surfaces with smooth water texture, crop fields in tier beds, tree foliage catching light and wind, wet stone patterns with moss and algae growth, ancient stone softened by water and vegetation",
+        "lighting": "Full day cycle across subscenes: golden dawn light reflecting across water surfaces, bright midday sun casting sharp shadows through tree foliage, warm amber afternoon light creating long reflections, sunset gold saturating water and stone, transitioning to cool silver moonlight for the final subscene. Each subscene color temperature shifts to match the time of day.",
+        "composition": "Wide shot with slight elevation looking across the water-filled tiers and canal network. Water cascades create vertical movement against the horizontal tier lines. Vegetation frames the edges. Strong leading lines converge through the canals toward the rear wall and frame opening. Professional architectural photography with dynamic water elements as compositional anchors.",
+        "mood": "Harmonious, abundant, contemplative. The perfect integration of water and architecture, a living landscape in sustained balance, peaceful and fertile.",
+        "camera": "Slight elevation above the tiers, straight-on axis, wide field of view encompassing full canal network, dynamic water elements in foreground",
+        "atmospheric_depth": "Water reflections at multiple distances, cascading water creating spray and mist, swaying foliage at different depths, distant horizon elements through the frame opening, layered vegetation creating depth planes."
+      },
+      "elements": {
+        "visual": [
+          "calm water streams",
+          "narrow canals following stone geometry",
+          "gentle cascading between tiers",
+          "reflective water surfaces",
+          "trees and spring vegetation",
+          "subtle wind effects on vegetation",
+          "nighttime atmospheric reflections",
+          "harmonious stone-water integration",
+          "abundant natural life"
+        ],
+        "texture_materials": [
+          "water-polished weathered limestone",
+          "moss-covered stone at waterline",
+          "smooth reflective canal surfaces",
+          "crop fields in tier beds",
+          "tree foliage catching light",
+          "wet stone patterns",
+          "moss and algae growth"
+        ],
+        "composition": [
+          "wide shot with slight elevation",
+          "water canals as primary leading lines",
+          "water cascades creating vertical movement",
+          "vegetation framing tier edges",
+          "professional architectural photography"
+        ],
+        "lighting": [
+          "full day cycle across subscenes",
+          "golden dawn reflections on water",
+          "bright midday through foliage",
+          "warm amber afternoon shadows",
+          "sunset gold on water and stone",
+          "final subscene: cool silver moonlight",
+          "water surface reflections at all times"
+        ],
+        "atmosphere": [
+          "harmonious",
+          "abundant",
+          "contemplative",
+          "fertile",
+          "peaceful",
+          "sustained balance",
+          "living landscape"
+        ]
+      },
+      "prompt_suffix": "Dramatic cinematic lighting emphasizing water and architecture in harmony. Full moon casting silver reflections across flowing water surfaces through the amphitheater canals and creating highlight reflections on wet stone edges. Texture details with water-polished weathered limestone, moss-covered ancient stone and reflective water surface textures. Professional architectural photography composition with water channels creating strong leading lines through the tiers and cascading waterfalls as dynamic vertical elements. Atmospheric depth with water reflections at multiple distances, swaying vegetation at different depths and distant horizon elements through the frame opening. Harmonious, abundant, contemplative atmosphere with timeless quality.",
+      "subscenes": [
+        {
+          "id": 500,
+          "name": "Balance - intro-start",
+          "description": "Early morning light casts golden reflections across the water surfaces in the fixed amphitheater. The calm streams and narrow canals catch the first rays of sunlight, creating rippled patterns of light and shadow. Vegetation sways gently in the soft morning breeze. The balance between architectural permanence and natural abundance is perfectly captured in this tranquil dawn moment.",
+          "seed": 500,
+          "cultural_notes": "Golden hour lighting emphasizes the harmony between natural and architectural elements",
+          "visual_brief": "Dawn golden light flooding the amphitheater. First rays of sun catching the water surfaces with warm gold reflections. Calm streams and narrow canals ripple with early morning light patterns. Vegetation swaying gently in soft morning breeze. The balance between architectural permanence and natural abundance captured at its most peaceful moment. Long golden shadows stretching across the tiers.",
+          "prompt": "Early morning light casts golden reflections across the water surfaces in the fixed amphitheater. The calm streams and narrow canals catch the first rays of sunlight, creating rippled patterns of light and shadow. Vegetation sways gently in the soft morning breeze. The balance between architectural permanence and natural abundance is perfectly captured in this tranquil dawn moment. Dawn golden light flooding the amphitheater. First rays of sun catching the water surfaces with warm gold reflections. Calm streams and narrow canals ripple with early morning light patterns. Vegetation swaying gently in soft morning breeze. The balance between architectural permanence and natural abundance captured at its most peaceful moment. Long golden shadows stretching across the tiers. Dramatic cinematic lighting with golden dawn sunlight reflecting across water surfaces in the amphitheater canals. Warm morning light casting long golden shadows across the six tiers and creating rippled highlight patterns on flowing water. Texture details with water-polished weathered limestone, moss-covered ancient stone and reflective water surfaces catching the warm dawn glow. Professional architectural photography composition with water channels creating strong leading lines through the tiers and morning light creating dramatic shadow patterns across the stone geometry. Atmospheric depth with golden haze rising from the water, swaying vegetation at multiple depths and distant horizon elements softened by morning mist. Harmonious, abundant, contemplative atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 501,
+          "name": "Balance - intro-end",
+          "description": "Morning light warms the stone as the canals carry steady water through the amphitheater. Sunlight catches the rippling surfaces, casting shifting patterns across the tier faces. Vegetation along the water edges sways gently.",
+          "seed": 501,
+          "cultural_notes": "Following the dawn, morning light in Cyprus was the hour for ritual water blessing. Priests would trace the canal paths with olive branches, sanctifying the flow for the day ahead.",
+          "visual_brief": "Morning light warming the stone as canals carry steady water flow. Sunlight catching rippling water surfaces, casting shifting light patterns across the tier faces. Vegetation along water edges swaying gently. The amphitheater fully awake in daylight. Warmer than dawn, still morning-crisp, with water and light active.",
+          "prompt": "Morning light warms the stone as the canals carry steady water through the amphitheater. Sunlight catches the rippling surfaces, casting shifting patterns across the tier faces. Vegetation along the water edges sways gently. Morning light warming the stone as canals carry steady water flow. Sunlight catching rippling water surfaces, casting shifting light patterns across the tier faces. Vegetation along water edges swaying gently. The amphitheater fully awake in daylight. Warmer than dawn, still morning-crisp, with water and light active. Dramatic cinematic lighting with golden dawn sunlight reflecting across water surfaces in the amphitheater canals. Warm morning light casting long golden shadows across the six tiers and creating rippled highlight patterns on flowing water. Texture details with water-polished weathered limestone, moss-covered ancient stone and reflective water surfaces catching the warm dawn glow. Professional architectural photography composition with water channels creating strong leading lines through the tiers and morning light creating dramatic shadow patterns across the stone geometry. Atmospheric depth with golden haze rising from the water, swaying vegetation at multiple depths and distant horizon elements softened by morning mist. Harmonious, abundant, contemplative atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 502,
+          "name": "Balance - loop-start-end",
+          "description": "Midday light reaches through the frame opening, illuminating the central canal system. Water cascades between tiers in a steady rhythm. Leaves and crops move in a light breeze. The balance between architecture and nature is fully realized.",
+          "seed": 502,
+          "cultural_notes": "Midday light at its zenith represents the moment of spiritual fullness. In Cypro-Phoenician temples, noon was the hour of the goring — for sacrifice.",
+          "visual_brief": "Midday light at zenith, bright and direct, reaching through the frame opening to illuminate the central canal system. Water cascading between tiers in steady rhythmic flow. Leaves and crops moving in the light breeze. The balance between architecture and nature fully realized at the brightest hour of the day. Sharp shadows, high contrast, vibrant colors.",
+          "prompt": "Midday light reaches through the frame opening, illuminating the central canal system. Water cascades between tiers in a steady rhythm. Leaves and crops move in a light breeze. The balance between architecture and nature is fully realized. Midday light at zenith, bright and direct, reaching through the frame opening to illuminate the central canal system. Water cascading between tiers in steady rhythmic flow. Leaves and crops moving in the light breeze. The balance between architecture and nature fully realized at the brightest hour of the day. Sharp shadows, high contrast, vibrant colors. Dramatic cinematic midday sunlight casting sharp shadows through the amphitheater frame opening. Bright zenith light illuminating the canal system with high-contrast highlights on water surfaces and deep shadows under vegetation. Texture details with sunlit weathered limestone, water-polished stone surfaces and lush green vegetation catching the direct midday light. Professional architectural photography composition with water cascades creating dynamic vertical movement and frame opening casting a distinct shadow pattern across the central tiers. Atmospheric depth with heat haze rising from wet stone, bright water reflections and foliage creating layered depth across the amphitheater. Harmonious, abundant, contemplative atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 503,
+          "name": "Balance - loop-middle",
+          "description": "Afternoon shadows lengthen across the water surfaces. Reflections shift from bright gold to deeper amber. The canals continue their calm flow. Vegetation rustles in the warm air. A sustained moment of natural harmony.",
+          "seed": 503,
+          "cultural_notes": "Afternoon shadows lengthening recall the Phoenician practice of 'tzaharayim' — the splitting light, when sunlight angles shift from one direction to another, marking the transition.",
+          "visual_brief": "Afternoon shadows lengthening across the water surfaces, shadows now stretching diagonally across tiers. Reflections shifting from bright gold toward deeper amber as the sun drops in the sky. Canals continuing their calm flow. Vegetation rustling in warm afternoon air. A sustained moment of natural harmony in the golden afternoon, warmer and richer than midday.",
+          "prompt": "Afternoon shadows lengthen across the water surfaces. Reflections shift from bright gold to deeper amber. The canals continue their calm flow. Vegetation rustles in the warm air. A sustained moment of natural harmony. Afternoon shadows lengthening across the water surfaces, shadows now stretching diagonally across tiers. Reflections shifting from bright gold toward deeper amber as the sun drops in the sky. Canals continuing their calm flow. Vegetation rustling in warm afternoon air. A sustained moment of natural harmony in the golden afternoon, warmer and richer than midday. Dramatic cinematic afternoon sunlight casting long golden shadows across the amphitheater water surfaces. Warm amber light saturating the stone and canal water with rich warm tones and creating deep reflective color in the flowing channels. Texture details with sun-warmed weathered limestone, moss softening the stone edges and lush vegetation in the warm afternoon glow. Professional architectural photography composition with long diagonal shadows creating dramatic pattern across the water surfaces and vegetation casting dappled light patterns. Atmospheric depth with golden light reflecting across all six tier levels, warm haze settling between the channels and distant horizon glowing in afternoon warmth. Harmonious, abundant, contemplative atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 504,
+          "name": "Balance - end-begins",
+          "description": "As day turns to night, warm sunset light reflects off the water surfaces creating intimate pools of golden light. The gentle breeze continues to move through the vegetation, suggesting life continues even as activity slows. The balance maintained by the water architecture creates a peaceful transition between day and night in this contemplative twilight scene.",
+          "seed": 504,
+          "cultural_notes": "Twilight lighting creates romantic intimacy while preserving structural permanence",
+          "visual_brief": "Sunset golden hour, the transition from day to night. Warm sunset light reflecting off water surfaces creating intimate pools of golden light on the canals. Gentle breeze continuing through vegetation as activity slows. The balance maintained by water architecture creates a peaceful dusk transition. Longest shadows of the day, richest gold tones, the last direct light before night.",
+          "prompt": "As day turns to night, warm sunset light reflects off the water surfaces creating intimate pools of golden light. The gentle breeze continues to move through the vegetation, suggesting life continues even as activity slows. The balance maintained by the water architecture creates a peaceful transition between day and night in this contemplative twilight scene. Sunset golden hour, the transition from day to night. Warm sunset light reflecting off water surfaces creating intimate pools of golden light on the canals. Gentle breeze continuing through vegetation as activity slows. The balance maintained by water architecture creates a peaceful dusk transition. Longest shadows of the day, richest gold tones, the last direct light before night. Dramatic cinematic sunset light casting the warmest gold across the amphitheater water surfaces. The last direct sunlight creating intense saturated golden reflections in the canals and long dramatic shadows across all six tiers. Texture details with sunset-warmed weathered limestone, water surfaces burning with golden reflections and vegetation silhouetted against the warm sky. Professional architectural photography composition with the frame opening now darker against the bright sunset horizon and water channels glowing with reflected golden light. Atmospheric depth with sunset colors saturating the sky through the frame opening, cooling blue above contrasting with warm gold below, and vegetation creating layered silhouettes. Harmonious, abundant, contemplative atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 505,
+          "name": "Balance - end-final",
+          "description": "Night settles over the water-filled amphitheater. The moon appears inside the frame opening, reflected in the calm canals below. Water surfaces mirror starlight. The architecture and the living landscape rest together in silence.",
+          "seed": 505,
+          "cultural_notes": "Night water reflections mirror the Cypriot tradition of 'hydrophany' — pools used as divination mirrors. Still water reflecting the moon was read for omens by temple attendants.",
+          "visual_brief": "Night fully settled over the water-filled amphitheater. Moon appearing inside the frame opening, reflected in the calm canals below creating perfect mirror surfaces. Water surfaces mirroring starlight across the channels. Architecture and living landscape resting together in their balanced night state. Water reflections strongest and clearest in the dark ambient light.",
+          "prompt": "Night settles over the water-filled amphitheater. The moon appears inside the frame opening, reflected in the calm canals below. Water surfaces mirror starlight. The architecture and the living landscape rest together in silence. Night fully settled over the water-filled amphitheater. Moon appearing inside the frame opening, reflected in the calm canals below creating perfect mirror surfaces. Water surfaces mirroring starlight across the channels. Architecture and living landscape resting together in their balanced night state. Water reflections strongest and clearest in the dark ambient light. Dramatic cinematic lighting emphasizing water and architecture in harmony. Full moon casting silver reflections across flowing water surfaces through the amphitheater canals and creating highlight reflections on wet stone edges. Texture details with water-polished weathered limestone, moss-covered ancient stone and reflective water surface textures. Professional architectural photography composition with water channels creating strong leading lines through the tiers and cascading waterfalls as dynamic vertical elements. Atmospheric depth with water reflections at multiple distances, swaying vegetation at different depths and distant horizon elements through the frame opening. Harmonious, abundant, contemplative atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        }
+      ],
+      "seed": 500
+    },
+    {
+      "id": 6,
+      "name": "Overflow",
+      "description": "Water persists throughout the fixed ancient amphitheater. Vegetation becomes increasingly abundant as if observed through a slow natural time-lapse. Trees, grasses, vines and greenery gradually fill spaces around the existing stone tiers while the architecture remains completely still and unchanged. Water continues calmly through the established channels. Quiet, fertile, abundant and dreamlike atmosphere.",
+      "control_image": "data/control_images/stage_v6_alphasky.png",
+      "control_lora_strength": 0.6,
+      "visual_language": {
+        "texture": "Stone nearly hidden under abundant vegetation layers, moss and vines climbing tier faces, leaves of varying greens catching moonlight, tree trunks and branches overhanging stone, wet stone barely visible beneath foliage, dew-covered plant surfaces, grass filling stone gaps, climbing ivy on the frame edges",
+        "lighting": "Cool blue-green moonlight filtering through dense foliage, creating dappled shadow patterns across the overgrown stone. Moonlight catches individual leaves and vines, creating scattered highlight points across the vegetation surface. Deep shadows under the canopy contrast with moonlit leaf tips. Water surfaces reflect what little light penetrates the foliage canopy.",
+        "composition": "Wide shot with slight pull-back to frame the overhanging vegetation. The frame opening now partially bordered by climbing vines and leaves, suggesting the architecture is being gently reclaimed. Despite the abundance, the six tiers and frame remain clearly readable through the vegetation. Professional architectural photography showing nature and stone in coexistence.",
+        "mood": "Dreamlike, fertile, abundant, timeless. The amphitheater in full bloom, a living paradise growing within the ancient stone structure. The vegetation feels chosen, not chaotic.",
+        "camera": "Tier 4 elevation, straight-on axis, slightly pulled back to include overhanging vegetation, wide angle",
+        "atmospheric_depth": "Multiple layers of vegetation creating depth planes across the tiers. Dew particles catching moonlight. Foliage at foreground, mid-tier, and background levels. Distant horizon through the frame opening now partially veiled by climbing vines. Drifting pollen particles catching silver light."
+      },
+      "elements": {
+        "visual": [
+          "persistent water flow",
+          "abundant vegetation growth",
+          "natural time-lapse effect",
+          "greenery filling stone spaces",
+          "unchanged permanent architecture",
+          "calm water channels",
+          "dreamlike peaceful atmosphere"
+        ],
+        "texture_materials": [
+          "stone nearly hidden under vegetation",
+          "moss and vines climbing stone",
+          "leaves in varied greens",
+          "tree trunks overhanging",
+          "wet stone barely visible",
+          "dew-covered plant surfaces",
+          "grass filling stone gaps",
+          "climbing ivy on frame"
+        ],
+        "composition": [
+          "wide shot",
+          "slightly pulled back",
+          "overhanging vegetation framing",
+          "frame opening bordered by vines",
+          "tiers readable through foliage",
+          "professional architectural photography"
+        ],
+        "lighting": [
+          "cool blue-green moonlight",
+          "dappled shadows through foliage",
+          "scattered highlight points on leaves",
+          "deep canopy shadows",
+          "water reflections under canopy"
+        ],
+        "atmosphere": [
+          "dreamlike",
+          "fertile",
+          "abundant",
+          "timeless",
+          "living paradise",
+          "chosen growth not chaos",
+          "full bloom"
+        ]
+      },
+      "prompt_suffix": "Dramatic cinematic lighting emphasizing architectural geometry. Compose wide shot showing persistent water flow, abundant vegetation growth, natural time-lapse effect, greenery filling stone spaces, unchanged permanent architecture, calm water channels, dreamlike peaceful atmosphere with depth of field. Full moon casting dramatic shadows across stone structure and creating highlight reflections. Texture details with weathered limestone surfaces and weathered stone patterns. Professional architectural photography composition with strong leading lines. Atmospheric depth with distant horizon elements creating spatial depth. Moody, contemplative, monumental atmosphere with timeless quality.",
+      "subscenes": [
+        {
+          "id": 600,
+          "name": "Overflow - intro-start",
+          "description": "Water continues its patient flow through the amphitheater channels. Vines begin to climb the lower stone tiers. Greenery thickens along the water paths, extending upward between the ancient seats.",
+          "seed": 600,
+          "cultural_notes": "The vines climbing the stone tiers echo archaeological evidence of grape cultivation on Cyprus terraces since the Early Bronze Age. The vine was sacred to Aphrodite Cyprus.",
+          "visual_brief": "Water continuing its patient flow through the established channels. Vines beginning to climb the lower stone tiers, the first vertical vegetation movement. Greenery thickening along the water paths, extending upward between the ancient seats, reaching toward the higher tiers. The beginning of vertical vegetation expansion beyond the ground level.",
+          "prompt": "Water continues its patient flow through the amphitheater channels. Vines begin to climb the lower stone tiers. Greenery thickens along the water paths, extending upward between the ancient seats. Water continuing its patient flow through the established channels. Vines beginning to climb the lower stone tiers, the first vertical vegetation movement. Greenery thickening along the water paths, extending upward between the ancient seats, reaching toward the higher tiers. The beginning of vertical vegetation expansion beyond the ground level. Dramatic cinematic lighting emphasizing architectural geometry. Compose wide shot showing persistent water flow, abundant vegetation growth, natural time-lapse effect, greenery filling stone spaces, unchanged permanent architecture, calm water channels, dreamlike peaceful atmosphere with depth of field. Full moon casting dramatic shadows across stone structure and creating highlight reflections. Texture details with weathered limestone surfaces and weathered stone patterns. Professional architectural photography composition with strong leading lines. Atmospheric depth with distant horizon elements creating spatial depth. Moody, contemplative, monumental atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 601,
+          "name": "Overflow - intro-end",
+          "description": "Vegetation spreads visibly across the six tiers. Grasses fill the gaps between stones. Vines reach higher up the tier faces. The architecture remains unchanged, cradling the growing abundance.",
+          "seed": 601,
+          "cultural_notes": "Grass filling stone gaps reflects the Phoenician reverence for spontaneous growth in sacred precincts. Unmanaged vegetation was considered evidence of divine presence.",
+          "visual_brief": "Vegetation now visibly spreading across all six tiers. Grasses filling the gaps between stones, softening the architectural edges. Vines reaching higher up the tier faces. The architecture remains fully unchanged but now visibly cradling the growing abundance. Vegetation no longer just ground-level but actively climbing.",
+          "prompt": "Vegetation spreads visibly across the six tiers. Grasses fill the gaps between stones. Vines reach higher up the tier faces. The architecture remains unchanged, cradling the growing abundance. Vegetation now visibly spreading across all six tiers. Grasses filling the gaps between stones, softening the architectural edges. Vines reaching higher up the tier faces. The architecture remains fully unchanged but now visibly cradling the growing abundance. Vegetation no longer just ground-level but actively climbing. Dramatic cinematic lighting emphasizing architectural geometry. Compose wide shot showing persistent water flow, abundant vegetation growth, natural time-lapse effect, greenery filling stone spaces, unchanged permanent architecture, calm water channels, dreamlike peaceful atmosphere with depth of field. Full moon casting dramatic shadows across stone structure and creating highlight reflections. Texture details with weathered limestone surfaces and weathered stone patterns. Professional architectural photography composition with strong leading lines. Atmospheric depth with distant horizon elements creating spatial depth. Moody, contemplative, monumental atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 602,
+          "name": "Overflow - loop-start-end",
+          "description": "Abundant greenery surrounds every level of the amphitheater. Trees overhang the upper tiers. Vines frame the central stone opening. Water moves calmly through the lush channels. The space feels alive and fertile.",
+          "seed": 602,
+          "cultural_notes": "The framing of the stone opening by greenery recalls the sacred groves (alsos) of Cypriot sanctuaries, where nature and architecture formed a unified ritual space.",
+          "visual_brief": "Abundant greenery now surrounding every level of the amphitheater. Trees overhanging the upper tiers, their branches reaching toward the frame opening. Vines beginning to frame the central stone opening. Water moving calmly through lush channels, almost hidden by vegetation. The space feeling alive and fertile, nature coexisting with architecture.",
+          "prompt": "Abundant greenery surrounds every level of the amphitheater. Trees overhang the upper tiers. Vines frame the central stone opening. Water moves calmly through the lush channels. The space feels alive and fertile. Abundant greenery now surrounding every level of the amphitheater. Trees overhanging the upper tiers, their branches reaching toward the frame opening. Vines beginning to frame the central stone opening. Water moving calmly through lush channels, almost hidden by vegetation. The space feeling alive and fertile, nature coexisting with architecture. Dramatic cinematic lighting emphasizing architectural geometry. Compose wide shot showing persistent water flow, abundant vegetation growth, natural time-lapse effect, greenery filling stone spaces, unchanged permanent architecture, calm water channels, dreamlike peaceful atmosphere with depth of field. Full moon casting dramatic shadows across stone structure and creating highlight reflections. Texture details with weathered limestone surfaces and weathered stone patterns. Professional architectural photography composition with strong leading lines. Atmospheric depth with distant horizon elements creating spatial depth. Moody, contemplative, monumental atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 603,
+          "name": "Overflow - loop-middle",
+          "description": "Maximum abundance — greenery pours over tiers and around the stone frame. Leaves, blossoms, and climbing plants create a rich living tapestry. Water continues its quiet flow beneath the vegetation. Dreamlike fertility.",
+          "seed": 603,
+          "cultural_notes": "Maximum abundance mirrors the Cypro-Phoenician harvest festival of 'Elul', when the temple precinct was allowed to reach its most fertile state before the first reaping.",
+          "visual_brief": "Maximum abundance reached. Greenery pouring over tiers and around the stone frame. Leaves, blossoms and climbing plants creating a rich living tapestry over the ancient architecture. Water continuing quiet flow beneath the vegetation canopy, audible but barely visible. Dreamlike fertility at its peak, the amphitheater transformed into a living garden without losing its geometry.",
+          "prompt": "Maximum abundance — greenery pours over tiers and around the stone frame. Leaves, blossoms, and climbing plants create a rich living tapestry. Water continues its quiet flow beneath the vegetation. Dreamlike fertility. Maximum abundance reached. Greenery pouring over tiers and around the stone frame. Leaves, blossoms and climbing plants creating a rich living tapestry over the ancient architecture. Water continuing quiet flow beneath the vegetation canopy, audible but barely visible. Dreamlike fertility at its peak, the amphitheater transformed into a living garden without losing its geometry. Dramatic cinematic lighting emphasizing architectural geometry. Compose wide shot showing persistent water flow, abundant vegetation growth, natural time-lapse effect, greenery filling stone spaces, unchanged permanent architecture, calm water channels, dreamlike peaceful atmosphere with depth of field. Full moon casting dramatic shadows across stone structure and creating highlight reflections. Texture details with weathered limestone surfaces and weathered stone patterns. Professional architectural photography composition with strong leading lines. Atmospheric depth with distant horizon elements creating spatial depth. Moody, contemplative, monumental atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 604,
+          "name": "Overflow - end-begins",
+          "description": "Growth slows, reaching a plateau. The vegetation is fully established, moving gently in the night air. Water channels remain active. The abundance feels not chaotic but deliberate, as if the stone chose to host the green.",
+          "seed": 604,
+          "cultural_notes": "The plateau of growth represents the state of 'satedness' in Phoenician agricultural theology — enough abundance granted by the gods, beyond which desire becomes greed.",
+          "visual_brief": "Growth slowing, reaching a plateau. Vegetation fully established and moving gently in the night air, no longer expanding. Water channels remaining active beneath the foliage canopy. The abundance feels deliberate and chosen, as if the stone itself decided to host the green. A settled, sustained fertility at rest.",
+          "prompt": "Growth slows, reaching a plateau. The vegetation is fully established, moving gently in the night air. Water channels remain active. The abundance feels not chaotic but deliberate, as if the stone chose to host the green. Growth slowing, reaching a plateau. Vegetation fully established and moving gently in the night air, no longer expanding. Water channels remaining active beneath the foliage canopy. The abundance feels deliberate and chosen, as if the stone itself decided to host the green. A settled, sustained fertility at rest. Dramatic cinematic lighting emphasizing architectural geometry. Compose wide shot showing persistent water flow, abundant vegetation growth, natural time-lapse effect, greenery filling stone spaces, unchanged permanent architecture, calm water channels, dreamlike peaceful atmosphere with depth of field. Full moon casting dramatic shadows across stone structure and creating highlight reflections. Texture details with weathered limestone surfaces and weathered stone patterns. Professional architectural photography composition with strong leading lines. Atmospheric depth with distant horizon elements creating spatial depth. Moody, contemplative, monumental atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 605,
+          "name": "Overflow - end-final",
+          "description": "The lush amphitheater rests in moonlight. Leaves and vines gleam with dew. Water surfaces are still, reflecting stars and the moon inside the frame. The living and the ancient coexist in tranquil permanence.",
+          "seed": 605,
+          "cultural_notes": "Dew-covered vegetation at rest recalls the 'tal' (dew) of Phoenician blessing texts — considered the gentlest form of divine favor, sufficient without overwhelming.",
+          "visual_brief": "The lush amphitheater resting in moonlight, vegetation quiet. Leaves and vines gleaming with dew in the silver light. Water surfaces still and calm, reflecting stars and the moon inside the frame. The living and the ancient coexisting in tranquil permanence, the peak abundance settled into peaceful equilibrium. Dew catching moonlight like scattered pearls across the vegetation.",
+          "prompt": "The lush amphitheater rests in moonlight. Leaves and vines gleam with dew. Water surfaces are still, reflecting stars and the moon inside the frame. The living and the ancient coexist in tranquil permanence. The lush amphitheater resting in moonlight, vegetation quiet. Leaves and vines gleaming with dew in the silver light. Water surfaces still and calm, reflecting stars and the moon inside the frame. The living and the ancient coexisting in tranquil permanence, the peak abundance settled into peaceful equilibrium. Dew catching moonlight like scattered pearls across the vegetation. Dramatic cinematic lighting emphasizing architectural geometry. Compose wide shot showing persistent water flow, abundant vegetation growth, natural time-lapse effect, greenery filling stone spaces, unchanged permanent architecture, calm water channels, dreamlike peaceful atmosphere with depth of field. Full moon casting dramatic shadows across stone structure and creating highlight reflections. Texture details with weathered limestone surfaces and weathered stone patterns. Professional architectural photography composition with strong leading lines. Atmospheric depth with distant horizon elements creating spatial depth. Moody, contemplative, monumental atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        }
+      ],
+      "seed": 600
+    },
+    {
+      "id": 7,
+      "name": "Wind",
+      "description": "The fixed ancient amphitheater becomes dominated by wind and drifting smoke. Thin layers of smoke move horizontally and diagonally across the existing stone tiers without obscuring their geometry. Smoke gathers around the bottom-center stage and rises gently through the rectangular opening of the central stone frame. The atmosphere is ethereal, weightless and mysterious.",
+      "control_image": "data/control_images/stage_v6_alphasky.png",
+      "control_lora_strength": 0.7,
+      "visual_language": {
+        "texture": "Weathered limestone surfaces partially veiled and revealed by shifting smoke layers, ancient stone patterns alternately visible and obscured, smooth smoke texture creating soft focus on stone, stone edge details catching moonlight through haze, varying smoke density creating texture gradients across the tiers",
+        "lighting": "Moonlight beams scattering through smoke layers creating volumetric light shafts across the amphitheater. Cool silver light filtering through varying smoke density, creating soft glowing clouds and sharp-edged light rays. The smoke acts as a diffuser, softening shadow edges and creating luminous atmospheric gradients. Moonlight catching smoke particles creates point-light glitter across the haze.",
+        "composition": "Wide shot on center axis with foreground smoke creating depth layering. Smoke forms horizontal bands that follow tier geometry and diagonal streams driven by the wind. The frame opening channels a vertical smoke column upward. Professional architectural photography with smoke creating ephemeral texture across the solid geometry.",
+        "mood": "Ethereal, weightless, mysterious, transient. The amphitheater breathes smoke, the stone barely visible through the dancing haze, solid architecture made ghostly.",
+        "camera": "Tier 4 elevation, straight-on axis, center composition with smoke as foreground depth element",
+        "atmospheric_depth": "Smoke at multiple depths: foreground haze, horizontal smoke bands between each tier level, vertical column rising through frame opening, dissipating high haze above. Varying smoke densities create distinct depth planes across the scene."
+      },
+      "elements": {
+        "visual": [
+          "wind-driven smoke",
+          "horizontal and diagonal smoke movement",
+          "smoke gathering around stage",
+          "gentle rising through frame opening",
+          "ethereal weightless atmosphere",
+          "mysterious smoke patterns",
+          "architectural geometry maintained"
+        ],
+        "texture_materials": [
+          "limestone veiled and revealed by smoke",
+          "ancient stone patterns alternately visible",
+          "smooth smoke texture",
+          "stone edge details through haze",
+          "varying smoke density gradients"
+        ],
+        "composition": [
+          "wide shot",
+          "center axis",
+          "foreground smoke layering",
+          "horizontal smoke bands",
+          "diagonal wind streams",
+          "vertical smoke column through frame",
+          "professional architectural photography"
+        ],
+        "lighting": [
+          "moonlight scattering through smoke",
+          "volumetric light shafts",
+          "soft glowing clouds",
+          "sharp-edged light rays",
+          "smoke particle glitter",
+          "luminous atmospheric gradients"
+        ],
+        "atmosphere": [
+          "ethereal",
+          "weightless",
+          "mysterious",
+          "transient",
+          "ghostly",
+          "smoke-breathing",
+          "dancing haze"
+        ]
+      },
+      "prompt_suffix": "Dramatic cinematic lighting with moonlight scattering through drifting smoke layers. Full moon casting pale beams through smoke haze creating volumetric light shafts across the amphitheater. Texture details with weathered limestone surfaces emerging and disappearing through shifting mist, ancient stone patterns partially veiled by moving smoke. Professional architectural photography composition with smoke forming horizontal bands following tier geometry and diagonal wind streams, vertical smoke column rising through the frame opening. Atmospheric depth with layered smoke at multiple distances, dissipating haze between stone levels and distant horizon elements partially obscured by smoke. Ethereal, weightless, mysterious atmosphere with timeless quality.",
+      "subscenes": [
+        {
+          "id": 700,
+          "name": "Wind - intro-start",
+          "description": "Thin wisps of white smoke begin to rise from the lowest stage, curling upward through the tier levels. The air grows hazy. A gentle wind stirs the smoke into elongated strands that drift horizontally.",
+          "seed": 700,
+          "cultural_notes": "The first smoke rising from the stage echoes the Cypro-Phoenician practice of incense offerings (labonah) from ground-level altars. White smoke was believed to carry prayers upward through the stone tiers.",
+          "visual_brief": "Thin wisps of white smoke just beginning to rise from the lowest stage, curling upward through the tier levels for the first time. The air growing hazy with the first traces. A gentle wind stirring the smoke into elongated strands that drift horizontally across the lowest tiers. Smoke at its most delicate and tentative.",
+          "prompt": "Thin wisps of white smoke begin to rise from the lowest stage, curling upward through the tier levels. The air grows hazy. A gentle wind stirs the smoke into elongated strands that drift horizontally. Thin wisps of white smoke just beginning to rise from the lowest stage, curling upward through the tier levels for the first time. The air growing hazy with the first traces. A gentle wind stirring the smoke into elongated strands that drift horizontally across the lowest tiers. Smoke at its most delicate and tentative. Dramatic cinematic lighting with moonlight scattering through drifting smoke layers. Full moon casting pale beams through smoke haze creating volumetric light shafts across the amphitheater. Texture details with weathered limestone surfaces emerging and disappearing through shifting mist, ancient stone patterns partially veiled by moving smoke. Professional architectural photography composition with smoke forming horizontal bands following tier geometry and diagonal wind streams, vertical smoke column rising through the frame opening. Atmospheric depth with layered smoke at multiple distances, dissipating haze between stone levels and distant horizon elements partially obscured by smoke. Ethereal, weightless, mysterious atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 701,
+          "name": "Wind - intro-end",
+          "description": "Smoke layers build across the amphitheater — horizontal bands moving between the six stone tiers. Wind carries smoke diagonally across the stage. The frame opening begins to catch and channel the drifting haze.",
+          "seed": 701,
+          "cultural_notes": "Smoke layering between tiers mirrors the stratified cosmology of Eteocypriot religion — six horizontal planes between earth and sky, each with its own spirit realm.",
+          "visual_brief": "Smoke layers building across the amphitheater with horizontal bands moving between each of the six stone tiers. Wind carrying smoke diagonally across the stage, creating intersecting smoke planes. The frame opening beginning to catch and channel the drifting haze upward. Smoke now visible at multiple levels.",
+          "prompt": "Smoke layers build across the amphitheater — horizontal bands moving between the six stone tiers. Wind carries smoke diagonally across the stage. The frame opening begins to catch and channel the drifting haze. Smoke layers building across the amphitheater with horizontal bands moving between each of the six stone tiers. Wind carrying smoke diagonally across the stage, creating intersecting smoke planes. The frame opening beginning to catch and channel the drifting haze upward. Smoke now visible at multiple levels. Dramatic cinematic lighting with moonlight scattering through drifting smoke layers. Full moon casting pale beams through smoke haze creating volumetric light shafts across the amphitheater. Texture details with weathered limestone surfaces emerging and disappearing through shifting mist, ancient stone patterns partially veiled by moving smoke. Professional architectural photography composition with smoke forming horizontal bands following tier geometry and diagonal wind streams, vertical smoke column rising through the frame opening. Atmospheric depth with layered smoke at multiple distances, dissipating haze between stone levels and distant horizon elements partially obscured by smoke. Ethereal, weightless, mysterious atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 702,
+          "name": "Wind - loop-start-end",
+          "description": "Smoke moves in steady streams across the amphitheater geometry, following the tier lines. A column of smoke rises gently through the rectangular frame opening. The wind shapes it into ethereal spirals.",
+          "seed": 702,
+          "cultural_notes": "The smoke column passing through the frame opening reflects the sacred 'axis mundi' concept. In Phoenician temples, a central opening in the roof channeled sacrificial smoke to the heavens.",
+          "visual_brief": "Smoke moving in steady streams across the amphitheater geometry, following the horizontal tier lines as if the architecture shapes the smoke. A gentle column of smoke rising through the rectangular frame opening, wind shaping it into ethereal spirals and curls as it exits. The smoke and architecture in communication, geometry guiding the movement.",
+          "prompt": "Smoke moves in steady streams across the amphitheater geometry, following the tier lines. A column of smoke rises gently through the rectangular frame opening. The wind shapes it into ethereal spirals. Smoke moving in steady streams across the amphitheater geometry, following the horizontal tier lines as if the architecture shapes the smoke. A gentle column of smoke rising through the rectangular frame opening, wind shaping it into ethereal spirals and curls as it exits. The smoke and architecture in communication, geometry guiding the movement. Dramatic cinematic lighting with moonlight scattering through drifting smoke layers. Full moon casting pale beams through smoke haze creating volumetric light shafts across the amphitheater. Texture details with weathered limestone surfaces emerging and disappearing through shifting mist, ancient stone patterns partially veiled by moving smoke. Professional architectural photography composition with smoke forming horizontal bands following tier geometry and diagonal wind streams, vertical smoke column rising through the frame opening. Atmospheric depth with layered smoke at multiple distances, dissipating haze between stone levels and distant horizon elements partially obscured by smoke. Ethereal, weightless, mysterious atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 703,
+          "name": "Wind - loop-middle",
+          "description": "Maximum smoke movement — horizontal layers sweep across every tier. A continuous stream passes through the frame opening and disperses above. The amphitheater appears to breathe smoke, weightless and alive.",
+          "seed": 703,
+          "cultural_notes": "Maximum movement of smoke through all six tiers symbolizes the complete communication between the earthly and divine realms — every spiritual layer activated simultaneously.",
+          "visual_brief": "Maximum smoke movement at peak intensity. Horizontal layers sweeping across every tier simultaneously. A continuous smoke stream passing through the frame opening and dispersing high above. The amphitheater appearing to breathe smoke, weightless and alive, the stone architecture a vessel for the moving haze. Smoke at its most active and beautiful.",
+          "prompt": "Maximum smoke movement — horizontal layers sweep across every tier. A continuous stream passes through the frame opening and disperses above. The amphitheater appears to breathe smoke, weightless and alive. Maximum smoke movement at peak intensity. Horizontal layers sweeping across every tier simultaneously. A continuous smoke stream passing through the frame opening and dispersing high above. The amphitheater appearing to breathe smoke, weightless and alive, the stone architecture a vessel for the moving haze. Smoke at its most active and beautiful. Dramatic cinematic lighting with moonlight scattering through drifting smoke layers. Full moon casting pale beams through smoke haze creating volumetric light shafts across the amphitheater. Texture details with weathered limestone surfaces emerging and disappearing through shifting mist, ancient stone patterns partially veiled by moving smoke. Professional architectural photography composition with smoke forming horizontal bands following tier geometry and diagonal wind streams, vertical smoke column rising through the frame opening. Atmospheric depth with layered smoke at multiple distances, dissipating haze between stone levels and distant horizon elements partially obscured by smoke. Ethereal, weightless, mysterious atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 704,
+          "name": "Wind - end-begins",
+          "description": "Wind calms. Smoke layers thin and separate. The frame opening releases the last steady column upward. Remaining haze settles in the lower tiers. The ethereal intensity dissipates.",
+          "seed": 704,
+          "cultural_notes": "Wind calming and smoke thinning represent the closing of the divine channel. In Cypriot ritual, the wind had to be explicitly dismissed at ceremony's end.",
+          "visual_brief": "Wind calming, smoke layers thinning and separating. The frame opening releasing its last steady column upward. Remaining haze settling in the lower tiers, no longer rising. The ethereal intensity dissipating as the smoke begins its retreat. Smoke transitioning from active movement to passive settling.",
+          "prompt": "Wind calms. Smoke layers thin and separate. The frame opening releases the last steady column upward. Remaining haze settles in the lower tiers. The ethereal intensity dissipates. Wind calming, smoke layers thinning and separating. The frame opening releasing its last steady column upward. Remaining haze settling in the lower tiers, no longer rising. The ethereal intensity dissipating as the smoke begins its retreat. Smoke transitioning from active movement to passive settling. Dramatic cinematic lighting with moonlight scattering through drifting smoke layers. Full moon casting pale beams through smoke haze creating volumetric light shafts across the amphitheater. Texture details with weathered limestone surfaces emerging and disappearing through shifting mist, ancient stone patterns partially veiled by moving smoke. Professional architectural photography composition with smoke forming horizontal bands following tier geometry and diagonal wind streams, vertical smoke column rising through the frame opening. Atmospheric depth with layered smoke at multiple distances, dissipating haze between stone levels and distant horizon elements partially obscured by smoke. Ethereal, weightless, mysterious atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 705,
+          "name": "Wind - end-final",
+          "description": "Only faint traces of smoke remain, hovering at ground level. The wind has stilled completely. The amphitheater geometry is fully visible again through the clear night air. A quiet after the breath.",
+          "seed": 705,
+          "cultural_notes": "The stillness after the wind recalls the Phoenician term 'd'mamah' — a thin silence, the state of the sacred space between visitations, always waiting.",
+          "visual_brief": "Only faint traces of smoke remaining, hovering at ground level like fading spirits. Wind stilled completely. The amphitheater geometry fully visible again through crystal-clear night air, every tier and stone edge sharp and readable. A quiet after the breath, the memory of smoke still faintly present at the lowest levels but the architecture dominant again.",
+          "prompt": "Only faint traces of smoke remain, hovering at ground level. The wind has stilled completely. The amphitheater geometry is fully visible again through the clear night air. A quiet after the breath. Only faint traces of smoke remaining, hovering at ground level like fading spirits. Wind stilled completely. The amphitheater geometry fully visible again through crystal-clear night air, every tier and stone edge sharp and readable. A quiet after the breath, the memory of smoke still faintly present at the lowest levels but the architecture dominant again. Dramatic cinematic lighting with moonlight scattering through drifting smoke layers. Full moon casting pale beams through smoke haze creating volumetric light shafts across the amphitheater. Texture details with weathered limestone surfaces emerging and disappearing through shifting mist, ancient stone patterns partially veiled by moving smoke. Professional architectural photography composition with smoke forming horizontal bands following tier geometry and diagonal wind streams, vertical smoke column rising through the frame opening. Atmospheric depth with layered smoke at multiple distances, dissipating haze between stone levels and distant horizon elements partially obscured by smoke. Ethereal, weightless, mysterious atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        }
+      ],
+      "seed": 700
+    },
+    {
+      "id": 8,
+      "name": "Village",
+      "description": "A calm nighttime village emerges within the existing amphitheater without changing the stone tier geometry. Warm miniature home lights appear integrated into the tier surfaces and existing architectural spaces. Small village-like illuminated details are distributed across the layered amphitheater while the six horizontal tiers remain clearly visible and structurally unchanged. Fireflies drift through the air. Existing greenery moves gently in the wind. Warm habitation is suggested through lamps and embers alone, with no figures present. No modern city architecture.",
+      "control_image": "data/control_images/stage_v6_alphasky.png",
+      "control_lora_strength": 0.6,
+      "visual_language": {
+        "texture": "Weathered limestone surfaces illuminated from within by warm lamp glow, carved dwelling openings in the ancient stone, warm-lit stone creating orange-amber surfaces, dark stone in shadow with warm light spilling from windows, fireflies as tiny point-light accents, smoke trails from cooking hearths rising from hidden chimneys",
+        "lighting": "Bicolor lighting: warm golden-orange lamp and hearth light radiating from within the tier-carved dwellings, contrasting against cool blue-silver moonlight on the exterior stone surfaces. Window light spills across the stone creating warm pools. Fireflies add scattered warm yellow-green point lights drifting across the space. Warm smoke trails catching moonlight as they rise from cooking hearths.",
+        "composition": "Medium wide shot from a warm intimate perspective on the lower tier dwellings. Distributed warm light points creating visual rhythm across the six tiers, following the architecture's horizontal lines. Fireflies at multiple depths create dynamic foreground interest. Professional architectural photography with habitation as human-scale, intimate context against the monumental architecture.",
+        "mood": "Warm, intimate, lived-in, ancient but alive. The amphitheater transformed into a village without losing its architectural identity, suggesting continuous habitation across millennia.",
+        "camera": "Tier 2-3 elevation, slightly warmer intimate perspective, medium wide field emphasizing dwelling integration in lower tiers",
+        "atmospheric_depth": "Warm light pools at multiple depths across the tiers. Fireflies at foreground, mid and background distances. Warm smoke rising from hearths and dissipating above. Distant village lights on upper tiers. The star-filled sky providing the far depth layer."
+      },
+      "elements": {
+        "visual": [
+          "warm miniature home lights",
+          "village integration into stone architecture",
+          "illuminated architectural details",
+          "fireflies drifting through air",
+          "existing greenery in wind",
+          "habitation suggested by lamps and embers only",
+          "traditional village aesthetic",
+          "no inhabitants, no figures"
+        ],
+        "texture_materials": [
+          "weathered limestone lit from within",
+          "carved dwelling openings",
+          "warm-lit stone surfaces",
+          "dark stone with light spilling from windows",
+          "cooking hearth smoke",
+          "firefly light points"
+        ],
+        "composition": [
+          "medium wide shot",
+          "warm intimate perspective",
+          "distributed light points across tiers",
+          "fireflies as dynamic elements",
+          "professional architectural photography"
+        ],
+        "lighting": [
+          "warm golden-orange lamp light",
+          "cool blue-silver exterior moonlight",
+          "bicolor contrast",
+          "warm light pools on stone",
+          "firefly scattered warm light",
+          "smoke catching moonlight"
+        ],
+        "atmosphere": [
+          "warm",
+          "intimate",
+          "lived-in",
+          "ancient but alive",
+          "human-scale",
+          "continuous habitation",
+          "quiet village night"
+        ]
+      },
+      "prompt_suffix": "Dramatic cinematic lighting with warm home lights contrasting against cool moonlight. Full moon casting silver light on upper tiers while warm golden-orange lamp glow radiates from dwelling windows carved into the lower stone surfaces creating intimate warm light pools. Texture details with weathered limestone surfaces illuminated by warm interior light, ancient stone patterns and carved dwelling openings showing traditional village architecture. Professional architectural photography composition with distributed warm light points creating visual rhythm across the six tiers and fireflies as dynamic foreground accents. Atmospheric depth with fireflies drifting between stone levels, warm light pools at multiple distances, wisps of smoke rising from cooking hearths, and distant village lights on upper tiers. Warm, intimate, lived-in atmosphere with timeless quality.",
+      "subscenes": [
+        {
+          "id": 800,
+          "name": "Village - intro-start",
+          "description": "The first warm lights appear within the stone tiers — small glowing windows embedded in the ancient architecture. Village life begins to emerge. A few fireflies drift across the lower stage.",
+          "seed": 800,
+          "cultural_notes": "Warm lights embedded in stone tiers follow the Bronze Age pattern of rock-cut dwellings at Kition and Hala Sultan Tekke, where homes were carved directly into existing stone formations.",
+          "visual_brief": "The first warm lights appearing within the stone tiers. Small glowing windows embedded in the ancient architecture, just a few at first. The barest suggestion of village life emerging. A few fireflies drifting across the lower stage. Warmth just beginning to touch the cool stone, habitation suggesting itself without overwhelming the architecture.",
+          "prompt": "The first warm lights appear within the stone tiers — small glowing windows embedded in the ancient architecture. Village life begins to emerge. A few fireflies drift across the lower stage. The first warm lights appearing within the stone tiers. Small glowing windows embedded in the ancient architecture, just a few at first. The barest suggestion of village life emerging. A few fireflies drifting across the lower stage. Warmth just beginning to touch the cool stone, habitation suggesting itself without overwhelming the architecture. Dramatic cinematic lighting with warm home lights contrasting against cool moonlight. Full moon casting silver light on upper tiers while warm golden-orange lamp glow radiates from dwelling windows carved into the lower stone surfaces creating intimate warm light pools. Texture details with weathered limestone surfaces illuminated by warm interior light, ancient stone patterns and carved dwelling openings showing traditional village architecture. Professional architectural photography composition with distributed warm light points creating visual rhythm across the six tiers and fireflies as dynamic foreground accents. Atmospheric depth with fireflies drifting between stone levels, warm light pools at multiple distances, wisps of smoke rising from cooking hearths, and distant village lights on upper tiers. Warm, intimate, lived-in atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 801,
+          "name": "Village - intro-end",
+          "description": "More windows illuminate across the six tiers. The village takes shape within the stone geometry — warm orange light pools against weathered limestone. Fireflies increase, floating through the evening air.",
+          "seed": 801,
+          "cultural_notes": "Spreading evening lights mimic the Cypriot custom of lighting household lamps at sunset — 'lychnapsia' — the ritual lighting of oil lamps throughout the village.",
+          "visual_brief": "More windows illuminating across the six tiers, the village taking shape within the stone geometry. Warm orange light pooling against weathered limestone around each dwelling opening. Fireflies increasing in number, floating through the evening air between the tiers. The habitation becoming established, light distribution following the architectural tiers naturally.",
+          "prompt": "More windows illuminate across the six tiers. The village takes shape within the stone geometry — warm orange light pools against weathered limestone. Fireflies increase, floating through the evening air. More windows illuminating across the six tiers, the village taking shape within the stone geometry. Warm orange light pooling against weathered limestone around each dwelling opening. Fireflies increasing in number, floating through the evening air between the tiers. The habitation becoming established, light distribution following the architectural tiers naturally. Dramatic cinematic lighting with warm home lights contrasting against cool moonlight. Full moon casting silver light on upper tiers while warm golden-orange lamp glow radiates from dwelling windows carved into the lower stone surfaces creating intimate warm light pools. Texture details with weathered limestone surfaces illuminated by warm interior light, ancient stone patterns and carved dwelling openings showing traditional village architecture. Professional architectural photography composition with distributed warm light points creating visual rhythm across the six tiers and fireflies as dynamic foreground accents. Atmospheric depth with fireflies drifting between stone levels, warm light pools at multiple distances, wisps of smoke rising from cooking hearths, and distant village lights on upper tiers. Warm, intimate, lived-in atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 802,
+          "name": "Village - loop-start-end",
+          "description": "Celebration night in the amphitheater village. Lanterns and decorative lights enhance the warm miniature architecture. The stone tiers glow with festive illumination, creating a lively atmosphere while maintaining the ancient geometric constraints. Fireflies and drifting embers animate the space as if for celebration. The lighting creates a festive yet authentic scene that respects the architectural permanence.",
+          "seed": 802,
+          "cultural_notes": "Festival lighting adds cultural vibrancy while maintaining architectural integrity",
+          "visual_brief": "Celebration night reaching peak illumination. Lanterns and decorative lights enhancing the warm miniature architecture, creating a festive atmosphere. Stone tiers glowing with increased illumination while maintaining ancient geometric constraints. Fireflies and drifting embers animating the space. The lighting festive yet authentic, warm life filling the ancient space.",
+          "prompt": "Celebration night in the amphitheater village. Lanterns and decorative lights enhance the warm miniature architecture. The stone tiers glow with festive illumination, creating a lively atmosphere while maintaining the ancient geometric constraints. Fireflies and drifting embers animate the space as if for celebration. The lighting creates a festive yet authentic scene that respects the architectural permanence. Celebration night reaching peak illumination. Lanterns and decorative lights enhancing the warm miniature architecture, creating a festive atmosphere. Stone tiers glowing with increased illumination while maintaining ancient geometric constraints. Fireflies and drifting embers animating the space. The lighting festive yet authentic, warm life filling the ancient space. Dramatic cinematic lighting with warm home lights contrasting against cool moonlight. Full moon casting silver light on upper tiers while warm golden-orange lamp glow radiates from dwelling windows carved into the lower stone surfaces creating intimate warm light pools. Texture details with weathered limestone surfaces illuminated by warm interior light, ancient stone patterns and carved dwelling openings showing traditional village architecture. Professional architectural photography composition with distributed warm light points creating visual rhythm across the six tiers and fireflies as dynamic foreground accents. Atmospheric depth with fireflies drifting between stone levels, warm light pools at multiple distances, wisps of smoke rising from cooking hearths, and distant village lights on upper tiers. Warm, intimate, lived-in atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 803,
+          "name": "Village - loop-middle",
+          "description": "The village hums with quiet activity. Lights glow steadily from homes embedded in the tier architecture. Fireflies drift in lazy patterns between the stone levels. Warm smoke rises from cooking hearths, suggesting recent use. A settled presence within ancient walls.",
+          "seed": 803,
+          "cultural_notes": "Quiet community activity mirrors the daily market and gathering rhythms of ancient Cypriot village life. The agora was the heart of the settlement where daily exchange occurred.",
+          "visual_brief": "The village humming with quiet settled activity. Lights glowing steadily from homes, not increasing but sustaining. Fireflies drifting in lazy patterns between stone levels. Warm smoke rising from cooking hearths, suggesting recent use. A settled established presence within the ancient walls, the warm lights sustained and comfortable.",
+          "prompt": "The village hums with quiet activity. Lights glow steadily from homes embedded in the tier architecture. Fireflies drift in lazy patterns between the stone levels. Warm smoke rises from cooking hearths, suggesting recent use. A settled presence within ancient walls. The village humming with quiet settled activity. Lights glowing steadily from homes, not increasing but sustaining. Fireflies drifting in lazy patterns between stone levels. Warm smoke rising from cooking hearths, suggesting recent use. A settled established presence within the ancient walls, the warm lights sustained and comfortable. Dramatic cinematic lighting with warm home lights contrasting against cool moonlight. Full moon casting silver light on upper tiers while warm golden-orange lamp glow radiates from dwelling windows carved into the lower stone surfaces creating intimate warm light pools. Texture details with weathered limestone surfaces illuminated by warm interior light, ancient stone patterns and carved dwelling openings showing traditional village architecture. Professional architectural photography composition with distributed warm light points creating visual rhythm across the six tiers and fireflies as dynamic foreground accents. Atmospheric depth with fireflies drifting between stone levels, warm light pools at multiple distances, wisps of smoke rising from cooking hearths, and distant village lights on upper tiers. Warm, intimate, lived-in atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 804,
+          "name": "Village - end-begins",
+          "description": "Autumn harvest celebration within the amphitheater. Warm light from home fires reflects on surfaces, suggesting abundance and community. Bundles of crops and gathered provisions rest against the stone tier edges. The scene emphasizes seasonal cycles within the ancient space through the traces of harvest activity left among the architecture.",
+          "seed": 804,
+          "cultural_notes": "Harvest activities emphasize community and seasonal rhythms within architectural constraints",
+          "visual_brief": "Autumn harvest celebration settling in. Warm light from home fires reflecting richly on stone surfaces, suggesting abundance. Bundles of crops and gathered provisions resting against the stone tier edges, indicating recent harvest activity. Seasonal cycles visible in the traces of harvest left among the architecture. Warmth reaching its richest intensity with the stored abundance reflecting in the warm glow.",
+          "prompt": "Autumn harvest celebration within the amphitheater. Warm light from home fires reflects on surfaces, suggesting abundance and community. Bundles of crops and gathered provisions rest against the stone tier edges. The scene emphasizes seasonal cycles within the ancient space through the traces of harvest activity left among the architecture. Autumn harvest celebration settling in. Warm light from home fires reflecting richly on stone surfaces, suggesting abundance. Bundles of crops and gathered provisions resting against the stone tier edges, indicating recent harvest activity. Seasonal cycles visible in the traces of harvest left among the architecture. Warmth reaching its richest intensity with the stored abundance reflecting in the warm glow. Dramatic cinematic lighting with warm home lights contrasting against cool moonlight. Full moon casting silver light on upper tiers while warm golden-orange lamp glow radiates from dwelling windows carved into the lower stone surfaces creating intimate warm light pools. Texture details with weathered limestone surfaces illuminated by warm interior light, ancient stone patterns and carved dwelling openings showing traditional village architecture. Professional architectural photography composition with distributed warm light points creating visual rhythm across the six tiers and fireflies as dynamic foreground accents. Atmospheric depth with fireflies drifting between stone levels, warm light pools at multiple distances, wisps of smoke rising from cooking hearths, and distant village lights on upper tiers. Warm, intimate, lived-in atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 805,
+          "name": "Village - end-final",
+          "description": "The village quiets as night deepens. Most windows dim to embers. A few fireflies remain, their glow fading. The stone tiers return to near-darkness with only occasional warm pinpoints of light. The village sleeps within the ancient amphitheater.",
+          "seed": 805,
+          "cultural_notes": "The village falling asleep mirrors the ancient Cypriot concept of 'eudaimonia' — the well-lived life, where community activity yields to rest in a cycle renewed each dawn.",
+          "visual_brief": "The village quieting as night deepens. Most windows dimming from bright glow to warm embers. Only a few fireflies remaining, their light fading. The stone tiers returning to near-darkness with only occasional warm pinpoints of light suggesting sleeping inhabitants. The village sleeping within the ancient amphitheater, the warm memory of habitation still faintly present but the architecture dominant again.",
+          "prompt": "The village quiets as night deepens. Most windows dim to embers. A few fireflies remain, their glow fading. The stone tiers return to near-darkness with only occasional warm pinpoints of light. The village sleeps within the ancient amphitheater. The village quieting as night deepens. Most windows dimming from bright glow to warm embers. Only a few fireflies remaining, their light fading. The stone tiers returning to near-darkness with only occasional warm pinpoints of light suggesting sleeping inhabitants. The village sleeping within the ancient amphitheater, the warm memory of habitation still faintly present but the architecture dominant again. Dramatic cinematic lighting with warm home lights contrasting against cool moonlight. Full moon casting silver light on upper tiers while warm golden-orange lamp glow radiates from dwelling windows carved into the lower stone surfaces creating intimate warm light pools. Texture details with weathered limestone surfaces illuminated by warm interior light, ancient stone patterns and carved dwelling openings showing traditional village architecture. Professional architectural photography composition with distributed warm light points creating visual rhythm across the six tiers and fireflies as dynamic foreground accents. Atmospheric depth with fireflies drifting between stone levels, warm light pools at multiple distances, wisps of smoke rising from cooking hearths, and distant village lights on upper tiers. Warm, intimate, lived-in atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        }
+      ],
+      "seed": 800
+    },
+    {
+      "id": 9,
+      "name": "Fire",
+      "description": "The fixed ancient amphitheater burns during the night. Fire follows the existing horizontal tier boundaries without changing their geometry. Remaining greenery burns and glows. A deep red blood moon appears centered only inside the rectangular opening of the central stone frame. Flames surround the frame while preserving its rigid rectangular silhouette. A thin elegant blood-red canal flows downward through the existing architecture toward the bottom-center stage. Tragic, monumental and ritualistic atmosphere.",
+      "control_image": "data/control_images/stage_v6_alphasky.png",
+      "control_lora_strength": 0.6,
+      "visual_language": {
+        "texture": "Fire-blackened weathered limestone, glowing ember patterns across stone surfaces, heat-distorted air above flames, soot staining on ancient stone, flickering light revealing rough stone texture in warm orange, red-ochre liquid flowing over dark stone creating crimson surface patterns, reflecting fire on wet stone near the canal",
+        "lighting": "Intense warm fire light dominating the scene: orange-yellow flames lining every tier edge creating upward vertical light movement. Deep red blood moon above providing cool red ambient fill from above. The heat of the fire creates a warm gradient upward from the tier edges, with the hottest white-yellow at flame base and orange-red at flame tips. The blood-red canal reflects both the fire and moonlight, creating a saturated crimson reflective line through the amphitheater center.",
+        "composition": "Wide shot from a low angle with flames rising in the foreground, creating vertical framing against the horizontal tier geometry. The rectangular frame opening is surrounded by flames on its lower edge but its silhouette remains perfectly sharp. The blood-red canal creates a dramatic vertical axis down the center of the composition. Professional architectural photography with fire as both destruction and tragic beauty.",
+        "mood": "Tragic, monumental, ritualistic, beautiful destruction. The amphitheater burns in sacred fire that follows the architecture's own lines, a transformation rather than mere destruction. The geometry remains readable through the flames.",
+        "camera": "Low angle, wide shot, flames rising in foreground as vertical elements framing the tiers, camera at tier 1-2 elevation looking slightly upward",
+        "atmospheric_depth": "Heat haze rising from burning stone, smoke at multiple levels rising through tiers, ember particles floating upward at all depths, flame glow reflected on smoke layers, the blood moon partially veiled by rising smoke at the frame opening."
+      },
+      "elements": {
+        "visual": [
+          "theatre burning following tier geometry",
+          "blood moon centered in frame",
+          "flames surrounding the frame",
+          "blood-red canal flowing down",
+          "tragic monumental atmosphere",
+          "ritualistic fire effects",
+          "maintained architectural integrity"
+        ],
+        "texture_materials": [
+          "fire-blackened weathered limestone",
+          "glowing ember patterns on stone",
+          "heat-distorted air",
+          "soot staining on ancient stone",
+          "rough stone revealed by flickering light",
+          "red-ochre liquid on dark stone",
+          "crimson reflective surfaces"
+        ],
+        "composition": [
+          "wide shot from low angle",
+          "flames rising in foreground",
+          "vertical fire framing",
+          "horizontal tier lines burning",
+          "blood-red canal as vertical axis",
+          "professional architectural photography"
+        ],
+        "lighting": [
+          "intense warm orange-yellow fire light",
+          "deep red blood moon above",
+          "vertical heat gradient warmest at base",
+          "white-yellow flame core",
+          "orange-red flame tips",
+          "reflecting fire on red canal"
+        ],
+        "atmosphere": [
+          "tragic",
+          "monumental",
+          "ritualistic",
+          "beautiful destruction",
+          "sacred fire",
+          "transformation not destruction",
+          "heat haze and smoke"
+        ]
+      },
+      "prompt_suffix": "Dramatic cinematic fire lighting emphasizing destructive beauty across architectural geometry. Full blood moon casting deep red light from above while intense orange and yellow flames line every tier edge below. Texture details with fire-blackened weathered limestone surfaces, glowing ember patterns on ancient stone and red-ochre liquid flowing over dark stone creating crimson surface patterns. Professional architectural photography composition from low angle with vertical flame lines framing the amphitheater geometry and blood-red canal flowing through the central axis as a dramatic vertical element. Atmospheric depth with heat haze rising from burning stone, smoke layers between tier levels, ember particles floating upward at all depths and the blood moon partially veiled by rising smoke through the frame opening. Tragic, monumental, ritualistic atmosphere with timeless quality.",
+      "subscenes": [
+        {
+          "id": 900,
+          "name": "Fire - intro-start",
+          "description": "Small flames wake along the lowest tier edges, licking at the ancient stone. The blood moon begins to redden inside the frame. Thin trails of smoke rise from the first burning greenery.",
+          "seed": 900,
+          "cultural_notes": "The first flames waking on stone echo the Cypro-Phoenician foundation rite — fire was used to 'wake' new stone constructions. The heat was believed to summon the earth spirit into the architecture.",
+          "visual_brief": "Small flames just beginning to wake along the lowest tier edges, licking at the ancient stone for the first time. The blood moon beginning to redden inside the frame, still mostly white with red creeping from the edges. Thin trails of smoke rising from the first burning greenery. The fire at its most tentative, the beginning of destruction.",
+          "prompt": "Small flames wake along the lowest tier edges, licking at the ancient stone. The blood moon begins to redden inside the frame. Thin trails of smoke rise from the first burning greenery. Small flames just beginning to wake along the lowest tier edges, licking at the ancient stone for the first time. The blood moon beginning to redden inside the frame, still mostly white with red creeping from the edges. Thin trails of smoke rising from the first burning greenery. The fire at its most tentative, the beginning of destruction. Dramatic cinematic fire lighting emphasizing destructive beauty across architectural geometry. Full blood moon casting deep red light from above while intense orange and yellow flames line every tier edge below. Texture details with fire-blackened weathered limestone surfaces, glowing ember patterns on ancient stone and red-ochre liquid flowing over dark stone creating crimson surface patterns. Professional architectural photography composition from low angle with vertical flame lines framing the amphitheater geometry and blood-red canal flowing through the central axis as a dramatic vertical element. Atmospheric depth with heat haze rising from burning stone, smoke layers between tier levels, ember particles floating upward at all depths and the blood moon partially veiled by rising smoke through the frame opening. Tragic, monumental, ritualistic atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 901,
+          "name": "Fire - intro-end",
+          "description": "Fire spreads along the horizontal tier boundaries, following the stone geometry precisely. The blood moon reaches full crimson at the center of the frame. A thin line of glowing red begins to flow down from the stage — the first trace of the blood canal.",
+          "seed": 901,
+          "cultural_notes": "Fire spreading along tier boundaries reflects the controlled burn practices of ancient Cypriot agriculture, where fire was guided along stone field boundaries without damaging the structure.",
+          "visual_brief": "Fire spreading along the horizontal tier boundaries, following the stone geometry precisely along each edge. The blood moon reaching full crimson at the center of the frame. A thin line of glowing red beginning to flow down from the stage level — the first trace of the blood-red canal. Fire now active across multiple tiers, the architecture burning along its own lines.",
+          "prompt": "Fire spreads along the horizontal tier boundaries, following the stone geometry precisely. The blood moon reaches full crimson at the center of the frame. A thin line of glowing red begins to flow down from the stage — the first trace of the blood canal. Fire spreading along the horizontal tier boundaries, following the stone geometry precisely along each edge. The blood moon reaching full crimson at the center of the frame. A thin line of glowing red beginning to flow down from the stage level — the first trace of the blood-red canal. Fire now active across multiple tiers, the architecture burning along its own lines. Dramatic cinematic fire lighting emphasizing destructive beauty across architectural geometry. Full blood moon casting deep red light from above while intense orange and yellow flames line every tier edge below. Texture details with fire-blackened weathered limestone surfaces, glowing ember patterns on ancient stone and red-ochre liquid flowing over dark stone creating crimson surface patterns. Professional architectural photography composition from low angle with vertical flame lines framing the amphitheater geometry and blood-red canal flowing through the central axis as a dramatic vertical element. Atmospheric depth with heat haze rising from burning stone, smoke layers between tier levels, ember particles floating upward at all depths and the blood moon partially veiled by rising smoke through the frame opening. Tragic, monumental, ritualistic atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 902,
+          "name": "Fire - loop-start-end",
+          "description": "Flames dance across all six tiers, contained within the architectural lines. The blood moon burns at the center of the frame, surrounded by fire. The blood-red canal flows steadily from the stage downward through the lower tiers.",
+          "seed": 902,
+          "cultural_notes": "The blood-red canal invokes the Phoenician funerary practice of pouring red ochre water through tombs — a symbolic blood offering intended to feed the spirits of the ancestors.",
+          "visual_brief": "Flames now dancing across all six tiers, contained within the architectural lines of the tier edges. The blood moon burning fully at the center of the frame, surrounded by fire glow and rising smoke. The blood-red canal flowing steadily from the stage downward through the lower tiers, creating a crimson vertical river through the burning amphitheater. Fire and blood in sustained ritual harmony.",
+          "prompt": "Flames dance across all six tiers, contained within the architectural lines. The blood moon burns at the center of the frame, surrounded by fire. The blood-red canal flows steadily from the stage downward through the lower tiers. Flames now dancing across all six tiers, contained within the architectural lines of the tier edges. The blood moon burning fully at the center of the frame, surrounded by fire glow and rising smoke. The blood-red canal flowing steadily from the stage downward through the lower tiers, creating a crimson vertical river through the burning amphitheater. Fire and blood in sustained ritual harmony. Dramatic cinematic fire lighting emphasizing destructive beauty across architectural geometry. Full blood moon casting deep red light from above while intense orange and yellow flames line every tier edge below. Texture details with fire-blackened weathered limestone surfaces, glowing ember patterns on ancient stone and red-ochre liquid flowing over dark stone creating crimson surface patterns. Professional architectural photography composition from low angle with vertical flame lines framing the amphitheater geometry and blood-red canal flowing through the central axis as a dramatic vertical element. Atmospheric depth with heat haze rising from burning stone, smoke layers between tier levels, ember particles floating upward at all depths and the blood moon partially veiled by rising smoke through the frame opening. Tragic, monumental, ritualistic atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 903,
+          "name": "Fire - loop-middle",
+          "description": "Peak fire — every tier edge lined with flame. The blood moon glows at maximum intensity within the frame opening. The red canal runs bright and continuous. The amphitheater burns in ritualistic majesty without losing its structure.",
+          "seed": 903,
+          "cultural_notes": "Peak conflagration mirrors the Cypriot tradition of the 'purification pyre' — a ritual burning within a confined sacred space that cleanses without destroying the containing architecture.",
+          "visual_brief": "Peak fire at maximum intensity. Every tier edge lined with flame, the amphitheater a layered inferno. Blood moon glowing at maximum intensity within the frame opening. The red canal running bright and continuous, a saturated crimson line through the center. The amphitheater burning in full ritualistic majesty, its structure perfectly readable through the fire. The most visually intense moment of the entire arc.",
+          "prompt": "Peak fire — every tier edge lined with flame. The blood moon glows at maximum intensity within the frame opening. The red canal runs bright and continuous. The amphitheater burns in ritualistic majesty without losing its structure. Peak fire at maximum intensity. Every tier edge lined with flame, the amphitheater a layered inferno. Blood moon glowing at maximum intensity within the frame opening. The red canal running bright and continuous, a saturated crimson line through the center. The amphitheater burning in full ritualistic majesty, its structure perfectly readable through the fire. The most visually intense moment of the entire arc. Dramatic cinematic fire lighting emphasizing destructive beauty across architectural geometry. Full blood moon casting deep red light from above while intense orange and yellow flames line every tier edge below. Texture details with fire-blackened weathered limestone surfaces, glowing ember patterns on ancient stone and red-ochre liquid flowing over dark stone creating crimson surface patterns. Professional architectural photography composition from low angle with vertical flame lines framing the amphitheater geometry and blood-red canal flowing through the central axis as a dramatic vertical element. Atmospheric depth with heat haze rising from burning stone, smoke layers between tier levels, ember particles floating upward at all depths and the blood moon partially veiled by rising smoke through the frame opening. Tragic, monumental, ritualistic atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 904,
+          "name": "Fire - end-begins",
+          "description": "Flames lower, their height decreasing. The blood canal narrows. The moon remains red but less intense. Embers glow across the stone surfaces. The tragic fire approaches its conclusion.",
+          "seed": 904,
+          "cultural_notes": "Lowering flames symbolize the withdrawal of divine fire. In Cypro-Phoenician ritual, the fire god Kothar would only remain present as long as the flames rose.",
+          "visual_brief": "Flames lowering, their height decreasing across all tiers. The blood-red canal narrowing as the flow reduces. The moon remaining red but less intensely saturated. Embers glowing across the stone surfaces where flames once burned. The fire approaching its conclusion, the intensity bleeding out of the scene as the flames fall.",
+          "prompt": "Flames lower, their height decreasing. The blood canal narrows. The moon remains red but less intense. Embers glow across the stone surfaces. The tragic fire approaches its conclusion. Flames lowering, their height decreasing across all tiers. The blood-red canal narrowing as the flow reduces. The moon remaining red but less intensely saturated. Embers glowing across the stone surfaces where flames once burned. The fire approaching its conclusion, the intensity bleeding out of the scene as the flames fall. Dramatic cinematic fire lighting emphasizing destructive beauty across architectural geometry. Full blood moon casting deep red light from above while intense orange and yellow flames line every tier edge below. Texture details with fire-blackened weathered limestone surfaces, glowing ember patterns on ancient stone and red-ochre liquid flowing over dark stone creating crimson surface patterns. Professional architectural photography composition from low angle with vertical flame lines framing the amphitheater geometry and blood-red canal flowing through the central axis as a dramatic vertical element. Atmospheric depth with heat haze rising from burning stone, smoke layers between tier levels, ember particles floating upward at all depths and the blood moon partially veiled by rising smoke through the frame opening. Tragic, monumental, ritualistic atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        },
+        {
+          "id": 905,
+          "name": "Fire - end-final",
+          "description": "Fire reduces to glowing embers along the tier edges. The blood canal thins to a dark trickle. The moon returns toward white. Smoke rises from the cooled stone. The amphitheater stands scarred but intact, its geometry preserved.",
+          "seed": 905,
+          "cultural_notes": "The amphitheater scarred but intact represents the central Phoenician theological principle of permanence through transformation — form endures while substance changes.",
+          "visual_brief": "Fire reduced to glowing embers along the tier edges, no active flames. The blood canal thinned to a dark trickle, the red barely visible. The moon returning toward white, the transformation reversing. Smoke still rising from the cooling stone. The amphitheater standing scarred but intact, its geometry preserved, the fire having passed through without breaking the structure. A charred, quiet aftermath.",
+          "prompt": "Fire reduces to glowing embers along the tier edges. The blood canal thins to a dark trickle. The moon returns toward white. Smoke rises from the cooled stone. The amphitheater stands scarred but intact, its geometry preserved. Fire reduced to glowing embers along the tier edges, no active flames. The blood canal thinned to a dark trickle, the red barely visible. The moon returning toward white, the transformation reversing. Smoke still rising from the cooling stone. The amphitheater standing scarred but intact, its geometry preserved, the fire having passed through without breaking the structure. A charred, quiet aftermath. Dramatic cinematic fire lighting emphasizing destructive beauty across architectural geometry. Full blood moon casting deep red light from above while intense orange and yellow flames line every tier edge below. Texture details with fire-blackened weathered limestone surfaces, glowing ember patterns on ancient stone and red-ochre liquid flowing over dark stone creating crimson surface patterns. Professional architectural photography composition from low angle with vertical flame lines framing the amphitheater geometry and blood-red canal flowing through the central axis as a dramatic vertical element. Atmospheric depth with heat haze rising from burning stone, smoke layers between tier levels, ember particles floating upward at all depths and the blood moon partially veiled by rising smoke through the frame opening. Tragic, monumental, ritualistic atmosphere with timeless quality. --no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns"
+        }
+      ],
+      "seed": 900
     }
   ],
   "style_seed": "Cypro-Phoenician and Levantine Bronze Age ruin style. Weathered limestone, ashlar sandstone, mudbrick traces and ancient stone construction. No human figures or faces. Restrained ornamentation. No Doric or Ionic columns, no Classical Greek temple architecture, no Parthenon silhouettes, no white marble monuments.",

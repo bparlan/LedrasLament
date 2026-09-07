@@ -19,7 +19,10 @@
     },
     "data/sources/": {
       "aim": "Canonical scene definitions.",
-      "key": "ledras_scenes_v8.json — 9 scenes (Intro → Outro) with descriptions, elements, seeds."
+      "key": [
+        "ledras_scenes_v9_visual_language.json",
+        "ledras_scenes_v8.json (retained)"
+      ]
     },
     "src/": {
       "aim": "Support modules.",
