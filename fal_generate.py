@@ -333,7 +333,7 @@ class LedrasSceneGenerator:
 
     def __call__(self):
         """Allow instance to be called as a function"""
-        return self.run_complete_pipeline([8], "intro")
+        return self.run_complete_pipeline([7], "intro")
 
 # ====================================================
 # MAIN EXECUTION

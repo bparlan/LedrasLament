@@ -13,5 +13,9 @@
   "weathered_stone_texture": true,
   "subscene_variation_count": 2,
   "cultural_authenticity_level": "cypro_phoenician",
-  "ornamentation_allowed": false
+  "ornamentation_allowed": false,
+  "guidance_scale": 3.5,
+  "enable_safety_checker": true,
+  "control_lora_strength": 0.7,
+  "control_lora_image_url": "https://v3b.fal.media/files/b/0aa96efc/TUAt8eL9nzq2H3jP6Nzbu_stage_v6_alphasky.png"
 }
