@@ -32,7 +32,7 @@
 - `stage/stage_v6_alphasky.png`
 
 ### Prompt Source
-- `data/scenes/ledras_scenes_v7.json`
+- `data/sources/ledras_scenes_v8.json`
 
 ## Critical Rules
 

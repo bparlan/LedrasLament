@@ -23,36 +23,16 @@ from datetime import datetime
 
 from fal_client import SyncClient
 from utils import get_resolution, estimate_cost
-from src.gateway import Gateway
-
-__all__ = ["get_resolution", "estimate_cost"]
 
 
 class LedrasConfig:
+
+
     def __init__(self):
-        # Core configuration
-        self.output_dir = "assets/generated"
-        self.scenes_file = "data/sources/ledras_scenes_v7.json"
-
-        # FALAI API parameters (validated against fal-ai/flux-control-lora-canny schema)
-        self.fal_model = "fal-ai/flux-control-lora-canny"
-        self.num_inference_steps = 28
-        self.image_size = {"width": 1280, "height": 704}
-        self.seed = 42
-        self.subscene_variation_count = 2
-        self.cultural_authenticity_level = "cypro_phoenician"
-        self.ornamentation_allowed = False
-
-        # Additional user-requested parameters
-        self.guidance_scale = 3.5
-        self.enable_safety_checker = True
-        self.control_lora_strength = 0.6
-
-        # Load from imagine-config.json if available
         self.load_imagine_config()
 
     def load_imagine_config(self):
-        """Load configuration from imagine-config.json"""
+        """Load configuration from imagine-config.json (sole source of truth)"""
         config_path = "imagine-config.json"
         try:
             with open(config_path, 'r') as f:
@@ -63,12 +43,8 @@ class LedrasConfig:
 
             print(f"✅ Configuration loaded from {config_path}")
         except Exception as e:
-            print(f"⚠️  Warning: Could not load {config_path}: {e}")
-            self.set_default_config()
-
-    def set_default_config(self):
-        """Set default configuration values"""
-        print("✅ Default configuration applied")
+            print(f"❌ Fatal: Could not load {config_path}: {e}")
+            sys.exit(1)
 
 
 class LedrasSceneGenerator:
@@ -250,46 +226,6 @@ class LedrasSceneGenerator:
 
         return generated
 
-    def save_prompts(self, output_path: str = "generated_prompts.json"):
-        """Save generated prompts to JSON file"""
-        try:
-            prompts = self.generate_all_prompts()
-            with open(output_path, 'w') as f:
-                json.dump(prompts, f, indent=2)
-            print(f"✅ Prompts saved to {output_path}")
-        except Exception as e:
-            print(f"❌ Error saving prompts: {e}")
-
-    def validate_generated_prompts(self) -> Dict[str, Any]:
-        """Check generated prompts have sufficient content"""
-        try:
-            prompts = self.generate_all_prompts()
-
-            missing = []
-            valid_count = 0
-
-            for scene_id, roles in prompts.items():
-                for role, prompt in roles.items():
-                    if not prompt or len(prompt.strip()) < 10:
-                        missing.append(f"Scene {scene_id}, Role {role}")
-                    else:
-                        valid_count += 1
-
-            report = {
-                'total_scenes': len(prompts),
-                'scenes_with_prompts': valid_count,
-                'validation_pass_rate': valid_count / max(len(prompts), 1) * 100 if prompts else 0,
-                'missing_prompts': missing,
-                'generated_scenes': list(prompts.keys())
-            }
-
-            print(f"✅ Validation complete: {report['validation_pass_rate']:.2f}% pass rate")
-            return report
-
-        except Exception as e:
-            print(f"❌ Error validating prompts: {e}")
-            return {'validation_pass_rate': 0.0, 'error': str(e)}
-
     def run_complete_pipeline(self, target_scenes: List[int], target_role: str = "intro"):
         """Run the complete pipeline for target scenes"""
         print("=" * 60)
@@ -299,27 +235,18 @@ class LedrasSceneGenerator:
         print(f"🎭 Target Role: {target_role}")
         print()
 
-        print("📝 Step 1: Generating prompts...")
-        self.save_prompts()
-
-        print()
-        print("🎨 Step 2: Generating images...")
+        print("🎨 Generating images...")
         generated = self.generate_specific_images(target_scenes, target_role)
 
         print()
-        print("✅ Step 3: Pipeline completed!")
+        print("✅ Pipeline completed!")
         print(f"📊 Generated: {len(generated)}/{len(target_scenes)} scenes")
-
-        print()
-        print("🔍 Step 4: Validating prompts...")
-        validation = self.validate_generated_prompts()
 
         print()
         print("=" * 60)
         print("🎉 PIPELINE SUMMARY")
         print("=" * 60)
         print(f"✅ Total scenes generated: {len(generated)}")
-        print(f"✅ Validation pass rate: {validation['validation_pass_rate']:.2f}%")
         print(f"✅ Model used: {self.config.fal_model}")
         print(f"✅ Control strength: {self.config.control_lora_strength}")
         print(f"✅ Cultural authenticity: {self.config.cultural_authenticity_level}")
@@ -327,21 +254,12 @@ class LedrasSceneGenerator:
 
         return generated
 
-    def __call__(self):
-        """Allow instance to be called as a function"""
-        return self.run_complete_pipeline([5, 8], "intro")
-
 
 if __name__ == "__main__":
     print("=== Ledras Lament Scene Generation Pipeline ===")
     print()
 
     try:
-        gateway = Gateway()
-
-        if not gateway.has_rights():
-            print("⚠️  Gateway: rights exhausted. Generation will still proceed (advisory only).")
-
         generator = LedrasSceneGenerator()
 
         # Accept scene IDs from CLI args (e.g. `python3 fal_generate.py 3 5`); default scene 6
