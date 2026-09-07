@@ -53,7 +53,7 @@ class LedrasConfig:
         self.guidance_scale = 3.5
         self.enable_safety_checker = True
         self.control_lora_strength = 0.6
-        self.control_lora_image_url = None
+        # control_lora_image_url will be loaded from imagine-config.json if present
         self.weathered_stone_texture = True
         self.subscene_variation_count = 2
         self.cultural_authenticity_level = "cypro_phoenician"
@@ -208,6 +208,7 @@ class LedrasSceneGenerator:
                 "control_lora_strength": self.config.control_lora_strength,
                 "control_start": self.config.control_start,
                 "control_stop": self.config.control_stop,
+                "control_lora_image_url": self.config.control_lora_image_url,
             }
 
             if self.config.weathered_stone_texture:
