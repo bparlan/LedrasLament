@@ -200,14 +200,34 @@ export FAL_API_KEY="your-fal-api-key-here"
 # The system reads from environment variables, never from .env files
 python3 fal_generate.py
 ```
+## CLI Help and Usage Documentation
 
-### **Current System Status:**
+The `fal_generate.py` script provides a command‑line interface based on Python's `argparse`.  Running the script with `-h` or `--help` displays usage information.
 
-#### **Generated Assets:**
-- **27 Prompts:** Generated across 9 scenes × 3 roles
-- **Prompts Registry:** `generated_prompts.json` with validation metadata
-- **API Key:** Configured and validated
-- **Pipeline:** Ready for automated rendering
+```bash
+# Default execution – generates scene 5 with all three roles (intro, loop, outro)
+python3 fal_generate.py
+
+# Generate specific scenes with custom roles
+python3 fal_generate.py --scene 5 8 --roles intro loop outro
+
+# Generate a single role for a given scene
+python3 fal_generate.py --scene 5 --roles intro
+
+# Generate only subscenes (skip the main scene images)
+python3 fal_generate.py --scene 5 --subscene-only
+```
+
+**Key options**
+- `--scene` – one or more scene IDs to generate (default: `5`).
+- `--roles` – list of roles (`intro`, `loop`, `outro`) to generate for each scene (default: all three).
+- `--subscene-only` – generate only the defined subscenes for the selected scenes.
+- `--version` – prints the tool version.
+
+All arguments include descriptive help strings; invoking `python3 fal_generate.py -h` displays a clear usage guide.
+
+**Important:**
+- The script never stores the API key in source code.  See the **API Key Management** section for details on setting the `FAL_API_KEY` environment variable.
 
 #### **Validation Results:**
 - **100% Validation Pass Rate:** All prompts meet quality standards
