@@ -17,14 +17,13 @@ User-Requested Parameters:
 
 import json
 import os
-import base64
+import sys
+import argparse
 from pathlib import Path
-from typing import Dict, List, Any, Optional, Tuple
+from typing import Dict, List, Any, Optional
 from datetime import datetime
 from fal_client import SyncClient
 from src.gateway import Gateway
-import traceback
-import sys
 from enum import Enum
 from dataclasses import dataclass
 from contextlib import contextmanager
@@ -41,14 +40,12 @@ class SceneConfig:
     description: str
     seed: int
     subscenes: List[Dict[str, Any]] = None
-
 @dataclass
 class GenerationRequest:
     """Request for image generation"""
     scene_id: int
     role: str = "intro"
     subscene_id: Optional[int] = None
-
 @dataclass
 class GenerationResult:
     """Result of image generation"""
@@ -90,9 +87,6 @@ class LedrasConfig:
         self.enable_safety_checker = True
         self.control_lora_strength = 0.6
 
-        # Load from imagine-config.json if available
-        self.load_imagine_config()
-
     def load_imagine_config(self):
         """Load configuration from imagine-config.json"""
         config_path = "imagine-config.json"
@@ -107,10 +101,6 @@ class LedrasConfig:
             print(f"✅ Configuration loaded from {config_path}")
         except Exception as e:
             print(f"⚠️  Warning: Could not load {config_path}: {e}")
-
-    def set_default_config(self):
-        """Set default configuration values"""
-        print("✅ Default configuration applied")
 class GatewayManager:
     """Manage gateway token allocation"""
 
@@ -266,7 +256,7 @@ class LedrasSceneGenerator:
             self.client = SyncClient()
         else:
             print("✅ FAL_API_KEY configured successfully")
-            # IMPORTANT: Set the client with the API key when available
+            # CORRECT: Create client with API key when available
             self.client = SyncClient(key=self.api_key)
 
         if hasattr(self, 'api_key') and self.api_key and ':' in self.api_key:
@@ -502,7 +492,6 @@ class LedrasSceneGenerator:
         # Prepare requests
         for scene_id in target_scenes:
             for role in target_roles:
-                # Add main scene
                 requests.append(GenerationRequest(scene_id=scene_id, role=role))
 
                 # Add subsences if they exist
@@ -556,9 +545,9 @@ class LedrasSceneGenerator:
         return generated
 
     def __call__(self, target_scenes: List[int] = None, target_roles: List[str] = None):
-        """Allow instance to be called as a function"""
+        """Allow instance to be called as a function - Fixed to generate only scene 5 by default"""
         if target_scenes is None:
-            target_scenes = [5, 8]  # Default scenes
+            target_scenes = [5]  # Default to scene 5 only
 
         return self.run_complete_pipeline(target_scenes, target_roles)
 @contextmanager
@@ -571,26 +560,103 @@ def resource_manager():
         raise
     finally:
         print("🧹 Resource cleanup completed")
+def parse_command_line_args():
+    """Parse command-line arguments for flexible scene selection"""
+    parser = argparse.ArgumentParser(
+        description="Ledras Lament Scene Generator - Deterministic Edition",
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+
+    parser.add_argument(
+        "--scene",
+        type=int,
+        nargs="+",
+        default=[5],
+        help="Scene IDs to generate (e.g., --scene 5 or --scene 1 3 5 8)"
+    )
+
+    parser.add_argument(
+        "--roles",
+        type=str,
+        nargs="+",
+        default=["intro", "loop", "outro"],
+        help="Roles to generate for each scene (e.g., --roles intro loop outro)"
+    )
+
+    parser.add_argument(
+        "--subscene-only",
+        action="store_true",
+        help="Only generate subscenes, not main scenes"
+    )
+
+    parser.add_argument(
+        "--version",
+        action="version",
+        version="Ledras Lament Scene Generator 1.0.0"
+    )
+
+    return parser.parse_args()
 def main():
     """Main execution function"""
     print("=== Ledras Lament Scene Generation Pipeline - Deterministic Edition ===")
     print()
 
     try:
+        # Parse command-line arguments for flexible scene selection
+        args = parse_command_line_args()
+
         # Setup Gateway for rate limiting
         generator = LedrasSceneGenerator()
 
-        # Generate the requested scene using deterministic pipeline
-        print(f"🎨 Generating scenes using deterministic pipeline...")
-        scenes = generator.run_complete_pipeline([5], ["intro", "loop", "outro"])
+        # Prepare requests based on arguments
+        requests = []
+
+        if not args.subscene_only:
+            for scene_id in args.scene:
+                for role in args.roles:
+                    requests.append(GenerationRequest(scene_id=scene_id, role=role))
+
+        # Add subsences for each specified scene
+        for scene_id in args.scene:
+            subscenes = generator.scene_loader.get_all_subscenes(scene_id)
+            for subscene in subscenes:
+                subscene_request = GenerationRequest(
+                    scene_id=scene_id,
+                    role=args.roles[0] if args.roles else "intro",
+                    subscene_id=subscene.get('id')
+                )
+                requests.append(subscene_request)
+
+        print(f"🎨 Starting generation for Scenes {args.scene}")
+        print(f"🎭 Roles: {args.roles}")
+        print(f"📊 Total requests: {len(requests)}")
+
+        # Generate images
+        print()
+        print("📸 Step 1: Generating images...")
+        generated = generator.generate_specific_images(requests)
 
         print()
-        print("✅ SUCCESS: Scenes generated successfully!")
-        print(f"📊 Generated: {len(scenes)} images")
-        print(f"🎯 Scenes: {[r.scene_id for r in scenes if r.success]}")
-        print(f"📝 Roles: {[r.role for r in scenes if r.success]}")
+        print("✅ Step 2: Generation complete!")
+        print(f"📊 Generated: {len([r for r in generated if r.success])}/{len(requests)} requests")
+        print(f"❌ Failed: {len([r for r in generated if not r.success])}/{len(requests)}")
 
-        return scenes
+        # Summary by scene
+        scenes_by_id = {}
+        for result in generated:
+            if result.scene_id not in scenes_by_id:
+                scenes_by_id[result.scene_id] = []
+            scenes_by_id[result.scene_id].append(result)
+
+        print()
+        print("📊 Generation Summary:")
+        for scene_id in sorted(scenes_by_id.keys()):
+            scene_results = scenes_by_id[scene_id]
+            success_count = len([r for r in scene_results if r.success])
+            total_count = len(scene_results)
+            print(f"  Scene {scene_id}: {success_count}/{total_count} successful")
+
+        return generated
 
     except Exception as e:
         print(f"❌ ERROR: {str(e)}")
