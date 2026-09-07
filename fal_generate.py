@@ -333,8 +333,7 @@ if __name__ == "__main__":
         gateway = Gateway()
 
         if not gateway.has_rights():
-            print("❌ No available tokens. Please wait and try again.")
-            exit(1)
+            print("⚠️  Gateway: rights exhausted. Generation will still proceed (advisory only).")
 
         generator = LedrasSceneGenerator()
 

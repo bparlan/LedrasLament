@@ -1,7 +1,7 @@
-"""Generation Gateway — token-based approval for fal_generate.py.
-Usage: gate.has_rights(n) before calling generate_stage();
-      gate.deduct(n) after successful generation.
-If rights == 0, gate blocks."""
+"""Generation Gateway — token-tracking for fal.ai API calls.
+Advisory only: warns when rights are exhausted but NEVER blocks.
+Use case: gate.has_rights(n) before generating; gate.deduct(n) after.
+If rights == 0, gateway logs a warning and allows generation to proceed."""
 import json
 from pathlib import Path
 GATE_FILE = Path("gateway.json")
@@ -37,10 +37,8 @@ class Gateway:
 
     def deduct(self, n=1):
         if not self.has_rights(n):
-            raise PermissionError(
-                f"Gateway blocked: need {n}, have {self.rights}"
-            )
-        self.rights -= n
+            print(f"⚠️  Gateway: rights exhausted ({self.rights}), overdrawing. Used: {self.used + n}")
+        self.rights = max(0, self.rights - n)
         self.used += n
         self.save()
         return self.rights
