@@ -18,14 +18,19 @@ User-Requested Parameters:
 
 import json
 import os
-import base64
-from pathlib import Path
+import requests
 from typing import Dict, List, Any, Optional
 from datetime import datetime
 
 # Fal client imports
 from fal_client import SyncClient
-from src.gateway import Gateway
+# Re-export utilities from utils for test compatibility
+from utils import get_resolution, estimate_cost
+__all__ = ["get_resolution", "estimate_cost"]
+
+# ====================================================
+# CONFIGURATION CLASS (from src/fal_generate_fixed.py)
+# ====================================================
 
 # ====================================================
 # CONFIGURATION CLASS (from src/fal_generate_fixed.py)
@@ -204,6 +209,25 @@ class LedrasSceneGenerator:
             if result and hasattr(result, 'images') and result.images:
                 image_data = result.images[0]
                 print(f"✅ Image generation successful for scene {scene_id}!")
+
+                # Build deterministic file name and save image
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                filename = f"scene-{scene_id:02d}_v{self.config.seed:03d}_{timestamp}.png"
+                output_path = os.path.join(self.config.output_dir, filename)
+                file_path = None
+
+                if hasattr(image_data, 'url'):
+                    try:
+                        response = requests.get(image_data.url)
+                        response.raise_for_status()
+                        os.makedirs(self.config.output_dir, exist_ok=True)
+                        with open(output_path, 'wb') as f:
+                            f.write(response.content)
+                        print(f"✅ Image saved to: {output_path}")
+                        file_path = output_path
+                    except Exception as e:
+                        print(f"⚠️  Failed to download image: {e}")
+
                 return {
                     "scene_id": scene_id,
                     "role": role,
@@ -211,7 +235,8 @@ class LedrasSceneGenerator:
                     "image_data": image_data,
                     "generation_timestamp": datetime.now().isoformat(),
                     "model_used": self.config.fal_model,
-                    "seed": self.config.seed
+                    "seed": self.config.seed,
+                    "file_path": file_path
                 }
             else:
                 print(f"⚠️  No images returned from API for scene {scene_id}")
@@ -268,42 +293,34 @@ class LedrasSceneGenerator:
             print(f"❌ Error saving prompts: {e}")
 
     def validate_generated_prompts(self) -> Dict[str, Any]:
-        """Validate generated prompts"""
+        """Check generated prompts have sufficient content"""
         try:
             prompts = self.generate_all_prompts()
 
-            report = {
-                'total_scenes': len(prompts),
-                'scenes_with_prompts': 0,
-                'validation_pass_rate': 0.0,
-                'missing_prompts': [],
-                'generated_scenes': list(prompts.keys())
-            }
+            missing = []
+            valid_count = 0
 
             for scene_id, roles in prompts.items():
-                scene_valid = True
-
                 for role, prompt in roles.items():
                     if not prompt or len(prompt.strip()) < 10:
-                        scene_valid = False
-                        report['missing_prompts'].append(f"Scene {scene_id}, Role {role}")
+                        missing.append(f"Scene {scene_id}, Role {role}")
+                    else:
+                        valid_count += 1
 
-                if scene_valid:
-                    report['scenes_with_prompts'] += 1
-
-            if report['total_scenes'] > 0:
-                report['validation_pass_rate'] = (report['scenes_with_prompts'] /
-                                                 report['total_scenes']) * 100
+            report = {
+                'total_scenes': len(prompts),
+                'scenes_with_prompts': valid_count,
+                'validation_pass_rate': valid_count / max(len(prompts), 1) * 100 if prompts else 0,
+                'missing_prompts': missing,
+                'generated_scenes': list(prompts.keys())
+            }
 
             print(f"✅ Validation complete: {report['validation_pass_rate']:.2f}% pass rate")
             return report
 
         except Exception as e:
             print(f"❌ Error validating prompts: {e}")
-            return {
-                'validation_pass_rate': 0.0,
-                'error': str(e)
-            }
+            return {'validation_pass_rate': 0.0, 'error': str(e)}
 
     def run_complete_pipeline(self, target_scenes: List[int], target_role: str = "intro"):
         """Run the complete pipeline for target scenes"""
