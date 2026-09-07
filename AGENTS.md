@@ -51,12 +51,9 @@
 ├── data/scenes/
 │   └── ledras_scenes_v4.json         # Authoritative 9-scene database with visual/narrative prompts
 ├── src/
-│   └── fal_generate.py               # Main CLI & fal_client driver
-│       ├── load_config()             # Project config validator
-│       ├── load_scenes()             # JSON scene parser
-│       ├── ensure_line_out()         # Control input router (canny / depth modes)
-│       ├── generate_stage()          # Single-request fal.ai SyncClient engine
-│       └── main()                    # CLI argument parser (--scene N, --list-scenes)
+│   └── fal_generate.py               # Main CLI & fal_client driver (fixed version, now at repo root)
+    # (removed legacy src/fal_generate.py, moved to repository root as fal_generate.py)
+    # (src/fal_generate.py.broken and src/fal_generate_fixed.py archived in recyclebin)
 ├── stage/                            # Structural guideline & depth assets
 │   ├── guideline_line_out.png        # Canny edge control template
 │   └── depth_template.jpg            # Depth map control template

@@ -84,7 +84,7 @@ Here is the complete catalog of files driving this upgrade:
 - **Path:** `quality_assurance.json`
 - **Purpose:** Our strict verification framework specifying the mandatory standards for textures, shadows, and regional context.
 
-### 5. 🚀 **`fal_generate.py`**
+### 5. 🚀 **`fal_generate.py`** (fixed, now at the repository root)
 - **Path:** `fal_generate.py`
 - **Purpose:** The core Python pipeline engine that ingests configurations, generates, validates, and hashes prompts deterministically.
 - **Execution:** `python3 fal_generate.py`

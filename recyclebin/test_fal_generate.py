@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Test the corrected fal_generate.py module."""
 
-from src.fal_generate import get_resolution, estimate_cost
+from fal_generate import get_resolution, estimate_cost
 
 # Test get_resolution
 config = {'image_size': 'landscape_16_9'}
