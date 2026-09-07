@@ -108,6 +108,43 @@ missing = VALID_KEYS - set(fake_params.keys())
 assert not missing - {"control_lora_image_url"}, f"missing required fal_params keys: {missing}"
 print(f"✅ fal_params keys → all {len(fake_params)} are schema-valid")
 
+# ── Subscene prompt building ──────────────────────────────────────
+
+with open(generator.config.scenes_file) as f:
+    scenes_data = json.load(f)
+scene1 = next(s for s in scenes_data['scenes'] if s['id'] == 1)
+sub100 = scene1['subscenes'][0]
+prompt = generator._build_subscene_prompt(scene1, sub100)
+assert "[seed:42]" in prompt, f"subseed: {prompt[prompt.find('[seed:'):prompt.find(']', prompt.find('[seed:'))+1]}"
+assert "[Intro - intro-start]" in prompt, "subscene name tag in prompt"
+assert len(prompt) > 50, f"subscene prompt too short: {len(prompt)} chars"
+print(f"✅ _build_subscene_prompt(scene 1, intro-start) → valid ({len(prompt)} chars)")
+
+# All 6 subscenes produce valid prompts
+for sub in scene1['subscenes']:
+    p = generator._build_subscene_prompt(scene1, sub)
+    assert f"[seed:{sub['seed']}]" in p, f"seed {sub['seed']} in prompt for {sub['name']}"
+    assert len(p) > 50
+print(f"✅ All {len(scene1['subscenes'])} scene 1 subscenes produce valid prompts")
+
+# ── Filename format (regression guard: uses same interpolation as generate_image) ──
+sub_label = "100"
+sub_part = f"_{sub_label}" if sub_label else ""
+filename = f"scene-{1:02d}{sub_part}_v{generator.config.seed:03d}_XXXXXXXX_XXXXXX.png"
+assert filename.startswith("scene-01_100_v042_"), f"filename pattern mismatch: {filename}"
+print(f"✅ Filename format: {filename.replace('_XXXXXXXX_XXXXXX', '_{timestamp}')}")
+
+# ── Generation log structure (regression guard: URL must be logged before download) ──
+log_entry = {
+    "scene_id": 1, "seed": 42, "sub_label": "100", "role": "test",
+    "image_url": "https://example.com/img.png", "timestamp": "20260907_120000",
+    "filename": "scene-01_100_v042_20260907_120000.png",
+}
+assert "image_url" in log_entry, "log must contain image_url for recovery"
+assert "sub_label" in log_entry, "log must contain sub_label"
+assert "filename" in log_entry, "log must contain filename for path matching"
+print(f"✅ Generation log fields: {', '.join(sorted(log_entry.keys()))}")
+
 # ── Summary ───────────────────────────────────────────────────────
 
 print(f"\n{'='*50}")

@@ -51,9 +51,20 @@ python3 fal_generate.py 3 5 8
 
 # Generate a single scene
 python3 fal_generate.py 2
+
+# Generate all 6 subscenes (narrative arc) for a scene
+python3 fal_generate.py --subscenes 1
+
+# Generate subscenes for multiple scenes (12 images total)
+python3 fal_generate.py --subscenes 1 3
 ```
 
-No `--flags`, no subcommands. Scene IDs as positional args; default `6` if none given.
+Scene IDs as positional args; default `6` if none given. Use `--subscenes` flag for narrative arc generation — produces 6 images per scene with unique seeds and per-subscene descriptions.
+
+### Output naming
+
+- **Per-scene**: `scene-03_v042_20260907_124714.png`
+- **Per-subscene**: `scene-01_100_v042_20260907_151706.png` (`100` = subscene ID)
 
 ## Testing
 
@@ -61,7 +72,7 @@ No `--flags`, no subcommands. Scene IDs as positional args; default `6` if none 
 python3 tests/test_fal_generate.py
 ```
 
-10 assertions covering resolution mapping, cost estimation, prompt building, and API parameter schema compliance.
+15 assertions covering resolution mapping, cost estimation, prompt building, API parameter schema compliance, subscene prompt building (6 roles), filename format, and generation log structure.
 
 ## Architecture
 
@@ -70,8 +81,8 @@ imagine-config.json          ← sole config source
 fal_generate.py              ← pipeline: LedrasConfig + LedrasSceneGenerator
 utils.py                     ← get_resolution(), estimate_cost()
 src/gateway.py               ← advisory token tracking (prints warning, never blocks)
-data/sources/ledras_scenes_v8.json  ← scene definitions
-tests/test_fal_generate.py   ← test suite
+data/sources/ledras_scenes_v8.json  ← scene definitions (54 subscenes across 9 scenes)
+tests/test_fal_generate.py   ← test suite (15 assertions)
 assets/generated/            ← output images
 ```
 
@@ -82,4 +93,7 @@ assets/generated/            ← output images
 - **Config change?** Edit `imagine-config.json` only.
 - **Scene data change?** Edit `data/sources/ledras_scenes_v8.json` only.
 - **Image size / control strength / model?** `imagine-config.json` → automatically picked up by `fal_generate.py` on next run.
-- No need to touch `fal_generate.py`, `AGENTS.md`, or docs when config values change.
+- `assets/generated/generation_log.jsonl` is append-only — preserves URL even if download fails. Recovery: re-download by replaying URLs from this log within fal's CDN window (~hours).
+- Changing config values? `imagine-config.json` only — no need to touch `fal_generate.py`, `AGENTS.md`, or docs.
+- Generating subscenes? Use `--subscenes` flag. Each subscene uses its own seed from `ledras_scenes_v8.json`.
+- Download failed? Check `assets/generated/generation_log.jsonl` — URLs are logged before download, so a script can re-fetch missing images from fal's temporary CDN.

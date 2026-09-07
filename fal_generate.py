@@ -18,6 +18,7 @@ import json
 import os
 import requests
 import sys
+import time
 from typing import Dict, List, Any, Optional
 from datetime import datetime
 
@@ -133,6 +134,7 @@ class LedrasSceneGenerator:
                        seed: Optional[int] = None,
                        sub_label: str = "") -> Optional[Dict[str, Any]]:
         """Generate a single image using fal.ai API with SyncClient"""
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         try:
             print(f"🎨 Generating image: Scene {scene_id}, Role: {role}")
             print(f"   Prompt preview: {prompt[:100]}..." if len(prompt) > 100 else f"   Prompt: {prompt}")
@@ -178,16 +180,38 @@ class LedrasSceneGenerator:
                     image_url = (image_data.get("url") if isinstance(image_data, dict)
                                  else (image_data.url if hasattr(image_data, 'url') else None))
                     if image_url:
+                        # Log URL before download — recoverable if download fails
+                        log_path = os.path.join(self.config.output_dir, "generation_log.jsonl")
+                        log_entry = {
+                            "scene_id": scene_id, "seed": image_seed,
+                            "sub_label": sub_label, "role": role,
+                            "image_url": image_url, "timestamp": timestamp,
+                            "filename": filename,
+                        }
                         try:
-                            response = requests.get(image_url)
-                            response.raise_for_status()
                             os.makedirs(self.config.output_dir, exist_ok=True)
-                            with open(output_path, 'wb') as f:
-                                f.write(response.content)
-                            print(f"✅ Image saved to: {output_path}")
-                            file_path = output_path
+                            with open(log_path, 'a') as f:
+                                f.write(json.dumps(log_entry) + "\n")
                         except Exception as e:
-                            print(f"⚠️  Failed to download image: {e}")
+                            print(f"⚠️  Failed to write generation log: {e}")
+
+                        # Download with one retry on failure
+                        for attempt in range(2):
+                            try:
+                                response = requests.get(image_url, timeout=30)
+                                response.raise_for_status()
+                                os.makedirs(self.config.output_dir, exist_ok=True)
+                                with open(output_path, 'wb') as f:
+                                    f.write(response.content)
+                                print(f"✅ Image saved to: {output_path}")
+                                file_path = output_path
+                                break
+                            except Exception as e:
+                                if attempt == 0:
+                                    print(f"⚠️  Download failed, retrying: {e}")
+                                    time.sleep(1)
+                                else:
+                                    print(f"⚠️  Failed to download image after retry: {e}")
 
                 return {
                     "scene_id": scene_id,

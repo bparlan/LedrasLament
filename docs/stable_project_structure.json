@@ -30,13 +30,13 @@
     },
     "tests/": {
       "aim": "Test suite for fal_generate pipeline.",
-      "key": "test_fal_generate.py — 9 assertions: resolution mapping, cost est, prompt building, schema compliance."
+      "key": "test_fal_generate.py — 14 assertions: resolution mapping, cost est, prompt building, schema compliance, subscene prompts, filename format."
     },
     "assets/generated/": {
-      "aim": "Output images (scene-NN-vNNN_timestamp.png) + generation metadata logs.",
+      "aim": "Output images: scene-NN_vNNN_timestamp.png (per-scene) or scene-NN_SUBID_vNNN_timestamp.png (per-subscene).",
       "key": [
-        "scene-03-v042_20260907_124714.png",
-        "generation_metadata.json"
+        "scene-01_100_v042_*.png — example subscene output",
+        "generation_log.jsonl — append-only URL log for failed-download recovery"
       ]
     },
     "recyclebin/": {
@@ -58,10 +58,10 @@
   },
 
   "root_files": [
-    "fal_generate.py — Main generator. LedrasConfig + LedrasSceneGenerator. CLI: `python3 fal_generate.py [scene_ids]`.",
+    "fal_generate.py — Main generator. LedrasConfig + LedrasSceneGenerator. CLI: `python3 fal_generate.py [scene_ids]`; `--subscenes` for narrative subscene generation.",
     "utils.py — get_resolution() and estimate_cost() helpers.",
-    "run_tests.py — Runner that imports tests/test_fal_generate.py.",
-    "imagine-config.json — Config (see settings above).",
+    "README.md — Project documentation, config model, quick start.",
+    "imagine-config.json — Sole config source (see settings above).",
     "gateway.json — Token budget (see settings above)."
   ]
 }
