@@ -18,14 +18,17 @@ User-Requested Parameters:
 
 import json
 import os
-import base64
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 from datetime import datetime
 
 # Fal client imports
 from fal_client import SyncClient
-from src.gateway import Gateway
+
+# Import shared utilities
+from utils import get_resolution, estimate_cost
+# Re-export utilities for test compatibility
+__all__ = ["get_resolution", "estimate_cost"]
 
 # ====================================================
 # CONFIGURATION CLASS (from src/fal_generate_fixed.py)
@@ -33,12 +36,12 @@ from src.gateway import Gateway
 
 class LedrasConfig:
     def __init__(self):
-        # Core configuration parameters
+        # Core configuration parameters (defaults – overridden by imagine-config.json)
         self.guideline_image = "stage/stage_v6_alphasky.png"
         self.output_dir = "assets/generated"
         self.scenes_file = "data/scenes/ledras_scenes_v7.json"
-        
-        # FALAI API parameters - ALL USER-REQUESTED VALUES
+
+        # API defaults – may be overridden by config file
         self.preprocess = "canny"
         self.fal_model = "fal-ai/flux-control-lora-canny"
         self.control_start = 0.0
@@ -51,13 +54,8 @@ class LedrasConfig:
         self.subscene_variation_count = 2
         self.cultural_authenticity_level = "cypro_phoenician"
         self.ornamentation_allowed = False
-        
-        # Additional user-requested parameters
-        self.guidance_scale = 3.5
-        self.enable_safety_checker = True
-        self.control_lora_strength = 0.6
-        
-        # Load from imagine-config.json if available
+
+        # Load overrides from imagine-config.json if present
         self.load_imagine_config()
 
     def load_imagine_config(self):
@@ -76,8 +74,11 @@ class LedrasConfig:
             self.set_default_config()
 
     def set_default_config(self):
-        """Set default configuration values"""
-        print("✅ Default configuration applied")
+        """Apply built‑in defaults when imagine-config.json is missing.
+        Mirrors the constructor defaults defined above.
+        """
+        # All defaults already set in __init__; just inform the user.
+        print("✅ Default configuration applied (imagine-config.json not found)")
 
 # ====================================================
 # SCENE GENERATOR CLASS (from src/fal_generate_fixed.py)
@@ -87,31 +88,25 @@ class LedrasSceneGenerator:
     def __init__(self):
         self.config = LedrasConfig()
         self.setup_fal_client()
+        self._scenes_cache = None  # cache for scene data
 
     def setup_fal_client(self):
         """Setup fal client with environment-based authentication"""
         self.api_key = os.environ.get('FAL_API_KEY')
 
         if not self.api_key:
-            print("⚠️  WARNING: FAL_API_KEY not set. Image generation may fail.")
-            print("   Set it using: export FAL_API_KEY='your-api-key'")
-            self.client = SyncClient()
-        else:
-            print("✅ FAL_API_KEY configured successfully")
-            self.client = SyncClient(key=self.api_key)
+            raise RuntimeError("FAL_API_KEY environment variable is required for image generation.")
+        print("✅ FAL_API_KEY configured successfully")
+        self.client = SyncClient(key=self.api_key)
 
         if hasattr(self, 'api_key') and self.api_key and ':' in self.api_key:
             uuid_part, suffix_part = self.api_key.split(':', 1)
             print(f"   Key format: UUID ({len(uuid_part)} chars) + suffix ({len(suffix_part)} chars)")
 
     def generate_prompt(self, scene_id: int, role: str = "loop") -> str:
-        """Generate prompt for specific scene and role"""
+        """Generate prompt for a specific scene and role using cached scenes."""
         try:
-            with open(self.config.scenes_file, 'r') as f:
-                scenes_data = json.load(f)
-
-            scenes = scenes_data.get('scenes', [])
-
+            scenes = self._load_scenes()
             for scene in scenes:
                 if scene.get('id') == scene_id:
                     roles = scene.get('roles', {})
@@ -121,49 +116,60 @@ class LedrasSceneGenerator:
                         prompt = roles['intro']
                     else:
                         prompt = scene.get('description', '')
-
                     metadata = f"[seed:{scene.get('seed', self.config.seed)}] [team:{self.config.cultural_authenticity_level}]"
                     return f"{prompt} {metadata}"
-
             print(f"⚠️  Scene {scene_id} not found")
             return ""
-
         except Exception as e:
             print(f"❌ Error generating prompt for scene {scene_id}: {e}")
             return ""
 
     def generate_all_prompts(self) -> Dict[int, Dict[str, str]]:
-        """Generate prompts for all scenes and roles"""
+        """Generate prompts for all scenes and roles using cached data."""
         try:
-            with open(self.config.scenes_file, 'r') as f:
-                scenes_data = json.load(f)
-
-            scenes = scenes_data.get('scenes', [])
+            scenes = self._load_scenes()
             prompts = {}
-
             for scene in scenes:
                 scene_id = scene.get('id')
                 if not scene_id:
                     continue
-
-                scene_prompts = {}
                 description = scene.get('description', '')
-
-                # Generate intro prompt
-                intro_metadata = f"[seed:{scene.get('seed', self.config.seed)}] [team:{self.config.cultural_authenticity_level}] [intro]"
-                scene_prompts['intro'] = f"{description} {intro_metadata}"
-
-                # Generate loop prompt
-                loop_metadata = f"[seed:{scene.get('seed', self.config.seed)}] [team:{self.config.cultural_authenticity_level}] [loop]"
-                scene_prompts['loop'] = f"{description} {loop_metadata}"
-
-                prompts[scene_id] = scene_prompts
-
+                meta_base = f"[seed:{scene.get('seed', self.config.seed)}] [team:{self.config.cultural_authenticity_level}]"
+                prompts[scene_id] = {
+                    'intro': f"{description} {meta_base} [intro]",
+                    'loop': f"{description} {meta_base} [loop]",
+                }
             return prompts
-
         except Exception as e:
             print(f"❌ Error generating all prompts: {e}")
             return {}
+
+    def generate_specific_images(self, scene_ids: List[int], role: str = "intro"):
+        """Generate images for specific scenes and roles using precomputed prompts."""
+        generated = {}
+
+        print(f"🎨 Starting image generation for scenes {scene_ids}, role: {role}")
+        print(f"📁 Output directory: {self.config.output_dir}")
+        print(f"🤖 Using model: {self.config.fal_model}")
+        print(f"🎯 Control strength: {self.config.fal_control_strength}")
+        print(f"🌱 Cultural authenticity: {self.config.cultural_authenticity_level}")
+        print()
+
+        prompts = self.generate_all_prompts()
+        for scene_id in scene_ids:
+            print(f"📸 Processing Scene {scene_id} ({role}):")
+            prompt = prompts.get(scene_id, {}).get(role, "")
+            if not prompt:
+                print(f"⚠️  No prompt available for scene {scene_id}")
+                continue
+            image_info = self.generate_image(prompt, scene_id, role)
+            if image_info:
+                generated[scene_id] = image_info
+                print(f"✅ Scene {scene_id} generated successfully")
+            else:
+                print(f"❌ Failed to generate scene {scene_id}")
+            print()
+        return generated
 
     def generate_image(self, prompt: str, scene_id: int, role: str) -> Optional[Dict[str, Any]]:
         """Generate a single image using fal.ai API with SyncClient"""
@@ -220,39 +226,6 @@ class LedrasSceneGenerator:
         except Exception as e:
             print(f"❌ Image generation failed for scene {scene_id}: {str(e)}")
             return None
-
-    def generate_specific_images(self, scene_ids: List[int], role: str = "intro"):
-        """Generate images for specific scenes and roles"""
-        generated = {}
-
-        print(f"🎨 Starting image generation for scenes {scene_ids}, role: {role}")
-        print(f"📁 Output directory: {self.config.output_dir}")
-        print(f"🤖 Using model: {self.config.fal_model}")
-        print(f"🎯 Control strength: {self.config.fal_control_strength}")
-        print(f"🌱 Cultural authenticity: {self.config.cultural_authenticity_level}")
-        print()
-
-        for scene_id in scene_ids:
-            print(f"📸 Processing Scene {scene_id} ({role}):")
-
-            prompts = self.generate_all_prompts()
-            prompt = prompts.get(scene_id, {}).get(role, "")
-
-            if not prompt:
-                print(f"⚠️  No prompt available for scene {scene_id}")
-                continue
-
-            image_info = self.generate_image(prompt, scene_id, role)
-
-            if image_info:
-                generated[scene_id] = image_info
-                print(f"✅ Scene {scene_id} generated successfully")
-            else:
-                print(f"❌ Failed to generate scene {scene_id}")
-
-            print()
-
-        return generated
 
     def save_prompts(self, output_path: str = "generated_prompts.json"):
         """Save generated prompts to JSON file"""
@@ -354,31 +327,18 @@ class LedrasSceneGenerator:
 
 if __name__ == "__main__":
     print("=== Ledras Lament Scene Generation Pipeline ===")
-    print()
 
     try:
-        # Setup Gateway for rate limiting
-        gateway = Gateway()
+        generator = LedrasSceneGenerator()
+        result = generator()
 
-        # Check if we have rights
-        if not gateway.has_rights():
-            print("❌ No available tokens. Please wait and try again.")
+        if result:
+            print(f"🎉 SUCCESS: Pipeline completed with {len(result)} scenes generated")
+            exit(0)
+        else:
+            print("❌ FAILURE: Pipeline produced no results")
             exit(1)
 
-        # Create scene generator
-        generator = LedrasSceneGenerator()
-
-# Generate the requested scene
-        print(f"🎨 Generating scene 4...")
-        scenes = generator.generate_specific_images([4], "intro")
-
-        print()
-        print("✅ SUCCESS: Scene 4 generated successfully!")
-        print(f"📊 Generated: {len(scenes)} scenes")
-        print(f"📊 Generated: {len(scenes)} scenes")
-
     except Exception as e:
-        print(f"❌ ERROR: {str(e)}")
-        import traceback
-        traceback.print_exc()
+        print(f"❌ FATAL ERROR: {str(e)}")
         exit(1)

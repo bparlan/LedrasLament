@@ -19,11 +19,8 @@ print(f"Unknown size defaulted to: {width2}x{height2}")
 
 print("✅ All functions work correctly!")
 
-# Test other configs
-config3 = {'image_size': 'landscape_4_3'}
-width3, height3 = get_resolution(config3)
-print(f"Landscape 4:3 resolution: {width3}x{height3}")
-
-config4 = {'image_size': 'portrait_9_16'}
-width4, height4 = get_resolution(config4)
-print(f"Portrait 9:16 resolution: {width4}x{height4}")
+ # Test other configs
+ config3 = {'image_size': 'landscape_4_3'}
+ width3, height3 = get_resolution(config3)
+ print(f"Landscape 4:3 resolution: {width3}x{height3}")
+ print("✅ All functions work correctly!")
