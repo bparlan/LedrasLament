@@ -62,10 +62,15 @@ generator = LedrasSceneGenerator()
 prompt = generator.generate_prompt(3, "intro")
 assert "Astarte Awakens" not in prompt, "prompt should not include scene name"
 assert "blood moon" in prompt, f"prompt should mention blood moon: {prompt[:100]}"
-assert "[seed:42]" in prompt, "prompt should include seed"
+assert "[seed:300]" in prompt, f"prompt should include scene seed 300, got: {prompt}"
 assert "[intro]" in prompt, "prompt should include role tag"
 print(f"✅ generate_prompt(3, intro) → valid ({len(prompt)} chars)")
 
+# Single prompt (scene level)
+prompt_scene = generator.generate_prompt(3, "loop")
+assert "blood moon" in prompt_scene, f"prompt should mention blood moon: {prompt_scene[:100]}"
+assert "[seed:300]" in prompt_scene, f"prompt should include scene seed 300: {prompt_scene}"
+print(f"✅ generate_prompt(3, loop) → valid ({len(prompt_scene)} chars)")
 # All prompts
 all_p = generator.generate_all_prompts()
 assert 3 in all_p, "scene 3 should be in all prompts"
@@ -115,7 +120,7 @@ with open(generator.config.scenes_file) as f:
 scene1 = next(s for s in scenes_data['scenes'] if s['id'] == 1)
 sub100 = scene1['subscenes'][0]
 prompt = generator._build_subscene_prompt(scene1, sub100)
-assert "[seed:42]" in prompt, f"subseed: {prompt[prompt.find('[seed:'):prompt.find(']', prompt.find('[seed:'))+1]}"
+assert "[seed:100]" in prompt, f"subseed: {prompt[prompt.find('[seed:'):prompt.find(']', prompt.find('[seed:'))+1]}"
 assert "[Intro - intro-start]" in prompt, "subscene name tag in prompt"
 assert len(prompt) > 50, f"subscene prompt too short: {len(prompt)} chars"
 print(f"✅ _build_subscene_prompt(scene 1, intro-start) → valid ({len(prompt)} chars)")

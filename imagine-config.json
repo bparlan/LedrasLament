@@ -31,5 +31,20 @@
     "keep_last": 20
   },
   "control_lora_image_url": "https://v3b.fal.media/files/b/0aa973e6/MtLDIzqHz7Jo77z5Q8rX8_stage_v6_alphasky.png",
-  "guideline_image": "stage/stage_v6_alphasky.png"
+  "guideline_image": "stage/stage_v6_alphasky.png",
+  "control_lora_strength": {
+    "stage_v6_alphasky": {
+      "default": 0.7,
+      "water_vegetation_scenes": 0.6,
+      "fire_scene": 0.6,
+      "village_scene": 0.6
+    }
+  },
+  "seed": 42,
+  "scenes_file": "data/sources/ledras_scenes_v9_visual_language.json",
+  "cultural_authenticity_level": "cypro_phoenician",
+  "num_inference_steps": 28,
+  "guidance_scale": 3.5,
+  "image_size": "landscape_16_9",
+  "enable_safety_checker": true
 }
