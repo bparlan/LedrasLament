@@ -49,8 +49,8 @@
     "report_dir": ".omp/theteam/reports",
     "keep_last": 20
   },
-  "control_lora_image_url": "https://v3b.fal.media/files/b/0aa96efc/TUAt8eL9nzq2H3jP6Nzbu_stage_rehersals.png",
-  "guideline_image": "stage/stage_rehersals.png",
+  "control_lora_image_url": "https://v3b.fal.media/files/b/0aa96efc/TUAt8eL9nzq2H3jP6Nzbu_stage_v6_alphasky.png",
+  "guideline_image": "stage/stage_v6_alphasky.png",
   "scenes_file": "data/sources/ledras_scenes_v10_final.json",
   "seed": 300,
   "cultural_authenticity_level": "cypro_phoenician",
@@ -82,12 +82,42 @@
         "default": 0.7,
         "water_vegetation_scenes": 0.6,
         "fire_scene": 0.6,
-        "village_scene": 0.6
+        "rationale": "0.7 default gives the model creative freedom to follow dense prompt descriptions while maintaining structural adherence. 0.6 for scenes where water, vegetation, or fire details could blur geometric boundaries \u2014 tighter adherence preserves the amphitheater lines."
       }
     },
-    "per_scene_camera": {},
-    "per_scene_shot_type": {},
-    "per_scene_color_temperature": {}
+    "per_scene_camera": {
+      "1": "Compose wide establishing shot, straight-on architectural axis at tier 4 elevation",
+      "2": "Compose wide shot, camera at tier 3 elevation looking slightly down toward the altar stage",
+      "3": "Compose wide shot, straight-on axis, slightly tighter on the frame opening and blood moon",
+      "4": "Compose wide shot, camera at tier 2 elevation for water-level perspective across channels",
+      "5": "Compose wide shot, slight elevation looking across water-filled tiers and canal network",
+      "6": "Compose wide shot, straight-on axis with slight pull-back to frame overhanging vegetation",
+      "7": "Compose wide shot, center axis with foreground smoke creating depth layering",
+      "8": "Compose medium wide shot, warm intimate perspective on lower tier dwelling lights",
+      "9": "Compose wide shot, low angle with flames rising in foreground framing the architecture"
+    },
+    "per_scene_shot_type": {
+      "1": "Professional architectural photography. Wide establishing shot preserving full amphitheater symmetry.",
+      "2": "Professional architectural photography. Wide shot with vertical axis through frame opening toward altar.",
+      "3": "Professional architectural photography. Slightly tighter wide shot emphasizing blood moon within frame.",
+      "4": "Professional architectural photography. Wide shot with water channels as leading lines through tiers.",
+      "5": "Professional architectural photography. Wide shot with cascading water creating dynamic composition.",
+      "6": "Professional architectural photography. Wide shot with vegetation framing the architectural geometry.",
+      "7": "Professional architectural photography. Wide shot with smoke layers as atmospheric depth elements.",
+      "8": "Professional architectural photography. Medium wide shot with warm light points creating visual rhythm.",
+      "9": "Professional architectural photography. Wide shot with vertical flame lines framing destruction geometry."
+    },
+    "per_scene_color_temperature": {
+      "1": "cool silver moonlight",
+      "2": "bicolor cool silver upper / warm red-amber lower",
+      "3": "warm crimson red throughout",
+      "4": "cool silver with warm reflection highlights on water",
+      "5": "day cycle: golden dawn to warm midday to amber afternoon to sunset gold to cool night",
+      "6": "cool blue-green moonlight with warm green foliage undertones",
+      "7": "cool silver moonlight scattered through white-gray smoke",
+      "8": "warm golden-orange interior light contrasting with cool blue exterior moonlight",
+      "9": "hot orange-red-yellow fire dominant with cool blood moon above"
+    }
   },
   "control_lora_strength": 0.7
 }
