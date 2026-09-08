@@ -4,9 +4,16 @@
     "name": "Ledras Lament",
     "root": ".",
     "description": "Scene generation infrastructure for projection mapping of ancient Mediterranean environments using AI",
-    "stack": ["Python", "fal.ai", "Flux Control LoRA"]
+    "stack": [
+      "Python",
+      "fal.ai",
+      "Flux Control LoRA"
+    ]
   },
-  "permitted_skills": ["graph-curation-expert", "brave-search"],
+  "permitted_skills": [
+    "graph-curation-expert",
+    "brave-search"
+  ],
   "behavior": {
     "proactive_plan_required": true,
     "block_edits_without_plan": true,
@@ -21,10 +28,22 @@
     "persona_response_variety": true
   },
   "selection_options": [
-    {"label": "Proceed / Accept / Continue", "value": "proceed"},
-    {"label": "Do plan B / Choose alternative path", "value": "alternative"},
-    {"label": "Tell me more: relevant team members report more details", "value": "more_details"},
-    {"label": "User input", "value": "user_input"}
+    {
+      "label": "Proceed / Accept / Continue",
+      "value": "proceed"
+    },
+    {
+      "label": "Do plan B / Choose alternative path",
+      "value": "alternative"
+    },
+    {
+      "label": "Tell me more: relevant team members report more details",
+      "value": "more_details"
+    },
+    {
+      "label": "User input",
+      "value": "user_input"
+    }
   ],
   "output": {
     "report_dir": ".omp/theteam/reports",
@@ -41,6 +60,7 @@
     }
   },
   "scenes_file": "data/sources/ledras_scenes_v10_rehersal_1.json",
+  "seed": 300,
   "cultural_authenticity_level": "cypro_phoenician",
   "num_inference_steps": 28,
   "guidance_scale": 3.5,
