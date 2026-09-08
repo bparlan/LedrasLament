@@ -1,0 +1,434 @@
+{
+  "title": "Ledras Lament Scenes - v10 Rehearsal",
+  "version": 10,
+  "author": "Ledras Lament Team",
+  "status": "rehearsal",
+  "description": "Modified visual language scene definitions emphasizing reduced vertical walls, empty center tiers for performers, and open side elements. Architectural geometry preserved while adapting to stage masking and performance requirements. Maintains v9 narrative foundation with enhanced spatial composition for visibility and flexibility.",
+  "prompt_architecture": {
+    "template": "subscene_description + subscene_visual_brief + scene_prompt_suffix + model_negative_suffix",
+    "rationale": "Three-layer prompt construction: narrative grounding (description), temporal moment (visual_brief), and cinematic quality constraints (prompt_suffix). Modified for stage masking constraints: reduced vertical wall elements, empty center tiers for performance space, open side compositions.",
+    "negative_default": "human figure, human body, human face, person, people, crowd, silhouette of person, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, distorted central frame, tilted frame, curved frame, broken frame, widened frame, narrowed frame, moved frame, moon outside frame, moon above frame, moon behind frame, extra architecture changing tier geometry, blurry, modern buildings, modern city, Greek columns, Doric columns, Ionic columns",
+    "negative_model_suffix": "--no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns",
+    "generation_defaults": {
+      "num_inference_steps": 28,
+      "guidance_scale": 3.5,
+      "image_size": "landscape_16_9",
+      "enable_safety_checker": true,
+      "control_start": 0,
+      "control_stop": 1
+    },
+    "control_image_path": "data/control_images/stage_v6_alphasky.png",
+    "control_image_url_path": "data/control_images/stage_v6_alphasky.png",
+    "control_lora_image_url": "https://v3b.fal.media/files/b/0aa96efc/TUAt8eL9nzq2H3jP6Nzbu_stage_v6_alphasky.png",
+    "control_lora_strength": {
+      "stage_v6_alphasky": {
+        "default": 0.7,
+        "water_vegetation_scenes": 0.6,
+        "fire_scene": 0.6,
+        "village_scene": 0.6,
+        "ritual_scene": 0.6,
+        "performance_focused": 0.5
+      }
+    },
+    "per_scene_camera": {
+      "1": "Camera at tier 4 elevation, straight-on axis for establishing shot with empty center focus",
+      "2": "Tier 3 elevation with downward tilt toward altar, preserving empty center space",
+      "3": "Tighter shot emphasizing blood moon within frame, center area cleared",
+      "4": "Tier 2 elevation for water-level perspective with open side compositions",
+      "5": "Slight elevation looking across water channels, center tiers empty",
+      "6": "Straight-on axis with emphasis on vegetation framing sides",
+      "7": "Tier 4 elevation with smoke layers, maintaining center clearance",
+      "8": "Medium wide shot with warm light points, sides emphasized for intimacy",
+      "9": "Low angle with flames framing sides, center empty for performers"
+    },
+    "per_scene_shot_type": {
+      "1": "Professional architectural photography. Wide establishing shot preserving full amphitheater symmetry with empty center tiers and reduced vertical wall visibility. Balanced negative space above and below.",
+      "2": "Professional architectural photography. Wide shot with vertical axis through frame opening, center area cleared for performance space.",
+      "3": "Professional architectural photography. Slightly tighter wide shot emphasizing blood moon within frame, with empty center for focus.",
+      "4": "Professional architectural photography. Wide shot with water channels as leading lines through tiers, center cleared.",
+      "5": "Professional architectural photography. Wide shot with cascading water creating dynamic composition, center empty.",
+      "6": "Professional architectural photography. Wide shot with vegetation framing the architectural geometry, sides open.",
+      "7": "Professional architectural photography. Wide shot with smoke layers as atmospheric depth, center clear.",
+      "8": "Professional architectural photography. Medium wide shot with warm light points creating visual rhythm, sides emphasized.",
+      "9": "Professional architectural photography. Wide shot with vertical flame lines framing sides, center empty for performers."
+    },
+    "per_scene_color_temperature": {
+      "1": "Cool silver moonlight with balanced starlight, preserving atmospheric depth while reducing wall contrast",
+      "2": "Bicolor lighting with cool moonlight above, warm ritual glow below, creating vertical gradient with center empty",
+      "3": "Deep red blood moon transformation, saturated colors without central wall obstruction",
+      "4": "Cool silver moonlight reflecting off water surfaces, reduced wall prominence",
+      "5": "Wide shot with gentle sunset/warm tones, architectural elements softened",
+      "6": "Cool moonlight with emerging vegetation, reduced architectural harshness",
+      "7": "Balanced lighting with atmospheric layers, center cleared for performance",
+      "8": "Warm intimate lighting with reduced wall impact, side-focused composition",
+      "9": "Intense fire lighting with reduced wall obstruction, center empty"
+    }
+  },
+  "global_structure": "Ancient stone amphitheater viewed straight on. Six horizontal stone seating tiers rise from foreground to background. A seventh rear wall spans behind the upper tier. A tall rigid rectangular stone frame stands at the exact top-center position. The frame has straight vertical sides, a straight top edge, sharp corners and a clear rectangular opening. The amphitheater geometry, tier boundaries, frame proportions, frontal perspective and overall composition remain fixed and unchanged. Center tiers (tiers 3-4) are empty for performers. Vertical wall elements are minimized through masking techniques, with side compositions emphasized.",
+  "global_frame_rule": "The central rectangular stone frame is a permanent architectural invariant. Do not move, distort, widen, narrow, tilt, decorate, replace or break it. Preserve its exact rectangular silhouette and vertical symmetry. Any moon or celestial disk must appear only inside the rectangular opening of the frame, never above, behind, beside or outside it. Center area within the frame opening is empty for performance use.",
+  "scenes": [
+    {
+      "id": 1,
+      "name": "Intro",
+      "description": "Night over the ancient amphitheater. A full moon appears centered inside the rectangular opening of the central stone frame. Star-filled sky above, weathered limestone and soft desert sand at foreground levels. Minimal vertical wall presence through masking, allowing side elements to breathe. Low drifting smoke and thin fog create depth layers. Sparse traces of ancient ruined landscape visible through reduced wall obstruction.",
+      "control_image": "data/control_images/stage_v6_alphasky.png",
+      "control_lora_strength": 0.7,
+      "visual_language": {
+        "texture": "Weathered limestone surfaces with ancient stone patterns, soft desert sand textures above foreground level, star-filled sky above the frame opening. Reduced vertical wall elements through selective masking. Pale moonlit stone surfaces showing rough ashlar masonry, subtle traces of mudbrick architectural elements in shadowed tier areas.",
+        "lighting": "Cool silver full moon centered inside frame casting directional shadows across all six tiers. Moonlight highlights stone edges and creates diagonal shadows across the seating. Ambient starlight provides fill light. Thin fog catches and scatters moonlight into soft halos around the frame opening. Reduced wall contrast through strategic masking.",
+        "composition": "Wide establishing shot preserving amphitheater symmetry. Strong vertical axis through frame opening with moon at exact center. Leading lines along horizontal tier boundaries emphasize side compositions. Camera at tier 4 elevation, straight-on perspective. Architectural photography framing with balanced negative space, reduced vertical wall impact.",
+        "mood": "Dark, mysterious, monumental, timeless. The space feels watchful and ancient, with performance area clear and unobstructed.",
+        "camera": "Tier 4 elevation, straight-on axis, wide establishing shot, 24mm equivalent focal length, deep depth of field",
+        "atmospheric_depth": "Layered fog settling between lower stone tiers at foreground level. Drifting smoke at multiple depths creating atmospheric perspective. Star-filled sky above the frame opening. Distant ruined landscape elements visible through reduced wall obstruction and thin haze."
+      },
+      "elements": {
+        "visual": [
+          "full moon centered inside frame",
+          "weathered limestone textures",
+          "soft desert sand surface at foreground",
+          "low drifting smoke",
+          "thin fog atmospheric effect",
+          "ancient ruined landscape remnants",
+          "circular moon light inside frame opening",
+          "performance area clear at center"
+        ],
+        "texture_materials": [
+          "weathered limestone surfaces",
+          "ancient stone patterns",
+          "soft desert sand textures",
+          "rough ashlar masonry",
+          "mudbrick architectural traces",
+          "moonlit stone surfaces",
+          "performance area cleared"
+        ],
+        "composition": [
+          "wide establishing shot",
+          "straight-on architectural axis",
+          "tier 4 elevation",
+          "strong horizontal leading lines",
+          "moon centered in rectangular frame",
+          "balanced negative space",
+          "professional architectural photography",
+          "side-focused composition"
+        ],
+        "lighting": [
+          "cool silver full moon",
+          "directional moonlight shadows",
+          "long diagonal shadows across tiers",
+          "ambient starlight fill",
+          "fog-scattered moon halos",
+          "highlight reflections on stone edges"
+        ],
+        "atmosphere": [
+          "mysterious",
+          "monumental",
+          "timeless",
+          "watchful",
+          "ancient night",
+          "low drifting fog",
+          "thin smoke layers"
+        ]
+      },
+      "prompt_suffix": "Dramatic cinematic moonlight emphasizing architectural geometry with reduced vertical wall elements. Full moon centered inside the frame opening casting pale silver directional shadows across weathered limestone tiers and creating highlight reflections on stone edges. Texture details with weathered limestone surfaces, ancient ashlar stone patterns and soft desert sand textures. Professional architectural photography composition with strong horizontal leading lines through the six amphitheater tiers, straight-on axis preserving full symmetry, moon at exact center of the rectangular stone frame. Atmospheric depth with star-filled sky, thin fog settling between lower stone levels, drifting smoke creating depth layering, distant horizon elements visible through thin haze. Performance area remains clear and unobstructed.",
+      "subscenes": [
+        {
+          "id": 100,
+          "name": "Intro - intro-start",
+          "description": "First stars appear over the silent amphitheater. The moon begins to rise inside the rectangular opening of the central stone frame, casting pale silver light across the weathered limestone tiers. Minimal vertical walls visible through masking. Thin wisps of smoke drift upward from the lowest stage. Performance area remains clear and unobstructed.",
+          "seed": 100,
+          "cultural_notes": "The rising moon through the frame opening mirrors the Phoenician lunar calendar's first day. In Cypro-Phoenician ritual sites, the rectangular stone opening (fenestella) frames celestial events as divine communication. Performance space cleared for ceremonial use.",
+          "visual_brief": "First stars beginning to appear in the darkening sky above the amphitheater. Moon rising from the lower edge of the frame opening, still partially hidden, casting its first pale silver rays across the uppermost tiers. Minimal vertical walls visible through strategic masking. Thin wisps of smoke rising vertically from the lowest stage. The scene maintains clear performance area throughout.",
+          "prompt": "First stars appear over the silent amphitheater. The moon begins to rise inside the rectangular opening of the central stone frame, casting pale silver light across the weathered limestone tiers. Minimal vertical walls visible through masking. Thin wisps of smoke drift upward from the lowest stage. First stars beginning to appear in the darkening sky above the amphitheater. Moon rising from the lower edge of the frame opening, still partially hidden, casting its first pale silver rays across the uppermost tiers. Thin wisps of smoke rising vertically from the lowest stage. The scene maintains clear performance area throughout. Dramatic cinematic moonlight emphasizing architectural geometry with reduced vertical wall elements. Full moon centered inside the frame opening casting pale silver directional shadows across weathered limestone tiers and creating highlight reflections on stone edges."
+        },
+        {
+          "id": 101,
+          "name": "Intro - intro-end",
+          "description": "The moon rises to center the frame opening. Stars fill the sky above with reduced wall obstruction. Low fog settles between the stone seating tiers at foreground levels. Ancient ruined landscape remnants catch the soft moonlight. Performance area remains clear and unobstructed throughout.",
+          "seed": 101,
+          "cultural_notes": "The moon at frame-center marks the moment of celestial alignment. Cypriot megalithic structures commonly feature framed openings oriented to capture lunar standstills. Performance space maintained for ceremonial use.",
+          "visual_brief": "Moon rises to fill the exact center of the rectangular frame opening. Stars now fully visible across the night sky with reduced vertical wall elements. Low fog settling between the tier gaps, catching the moonlight and creating soft glowing bands across the amphitheater. Ancient ruined landscape remnants in the foreground and background caught in passive moonlight. Performance area cleared throughout.",
+          "prompt": "The moon rises to center the frame opening. Stars fill the sky above with reduced vertical wall elements. Low fog settles between the stone seating tiers at foreground levels. Ancient ruined landscape remnants catch the soft moonlight. Performance area remains clear and unobstructed throughout. The atmosphere deepens into quiet mystery. Moon rises to fill the exact center of the rectangular frame opening. Stars now fully visible across the night sky with reduced vertical wall elements. Low fog settling between the tier gaps, catching the moonlight and creating soft glowing bands across the amphitheater. Ancient ruined landscape remnants in the foreground and background caught in passive moonlight. Dramatic cinematic moonlight emphasizing architectural geometry with reduced vertical wall elements. Full moon centered inside the frame opening casting pale silver directional shadows across weathered limestone tiers and creating highlight reflections on stone edges."
+        },
+        {
+          "id": 102,
+          "name": "Intro - loop-start-end",
+          "description": "The moon holds steady at the center of the stone frame. Starlight and moonlight balance across the amphitheater geometry with reduced vertical walls through masking. Drifting smoke moves in slow horizontal layers between tiers. Performance area remains clear and unobstructed throughout. The night breathes in a suspended moment.",
+          "seed": 102,
+          "cultural_notes": "The balanced moonlight across all six tiers reflects the Bronze Age principle of sacred geometry — the horizontal tiers representing the six directions of the earthly realm. Clear performance space enhances ritual experience.",
+          "visual_brief": "Moon holding perfectly still at frame center. Balanced illumination where moonlight and starlight blend across all tiers equally. Reduced vertical wall elements through strategic masking. Drifting smoke moving horizontally between tiers in slow motion, creating gentle flowing layers. Clear performance area maintained throughout.",
+          "prompt": "The moon holds steady at the center of the stone frame. Starlight and moonlight balance across the amphitheater geometry with reduced vertical walls through masking. Drifting smoke moves in slow horizontal layers between tiers. Performance area remains clear and unobstructed throughout. The night breathes in a suspended moment. Moon holding perfectly still at frame center. Balanced illumination where moonlight and starlight blend across all tiers equally. Drifting smoke moving horizontally between tiers in slow motion, creating gentle flowing layers. Performance area remains clear and unobstructed throughout. Dramatic cinematic moonlight emphasizing architectural geometry with reduced vertical wall elements. Full moon centered inside the frame opening casting pale silver directional shadows across weathered limestone tiers and creating highlight reflections on stone edges."
+        },
+        {
+          "id": 103,
+          "name": "Intro - loop-middle",
+          "description": "Deep night settles over the amphitheater. The moon at the center of the frame casts long silver shadows across the six stone tiers. Minimal vertical walls visible through masking techniques. Fog and smoke interweave around the stage area. Performance area remains clear and unobstructed throughout. The ancient space feels watchful and still.",
+          "seed": 103,
+          "cultural_notes": "Deep night in Cypro-Phoenician tradition is the hour when the veil between the living world and the underworld grows thin. Smoke and fog carry prayers to the ancestors. Clear performance space enhances ceremonial use.",
+          "visual_brief": "Deepest night with moon at full intensity, casting long shadows across the tiers. Reduced vertical wall elements through strategic masking. Fog and smoke interweaving at the stage level, creating a dense atmospheric layer. Performance area remains clear throughout. The space feels most ancient and watchful at this hour, shadows extending diagonally across every tier surface.",
+          "prompt": "Deep night settles over the amphitheater. The moon at the center of the frame casts long silver shadows across the six stone tiers. Minimal vertical walls visible through masking techniques. Fog and smoke interweave around the stage area. Performance area remains clear and unobstructed throughout. The ancient space feels watchful and still. Deepest night with moon at full intensity, casting long shadows across the tiers. Reduced vertical wall elements through strategic masking. Fog and smoke interweaving at the stage level, creating a dense atmospheric layer. Performance area remains clear and unobstructed throughout. Dramatic cinematic moonlight emphasizing architectural geometry with reduced vertical wall elements. Full moon centered inside the frame opening casting pale silver directional shadows across weathered limestone tiers and creating highlight reflections on stone edges."
+        },
+        {
+          "id": 104,
+          "name": "Intro - end-begins",
+          "description": "The moon begins a subtle descent within the frame opening. Smoke thins and spreads into a high veil. Stars dim slightly as the deepest hour approaches. The atmosphere prepares for transition. Reduced vertical walls visible through masking enhance visibility. Performance area remains clear and unobstructed.",
+          "seed": 104,
+          "cultural_notes": "The moon's descent signals the closing of the nightly ritual window. In ancient Cypriot practice, the hour before dawn belongs to the chthonic deities. Clear performance space maintained throughout.",
+          "visual_brief": "Moon beginning a subtle descent from frame center, moving slightly downward. Smoke thinning and spreading into a high veil across the tiers. Stars beginning to dim. The atmosphere shifting, preparing for transition from deep night toward dawn. Reduced vertical wall elements through strategic masking. Performance area remains clear throughout.",
+          "prompt": "The moon begins a subtle descent within the frame opening. Smoke thins and spreads into a high veil. Stars dim slightly as the deepest hour approaches. The atmosphere prepares for transition. Reduced vertical walls visible through masking techniques. Performance area remains clear and unobstructed throughout. Moon beginning a subtle descent from frame center, moving slightly downward. Smoke thinning and spreading into a high veil across the tiers. Stars beginning to dim. The atmosphere shifting, preparing for transition from deep night toward dawn. Reduced vertical wall elements through strategic masking. Performance area remains clear and unobstructed throughout. Dramatic cinematic moonlight emphasizing architectural geometry with reduced vertical wall elements. Full moon centered inside the frame opening casting pale silver directional shadows across weathered limestone tiers and creating highlight reflections on stone edges."
+        },
+        {
+          "id": 105,
+          "name": "Intro - end-final",
+          "description": "Minimal moonlight remains. Smoke dissipates to almost nothing. The amphitheater exists in near-silhouette, its geometry suggested by starlight alone. A held breath before dawn. Performance area remains clear and unobstructed.",
+          "seed": 105,
+          "cultural_notes": "Starlit silence before dawn echoes the Phoenician concept of 'raqia' — the moment of cosmic pause between cycles, when creation holds its breath before renewal. Clear performance space enhances contemplative reflection.",
+          "visual_brief": "Moonlight reduced to minimum, moon descending to lower edge of frame. Reduced vertical walls visible through masking. Amphitheater in near-silhouette with the six tiers outlined by starlight alone. Smoke almost entirely dissipated. The geometry is suggested rather than fully illuminated, a held breath before the transition. Performance area remains clear throughout.",
+          "prompt": "Minimal moonlight remains. Smoke dissipates to almost nothing. The amphitheater exists in near-silhouette, its geometry suggested by starlight alone. A held breath before dawn. Reduced vertical walls visible through masking techniques. Performance area remains clear and unobstructed throughout. Moonlight reduced to minimum, moon descending to lower edge of frame. Reduced vertical walls visible through masking. Amphitheater in near-silhouette with the six tiers outlined by starlight alone. Smoke almost entirely dissipated. The geometry is suggested rather than fully illuminated, a held breath before the transition. Performance area remains clear and unobstructed throughout. Dramatic cinematic moonlight emphasizing architectural geometry with reduced vertical wall elements. Full moon centered inside the frame opening casting pale silver directional shadows across weathered limestone tiers and creating highlight reflections on stone edges."
+        }
+      ],
+      "seed": 100
+    },
+    {
+      "id": 2,
+      "name": "Ritual",
+      "description": "Nighttime ritual within the fixed ancient amphitheater. A full moon appears centered inside the rectangular opening of the central stone frame. Faint luminous geometric light patterns appear as traceries inside the frame, then conceptually descend toward the center of the lowest stage area. Performance area at bottom-center remains clear and unobstructed. Dark red sparks and subtle glowing particles circle above the cleared ritual space. Mystical, solemn and restrained atmosphere.",
+      "control_image": "data/control_images/stage_v6_alphasky.png",
+      "control_lora_strength": 0.6,
+      "visual_language": {
+        "texture": "Weathered limestone altar surfaces at bottom-center stage, rough ashlar stone patterns catching warm red glow from below, moonlit smooth stone on upper tiers, mudbrick traces in shadow areas between tiers, ancient stone construction with visible tool marks. Performance area cleared and unobstructed.",
+        "lighting": "Bicolor lighting: cool silver full moonlight illuminating the upper tiers and frame opening from above, warm red-orange ritual glow emanating from the altar stage and lower tiers below. The two light sources create a vertical color temperature gradient across the amphitheater. Dark red sparks create small point-light accents orbiting the cleared altar area. Performance space maintained clear.",
+        "composition": "Wide shot preserving amphitheater symmetry, camera at tier 3 elevation looking slightly downward toward the altar stage at bottom-center. Vertical axis through frame opening connecting the moon above to the cleared ritual space below. Geometric light traceries create subtle diagonal lines within the frame. Performance area remains unobstructed throughout. Professional architectural photography framing with the cleared altar as the focal point.",
+        "mood": "Mystical, solemn, restrained, sacred. Not overtly dramatic but deeply spiritual, the ritual suggested through light and geometry rather than figures or action. Clear performance space enhances ceremonial focus.",
+        "camera": "Tier 3 elevation, straight-on axis, slight downward tilt to include altar in lower frame, medium-wide field of view",
+        "atmospheric_depth": "Faint smoke or haze carrying the red glow upward through the tiers. Dark red sparks at varying depths orbiting the cleared altar. Geometric light lines descending through the air toward the stage. Fog settling between the lowest stone levels. Performance area maintained clear throughout."
+      },
+      "elements": {
+        "visual": [
+          "full moon centered inside frame",
+          "luminous geometric light patterns",
+          "descending light traceries",
+          "dark red sparks and particles circling cleared altar",
+          "low stone ritual altar at bottom-center",
+          "spiritual ritual atmosphere",
+          "restrained mystical quality",
+          "performance area clear and unobstructed"
+        ],
+        "texture_materials": [
+          "weathered limestone altar surfaces",
+          "rough ashlar stone patterns",
+          "mudbrick traces in shadows",
+          "moonlit smooth upper stone",
+          "warm-lit lower stone surfaces",
+          "ancient tool marks on stone",
+          "performance space clear"
+        ],
+        "composition": [
+          "wide shot",
+          "tier 3 elevation",
+          "straight-on architectural axis",
+          "vertical axis moon-to-altar",
+          "geometric light traceries as diagonal elements",
+          "cleared altar as focal point",
+          "professional architectural photography",
+          "performance area maintained"
+        ],
+        "lighting": [
+          "bicolor cool silver and warm red-orange",
+          "full moon illuminating upper tiers",
+          "ritual fire glow warming lower stone",
+          "vertical color temperature gradient",
+          "dark red spark point lights",
+          "ember glow on altar surface"
+        ],
+        "atmosphere": [
+          "mystical",
+          "solemn",
+          "restrained",
+          "sacred",
+          "spiritual",
+          "quietly intense",
+          "geometric sacred presence"
+        ]
+      },
+      "prompt_suffix": "Dramatic cinematic lighting with bicolor cool moonlight and warm ritual firelight. Full moon casting silver highlights on upper tiers while dark red-amber ritual glow illuminates the lower stone surfaces. Texture details with weathered limestone surfaces, rough altar stone and ancient stone patterns illuminated by dual light sources creating vertical color gradient. Professional architectural photography composition with geometric leading lines connecting the moon through the frame opening down to the altar stage, camera at tier 3 elevation. Atmospheric depth with luminous geometric light traceries descending through air, dark red ember particles floating between tiers, and smoke carrying the warm glow upward. Performance area remains clear and unobstructed throughout. Mystical, solemn, restrained, sacred atmosphere with unobstructed ritual space.",
+      "subscenes": [
+        {
+          "id": 200,
+          "name": "Ritual - intro-start",
+          "description": "The moon glows at the center of the stone frame. Faint luminous patterns begin to form within the frame opening — ethereal light geometries flickering like distant flames. Dark red sparks hover above a low stone ritual altar at the bottom-center stage. The ritual has not yet begun. Performance area remains clear and unobstructed.",
+          "seed": 200,
+          "cultural_notes": "The appearance of luminous patterns within the frame opening mirrors the Cypro-Phoenician practice of sacred geometry — abstract light forms representing divine presence without human representation. Performance space cleared for ceremonial use.",
+          "visual_brief": "Moon at center of frame. Faint luminous geometric patterns just beginning to appear within the frame opening, like distant flames flickering in a dark space. Dark red sparks hovering stationary above the altar, not yet orbiting. The ritual atmosphere is potential, waiting to activate. Cool moonlight dominant, warm ritual glow just beginning. Performance area remains clear throughout.",
+          "prompt": "The moon glows at the center of the stone frame. Faint luminous patterns begin to form within the frame opening — ethereal light geometries flickering like distant flames. Dark red sparks hover above a low stone ritual altar at the bottom-center stage. The ritual has not yet begun. Performance area remains clear and unobstructed. Moon at center of frame. Faint luminous geometric patterns just beginning to appear within the frame opening, like distant flames flickering in a dark space. Dark red sparks hovering stationary above the altar, not yet orbiting. The ritual atmosphere is potential, waiting to activate. Cool moonlight dominant, warm ritual glow just beginning. Performance area remains clear and unobstructed throughout. Dramatic cinematic lighting with bicolor cool moonlight and warm ritual firelight. Full moon casting silver highlights o…"
+        },
+        {
+          "id": 201,
+          "name": "Ritual - intro-end",
+          "description": "The luminous patterns intensify and begin a slow descent from the frame toward the stage. Dark red sparks appear and orbit the central space, gathering above the stone altar at the bottom-center. The ritual awakens. Performance area remains clear and unobstructed.",
+          "seed": 201,
+          "cultural_notes": "The descending light evokes the Cypriot ritual of 'thera' — divine illumination believed to descend from the sky opening into the sacred precinct, manifesting as contained light. Performance space maintained for ceremonial focus.",
+          "visual_brief": "Luminous patterns intensifying and beginning slow descent from the frame opening downward through the air toward the stage. Dark red sparks now orbiting the space above the altar, their movement creating circular trails. The ritual activates with warm glow strengthening across lower tiers while cool moonlight persists above. Performance area remains clear throughout.",
+          "prompt": "The luminous patterns intensify and begin a slow descent from the frame toward the stage. Dark red sparks appear and orbit the central space, gathering above the stone altar at the bottom-center. The ritual awakens. Performance area remains clear and unobstructed. Luminous patterns intensifying and beginning slow descent from the frame opening downward through the air toward the stage. Dark red sparks now orbiting the space above the altar, their movement creating circular trails. The ritual activates with warm glow strengthening across lower tiers while cool moonlight persists above. Performance area remains clear and unobstructed throughout. Dramatic cinematic lighting with bicolor cool moonlight and warm ritual firelight. Full moon casting silver highlights on upper tiers while dark red-amber ritual glow illuminates the lower stone su…"
+        },
+        {
+          "id": 202,
+          "name": "Ritual - loop-start-end",
+          "description": "Geometric light patterns hover in the air between the frame and the stage, glowing with restrained spiritual light. Dark red sparks circle the stone altar in a steady procession. Particles drift through the six tiers. The ritual finds its rhythm. Performance area remains clear and unobstructed throughout.",
+          "seed": 202,
+          "cultural_notes": "The orbiting sparks mirror archaeological evidence of ritual fire-handling in Cypriot sanctuaries. Priests would circle the altar with lamps and censing vessels. Performance space cleared for ceremonial activities.",
+          "visual_brief": "Geometric light patterns established in the space between frame opening and stage, glowing steadily. Dark red sparks circling the altar in a steady rhythmic procession. Particles drifting through all six tiers, some rising upward carrying the warm glow. The bicolor lighting is at its most balanced. The ritual has found its steady state. Performance area remains clear throughout.",
+          "prompt": "Geometric light patterns hover in the air between the frame and the stage, glowing with restrained spiritual light. Dark red sparks circle the stone altar in a steady procession. Particles drift through the six tiers. The ritual finds its rhythm. Performance area remains clear and unobstructed throughout. Geometric light patterns established in the space between frame opening and stage, glowing steadily. Dark red sparks circling the altar in a steady rhythmic procession. Particles drifting through all six tiers, some rising upward carrying the warm glow. The bicolor lighting is at its most balanced. The ritual has found its steady state. Performance area remains clear and unobstructed throughout. Dramatic cinematic lighting with bicolor cool moonlight and warm ritual firelight. Full moon casting silver highlights on upper tiers while dark red-amber ritual…"
+        },
+        {
+          "id": 203,
+          "name": "Ritual - loop-middle",
+          "description": "The luminous patterns pulse gently in a repeating cycle. Sparks continue their orbit around the stone altar platform. Smoke and particle trails weave through the amphitheater. The ritual sustains its solemn intensity. Performance area remains clear and unobstructed.",
+          "seed": 203,
+          "cultural_notes": "The stone altar at the stage center evokes the sacred offering platforms found in Cypriot sanctuaries at Kition and Idalion, where carved stone blocks served as focal points for ritual fire and incense. Performance space cleared for ceremonial focus.",
+          "visual_brief": "Luminous patterns pulsing gently in a repeating cycle through the frame opening. Sparks maintaining steady orbit around the altar. Smoke and particle trails weaving through the amphitheater space at multiple levels. The ritual sustains peak intensity without escalation, a held meditative state. Warm glow steady across lower half. Performance area remains clear throughout.",
+          "prompt": "The luminous patterns pulse gently in a repeating cycle. Sparks continue their orbit around the stone altar platform. Smoke and particle trails weave through the amphitheater. The ritual sustains its solemn intensity. Performance area remains clear and unobstructed throughout. Luminous patterns pulsing gently in a repeating cycle through the frame opening. Sparks maintaining steady orbit around the altar. Smoke and particle trails weaving through the amphitheater space at multiple levels. The ritual sustains peak intensity without escalation, a held meditative state. Warm glow steady across lower half. Performance area remains clear and unobstructed throughout. Dramatic cinematic lighting with bicolor cool moonlight and warm ritual firelight. Full moon casting silver highlights on upper tiers while dark red-amber ritual glow illuminates the lower stone su…"
+        },
+        {
+          "id": 204,
+          "name": "Ritual - end-begins",
+          "description": "The light patterns begin to fade, withdrawing upward toward the frame. Sparks diminish to occasional embers above the altar stone. The ritual exhales. Performance area remains clear and unobstructed.",
+          "seed": 204,
+          "cultural_notes": "The fading light represents the closing of the divine channel. In Cypriot practice, the moment of silence after ritual was as sacred as the ceremony itself. Performance space maintained for contemplative use.",
+          "visual_brief": "Luminous patterns fading and withdrawing upward toward the frame opening. Sparks diminishing from steady orbit to occasional embers hovering above the altar stone. The warm glow receding, cool moonlight becoming more dominant again. The ritual exhales, returning toward silence. Performance area remains clear throughout.",
+          "prompt": "The light patterns begin to fade, withdrawing upward toward the frame. Sparks diminish to occasional embers above the altar stone. The ritual exhales. Performance area remains clear and unobstructed. Luminous patterns fading and withdrawing upward toward the frame opening. Sparks diminishing from steady orbit to occasional embers hovering above the altar stone. The warm glow receding, cool moonlight becoming more dominant again. The ritual exhales, returning toward silence. Performance area remains clear and unobstructed throughout. Dramatic cinematic lighting with bicolor cool moonlight and warm ritual firelight. Full moon casting silver highlights on upper tiers while dark red-amber ritual glow illuminates the lower stone surfaces. Texture details with weathered limestone surfaces, rough alt…"
+        },
+        {
+          "id": 205,
+          "name": "Ritual - end-final",
+          "description": "The last traces of luminous patterns dissolve within the frame opening. A few embers glow on the stone altar surface. The amphitheater returns to its ancient silence. Performance area remains clear and unobstructed.",
+          "seed": 205,
+          "cultural_notes": "Final stillness echoes the Phoenician 'shalem' — the state of completeness after ritual, when the divine presence withdraws leaving the stones untouched. Performance space preserved for reflection.",
+          "visual_brief": "Last luminous pattern traces dissolving into the frame opening. Only a few faint embers remaining on the altar stone surface, barely visible. Amphitheater returned to near-intro state with cool moonlight dominant over empty stone. The ritual concluded, leaving only the ancient architecture. Near-silence in light. Performance area remains clear throughout.",
+          "prompt": "The last traces of luminous patterns dissolve within the frame opening. A few embers glow on the stone altar surface. The amphitheater returns to its ancient silence. Performance area remains clear and unobstructed. Last luminous pattern traces dissolving into the frame opening. Only a few faint embers remaining on the altar stone surface, barely visible. Amphitheater returned to near-intro state with cool moonlight dominant over empty stone. The ritual concluded, leaving only the ancient architecture. Near-silence in light. Performance area remains clear and unobstructed throughout. Dramatic cinematic lighting with bicolor cool moonlight and warm ritual firelight. Full moon casting silver highlights on upper tiers while dark red-amber ritual glow illuminates the lower stone surfaces. Texture details with weathered limestone surfaces, rough alt…"
+        }
+      ],
+      "seed": 200
+    },
+    {
+      "id": 3,
+      "name": "Astarte Awakens",
+      "description": "The night amphitheater remains structurally unchanged. The moon centered inside the rectangular opening of the central stone frame transforms from bright white into a deep red blood moon. Desert sand and warm yellow limestone dominate the surrounding environment. The atmosphere becomes intense, sacred and foreboding. Performance area centered between tiers remains empty and unobstructed.",
+      "control_image": "data/control_images/stage_v6_alphasky.png",
+      "control_lora_strength": 0.7,
+      "visual_language": {
+        "texture": "Warm yellow limestone surfaces absorbing and reflecting red light, desert sand textures glowing amber, rough ashlar patterns emphasized by directional red shadows, ancient stone patterns saturated in warm tones, mudbrick traces rendered in deep red-brown. Performance area empty and unobstructed for ceremonial focus.",
+        "lighting": "Deep red blood moon centered in frame casting warm crimson directional light across the entire amphitheater. Limestone surfaces absorb the red and glow with warm amber tones. Long red shadows stretch diagonally across all six tiers. The silver moonlight completely replaced by blood moon warmth. Rich color saturation across the scene with clear performance space.",
+        "composition": "Wide shot preserving amphitheater symmetry, straight-on axis, slightly tighter on the frame opening to emphasize the blood moon. Camera at tier 4 elevation. Strong horizontal tier lines create structure against the saturated red atmosphere. The rectangular frame opening contains the red moon as its focal point. Center area cleared for performance.",
+        "mood": "Intense, sacred, foreboding, monumental. The atmosphere shifts from passive night to active presence. The stone itself seems to participate in the transformation. Performance space maintained clear for ceremonial activities.",
+        "camera": "Tier 4 elevation, straight-on axis, slightly tighter field of view than Scene 1, emphasizing moon within frame, center cleared",
+        "atmospheric_depth": "Warm red haze filling the space between tiers. Heat shimmer rising from the stone. Desert sand particles caught in the red light. Distant horizon through the frame opening rendered in warm silhouette. Performance area maintained clear throughout."
+      },
+      "elements": {
+        "visual": [
+          "blood moon transformation",
+          "warm yellow limestone",
+          "intense sacred atmosphere",
+          "foreboding mood",
+          "unchanged amphitheater structure",
+          "dramatic lighting contrast",
+          "heightened emotional tension",
+          "performance area empty and unobstructed"
+        ],
+        "texture_materials": [
+          "warm yellow limestone",
+          "desert sand textures glowing amber",
+          "rough ashlar patterns in red light",
+          "ancient stone patterns saturated warm",
+          "mudbrick traces in deep red-brown",
+          "performance space clear"
+        ],
+        "composition": [
+          "wide shot",
+          "straight-on architectural axis",
+          "tier 4 elevation",
+          "slightly tighter on frame opening",
+          "blood moon as central focal point",
+          "professional architectural photography",
+          "performance area cleared"
+        ],
+        "lighting": [
+          "deep red blood moon",
+          "warm crimson directional light",
+          "amber limestone glow",
+          "long red diagonal shadows",
+          "saturated warm color palette",
+          "no cool tones remaining"
+        ],
+        "atmosphere": [
+          "intense",
+          "sacred",
+          "foreboding",
+          "monumental",
+          "transformed",
+          "active presence",
+          "warm red haze"
+        ]
+      },
+      "prompt_suffix": "Dramatic cinematic lighting with deep red blood moon. Full blood moon casting warm crimson directional light across yellow limestone surfaces and creating intense saturated highlight reflections on stone edges. Texture details with warm weathered limestone absorbing red light, ancient stone patterns glowing amber and desert sand textures catching the warm glow. Professional architectural photography composition with strong horizontal tier leading lines, blood moon centered inside rectangular stone frame as the focal point. Atmospheric depth with warm red haze filling the space between tiers, heat shimmer rising from stone, desert particles caught in red light, and distant horizon elements rendered in warm silhouette. Performance area remains clear and unobstructed throughout.",
+      "subscenes": [
+        {
+          "id": 300,
+          "name": "Astarte Awakens - intro-start",
+          "description": "The moon within the frame opening begins to shift — a faint reddish tint spreads from its center outward. The limestone walls catch a warm glow. The atmosphere subtly changes, gaining weight and anticipation. Reduced vertical walls visible through masking. Performance area cleared.",
+          "seed": 300,
+          "cultural_notes": "The blood moon transformation invokes the Canaanite goddess Astarte's descent narrative. In Ugaritic myth, the moon darkens as she passes through the underworld gates. Transformation begins at the lunar limen. Performance space maintained for ritual observance.",
+          "visual_brief": "Moon beginning transformation: faint reddish tint spreading from the moon's center outward like a slow stain across the white surface. Limestone walls catching the first warm glow, just beginning to shift from silver to amber. The atmosphere gains weight, the earliest stage of foreboding. Cool silver still partially present but receding. Reduced vertical wall elements. Performance area clear.",
+          "prompt": "The moon within the frame opening begins to shift — a faint reddish tint spreads from its center outward. The limestone walls catch a warm glow. The atmosphere subtly changes, gaining weight and anticipation. Reduced vertical walls visible through masking techniques. Performance area cleared. Moon beginning transformation: faint reddish tint spreading from the moon's center outward like a slow stain across the white surface. Limestone walls catching the first warm glow, just beginning to shift from silver to amber. The atmosphere gains weight, the earliest stage of foreboding. Cool silver still partially present but receding. Reduced vertical wall elements through strategic masking. Performance area remains clear and unobstructed throughout. Dramatic cinematic lighting with deep red blood moon. Full blood moon casting warm crimson directional light across yellow limestone surfaces and creating intense saturated highlight reflections on stone edges."
+        },
+        {
+          "id": 301,
+          "name": "Astarte Awakens - intro-end",
+          "description": "The blood moon deepens to a rich red, fully transformed at the center of the frame. Warm shadows fall across the six tiers. Yellow limestone reflects the crimson light. Sacred tension builds across the amphitheater. Performance area remains clear and unobstructed.",
+          "seed": 301,
+          "cultural_notes": "Deep red illumination over the limestone recalls the ritual blood sacrifices of the Phoenician tophet. The limestone absorbs warmth as the sacred precinct receives the offering. Performance space maintained for ceremonial activities.",
+          "visual_brief": "Blood moon reaches full deep red saturation, completely transformed at frame center. Warm crimson shadows falling across all six tiers, each tier edge catching highlight. Yellow limestone glowing amber in the red light. The sacred tension actively building, the transformation complete. No cool tones remain. Performance area cleared.",
+          "prompt": "The blood moon deepens to a rich red, fully transformed at the center of the frame. Warm shadows fall across the six tiers. Yellow limestone reflects the crimson light. Sacred tension builds across the amphitheater. Performance area remains clear and unobstructed. Blood moon reaches full deep red saturation, completely transformed at frame center. Warm crimson shadows falling across all six tiers, each tier edge catching highlight. Yellow limestone glowing amber in the red light. The sacred tension actively building, the transformation complete. No cool tones remain. Performance area cleared and unobstructed throughout. Dramatic cinematic lighting with deep red blood moon. Full blood moon casting warm crimson directional light across yellow limestone surfaces and creating intense saturated highlight reflections on stone edges."
+        },
+        {
+          "id": 302,
+          "name": "Astarte Awakens - loop-start-end",
+          "description": "The blood moon burns at full intensity within the rectangular frame opening. The entire amphitheater is bathed in deep red light. Limestone glows warm amber. The space holds its breath in sacred foreboding. Performance area remains clear and unobstructed.",
+          "seed": 302,
+          "cultural_notes": "The fully crimson moon at frame-center mirrors the 'hrn' (sacred enclosure) of Cypriot open-air sanctuaries, where a framed view of the sky focused sacrificial attention. Performance space maintained for ceremonial focus.",
+          "visual_brief": "Blood moon at peak intensity, burning fully within the frame opening. Entire amphitheater bathed in deep saturated red light across all surfaces. Limestone glowing with maximum warm amber luminescence. The space holds its breath in fully realized sacred foreboding. Rich red haze between tiers at maximum density. Performance area cleared.",
+          "prompt": "The blood moon burns at full intensity within the rectangular frame opening. The entire amphitheater is bathed in deep red light. Limestone glows warm amber. The space holds its breath in sacred foreboding. Performance area remains clear and unobstructed. Blood moon at peak intensity, burning fully within the frame opening. Entire amphitheater bathed in deep saturated red light across all surfaces. Limestone glowing with maximum warm amber luminescence. The space holds its breath in fully realized sacred foreboding. Rich red haze between tiers at maximum density. Performance area cleared and unobstructed throughout. Dramatic cinematic lighting with deep red blood moon. Full blood moon casting warm crimson directional light across yellow limestone surfaces and creating intense saturated highlight reflections on stone edges."
+        },
+        {
+          "id": 303,
+          "name": "Astarte Awakens - loop-middle",
+          "description": "Intense crimson light radiates steadily from the blood moon. The tier surfaces show stark red-and-amber contrasts. The atmosphere remains at peak sacred tension, suspended in time. Performance area maintained clear.",
+          "seed": 303,
+          "cultural_notes": "Sustained sacred intensity reflects the Phoenician concept of 'qadosh' — a state of maintained holiness that requires continuous ritual attention to prevent dissipation. Performance space preserved for ceremonial activities.",
+          "visual_brief": "Crimson light radiating steadily from the blood moon, sustained at peak saturation. Stark red-and-amber contrasts across every tier surface, with highlight edges catching the warmest amber. The atmosphere suspended at maximum sacred tension, held in time without escalation or decline. Peak state maintained. Performance area clear.",
+          "prompt": "Intense crimson light radiates steadily from the blood moon. The tier surfaces show stark red-and-amber contrasts. The atmosphere remains at peak sacred tension, suspended in time. Performance area maintained clear. Crimson light radiating steadily from the blood moon, sustained at peak saturation. Stark red-and-amber contrasts across every tier surface, with highlight edges catching the warmest amber. The atmosphere suspended at maximum sacred tension, held in time without escalation or decline. Peak state maintained. Performance area maintained clear and unobstructed throughout. Dramatic cinematic lighting with deep red blood moon. Full blood moon casting warm crimson directional light across yellow limestone surfaces and creating intense saturated highlight reflections on stone edges."
+        },
+        {
+          "id": 304,
+          "name": "Astarte Awakens - end-begins",
+          "description": "The blood moon begins to cool, red receding toward a muted rose. Shadows soften. The limestone warm glow starts to fade. Sacred intensity slowly releases its hold. Performance area maintained clear.",
+          "seed": 304,
+          "cultural_notes": "The receding red symbolizes Astarte's return journey. In the mythology, the goddess must re-emerge with gifts of dawn, leaving traces of divine fire on the stones she passes. Performance space preserved for transition.",
+          "visual_brief": "Blood moon beginning to cool, red receding from deep crimson toward muted rose at the moon's edges. Shadows softening as light intensity drops. Limestone warm glow starting to fade, amber cooling toward neutral stone tones. Sacred intensity slowly releasing, the transformation reversing. Traces of warmth lingering on stone surfaces. Performance area clear.",
+          "prompt": "The blood moon begins to cool, red receding toward a muted rose. Shadows soften. The limestone warm glow starts to fade. Sacred intensity slowly releases its hold. Performance area maintained clear. Blood moon beginning to cool, red receding from deep crimson toward muted rose at the moon's edges. Shadows softening as light intensity drops. Limestone warm glow starting to fade, amber cooling toward neutral stone tones. Sacred intensity slowly releasing, the transformation reversing. Traces of warmth lingering on stone surfaces. Performance area maintained clear and unobstructed throughout. Dramatic cinematic lighting with deep red blood moon. Full blood moon casting warm crimson directional light across yellow limestone surfaces and creating intense saturated highlight reflections on stone edges."
+        },
+        {
+          "id": 305,
+          "name": "Astarte Awakens - end-final",
+          "description": "The moon returns to a pale white, blood transformation complete. Normal moonlight restores silver tones across the amphitheater. Traces of warmth linger on the stone. The sacred moment has passed. Performance area remains clear and unobstructed.",
+          "seed": 305,
+          "cultural_notes": "The return to pale moonlight represents cosmic equilibrium restored. Cypro-Phoenician theology prized balance — the goddess's transformation is a cycle, not a permanent alteration. Performance space preserved for reflection.",
+          "visual_brief": "Moon returned to pale white, blood transformation fully complete. Normal cool silver moonlight restored across the amphitheater. Traces of warmth lingering on the stone surfaces like residual heat, a memory of the transformation. The sacred moment passed, the space returning to its quiet night state but carrying the memory of intensity on the stone. Performance area clear.",
+          "prompt": "The moon returns to a pale white, blood transformation complete. Normal moonlight restores silver tones across the amphitheater. Traces of warmth linger on the stone. The sacred moment has passed. Performance area remains clear and unobstructed. Moon returned to pale white, blood transformation fully complete. Normal cool silver moonlight restored across the amphitheater. Traces of warmth lingering on the stone surfaces like residual heat, a memory of the transformation. The sacred moment passed, the space returning to its quiet night state but carrying the memory of intensity on the stone. Performance area remains clear and unobstructed throughout. Dramatic cinematic lighting with deep red blood moon. Full blood moon casting warm crimson directional light across yellow limestone surfaces and creating intense saturated highlight reflections on stone edges."
+        }
+      ],
+      "seed": 300
+    }
+  ],
+  "style_seed": "Cypro-Phoenician and Levantine Bronze Age ruin style. Weathered limestone, ashlar sandstone, mudbrick traces and ancient stone construction. No human figures or faces. Restrained ornamentation. No Doric or Ionic columns, no Classical Greek temple architecture, no Parthenon silhouettes, no white marble monuments.",
+  "negative_prompt": "human figure, human body, human face, person, people, crowd, silhouette of person, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, distorted central frame, tilted frame, curved frame, broken frame, widened frame, narrowed frame, moved frame, moon outside frame, moon above frame, moon behind frame, extra architecture changing tier geometry, blurry, modern buildings, modern city, Greek columns, Doric columns, Ionic columns"
+}

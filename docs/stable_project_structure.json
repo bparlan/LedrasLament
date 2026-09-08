@@ -28,7 +28,8 @@
     "data/sources/": {
       "aim": "Canonical scene definitions and favorites registry.",
       "key": [
-        "ledras_scenes_v9_visual_language.json",
+        "ledras_scenes_v10_rehersal_1.json — Main rehearsal scene definitions with empty center tiers and reduced vertical walls.",
+        "ledras_scenes_v9_visual_language.json (retained)",
         "ledras_scenes_v8.json (retained)",
         "fav_prompts.json — Lightweight favorite prompts overlay linked by request_id and subscene_id"
       ]

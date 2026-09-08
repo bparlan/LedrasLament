@@ -40,8 +40,7 @@
       "village_scene": 0.6
     }
   },
-  "seed": 42,
-  "scenes_file": "data/sources/ledras_scenes_v9_visual_language.json",
+  "scenes_file": "data/sources/ledras_scenes_v10_rehersal_1.json",
   "cultural_authenticity_level": "cypro_phoenician",
   "num_inference_steps": 28,
   "guidance_scale": 3.5,
