@@ -49,8 +49,8 @@
     "report_dir": ".omp/theteam/reports",
     "keep_last": 20
   },
-  "control_lora_image_url": "https://v3b.fal.media/files/b/0aa973e6/MtLDIzqHz7Jo77z5Q8rX8_stage_v6_alphasky.png",
-  "guideline_image": "stage/stage_v6_alphasky.png",
+  "control_lora_image_url": "https://v3b.fal.media/files/b/0aa96efc/TUAt8eL9nzq2H3jP6Nzbu_stage_rehersals.png",
+  "guideline_image": "stage/stage_rehersals.png",
   "control_lora_strength": {
     "stage_v6_alphasky": {
       "default": 0.7,
@@ -59,11 +59,13 @@
       "village_scene": 0.6
     }
   },
-  "scenes_file": "data/sources/ledras_scenes_v10_rehersal_1.json",
+  "scenes_file": "data/sources/ledras_scenes_v10_final.json",
   "seed": 300,
   "cultural_authenticity_level": "cypro_phoenician",
   "num_inference_steps": 28,
   "guidance_scale": 3.5,
   "image_size": "landscape_16_9",
-  "enable_safety_checker": true
+  "enable_safety_checker": true,
+  "output_dir": "assets/generated/ledras_v10_final",
+  "log_file": "generation.log"
 }
