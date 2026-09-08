@@ -3,7 +3,7 @@
   "version": 10,
   "author": "Ledras Lament Team",
   "status": "production",
-  "description": "Enhanced visual language scene definitions emphasizing reduced vertical walls, empty center tiers for performers, and open side elements. Architectural geometry preserved while adapting to stage masking and performance requirements. Maintains v9 narrative foundation with enhanced spatial composition for visibility and flexibility. Includes improvements from favorite prompts and enhanced negative guardrails for production stability.",
+  "description": "Enhanced visual language scene definitions emphasizing reduced vertical walls, empty center tiers for performers, and open side elements. Architectural geometry preserved while adapting to stage masking and performance requirements. Maintains v9 narrative foundation with enhanced spatial composition for visibility and flexibility. Includes improvements from favorite prompts and enhanced negative guardrails for production stability. Integrates fav_prompts for optimal generation performance and visual quality.",
   "prompt_architecture": {
     "template": "subscene_description + subscene_visual_brief + scene_prompt_suffix + model_negative_suffix",
     "rationale": "Three-layer prompt construction: narrative grounding (description), temporal moment (visual_brief), and cinematic quality constraints (prompt_suffix). Model negative suffix appended via --no for FLUX compatibility.",
