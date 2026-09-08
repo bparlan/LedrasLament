@@ -1,6 +1,6 @@
 {
   "project": "ledraslament",
-  "updated": "2026-09-07",
+  "updated": "2026-09-08",
   "aim": "Generate cinematic scene images for the Ledras Lament narrative using fal.ai FLUX Control LoRA Canny, driven by a Canny edge map of a fixed amphitheater stage guide.",
 
   "settings": {
@@ -12,9 +12,17 @@
     "stage/": {
       "aim": "Guide images for Canny edge conditioning — the architectural invariant that all generations conform to.",
       "key": [
-        "stage_v6_alphasky.png",
+        "stage_rehersals.png",
         "guide_line_out.jpg",
         "depth_template.jpg"
+      ]
+    },
+    "2do/": {
+      "aim": "Persistent task management and project workflow tracking.",
+      "key": [
+        "README.md — Comprehensive project task overview and status reporting.",
+        "task_log.json — Machine-readable task tracking and dependency management.",
+        "reports/ — Historical task execution reports and evidence collection."
       ]
     },
     "data/sources/": {

@@ -27,11 +27,7 @@
 - Respect "NO" decisions immediately
 
 ## Current Configuration
-
-### Guideline Image
-- `stage/stage_v6_alphasky.png`
-
-### Prompt Source
+- `stage/stage_rehersals.png`
 - `data/sources/ledras_scenes_v8.json`
 
 ## Critical Rules

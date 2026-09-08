@@ -1,15 +1,35 @@
 {
-  "fal_model": "fal-ai/flux-control-lora-canny",
-  "num_inference_steps": 28,
-  "scenes_file": "data/sources/ledras_scenes_v8.json",
-  "output_dir": "assets/generated",
-  "image_size": {"width": 1280, "height": 704},
-  "seed": 42,
-  "subscene_variation_count": 6,
-  "cultural_authenticity_level": "cypro_phoenician",
-  "ornamentation_allowed": false,
-  "guidance_scale": 3.5,
-  "enable_safety_checker": true,
-  "control_lora_strength": 0.6,
-  "control_lora_image_url": "https://v3b.fal.media/files/b/0aa973e6/MtLDIzqHz7Jo77z5Q8rX8_stage_v6_alphasky.png"
+  "schema_version": 1,
+  "project": {
+    "name": "Ledras Lament",
+    "root": ".",
+    "description": "Scene generation infrastructure for projection mapping of ancient Mediterranean environments using AI",
+    "stack": ["Python", "fal.ai", "Flux Control LoRA"]
+  },
+  "permitted_skills": ["graph-curation-expert", "brave-search"],
+  "behavior": {
+    "proactive_plan_required": true,
+    "block_edits_without_plan": true,
+    "pre_analysis_search": true,
+    "max_discussion_rounds": 1,
+    "enable_persona_comments": true,
+    "chat_mode": true,
+    "option_selection_required": true,
+    "gamification_enabled": true,
+    "auto_summarization": false,
+    "dynamic_interaction": true,
+    "persona_response_variety": true
+  },
+  "selection_options": [
+    {"label": "Proceed / Accept / Continue", "value": "proceed"},
+    {"label": "Do plan B / Choose alternative path", "value": "alternative"},
+    {"label": "Tell me more: relevant team members report more details", "value": "more_details"},
+    {"label": "User input", "value": "user_input"}
+  ],
+  "output": {
+    "report_dir": ".omp/theteam/reports",
+    "keep_last": 20
+  },
+  "control_lora_image_url": "https://v3b.fal.media/files/b/0aa973e6/MtLDIzqHz7Jo77z5Q8rX8_stage_v6_alphasky.png",
+  "guideline_image": "stage/stage_v6_alphasky.png"
 }
