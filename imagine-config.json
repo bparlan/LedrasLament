@@ -52,7 +52,7 @@
   "control_lora_image_url": "data/control_images/stage_rehersals.png",
   "guideline_image": "data/control_images/stage_rehersals.png",
   "scenes_file": "data/scenes/new-scenes/ledras-premier.json",
-  "seed": 300,
+  "seed": 502,
   "cultural_authenticity_level": "cypro_phoenician",
   "num_inference_steps": 28,
   "guidance_scale": 3.5,
@@ -118,5 +118,5 @@
       "9": "hot orange-red-yellow fire dominant with cool blood moon above"
     }
   },
-  "control_lora_strength": 0.8
+  "control_lora_strength": 0.6
 }

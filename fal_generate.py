@@ -27,6 +27,51 @@ from fal_client import SyncClient
 
 from utils import get_resolution, estimate_cost
 
+# Centralized error handling
+def _safe_error_handler(error: Exception, context: str, default_return: Any = None) -> Any:
+    """Centralized error handler with consistent logging."""
+    print(f"❌ {context}: {error}")
+    return default_return
+
+# Centralized file loading
+def _load_scenes_data(file_path: str) -> Optional[Dict]:
+    """Load scenes data from JSON file with error handling."""
+    try:
+        with open(file_path, 'r') as f:
+            return json.load(f)
+    except Exception as e:
+        _safe_error_handler(e, f"Error loading scenes file: {file_path}")
+        return None
+
+# Centralized logging
+def _log_generation_result(log_path: str, log_entry: Dict):
+    """Log generation results to file."""
+    try:
+        os.makedirs(os.path.dirname(log_path), exist_ok=True)
+        with open(log_path, "a") as f_log:
+            f_log.write(json.dumps(log_entry) + "\n")
+    except Exception as e:
+        print(f"⚠️  Failed to write generation log: {e}")
+
+# Centralized download with retry
+def _download_image_with_retry(image_url: str, output_path: str) -> bool:
+    """Download image with exponential backoff retry."""
+    for attempt in range(3):
+        try:
+            response = requests.get(image_url, timeout=30)
+            response.raise_for_status()
+            with open(output_path, "wb") as f_out:
+                f_out.write(response.content)
+            print(f"✅ Image saved to {output_path}")
+            return True
+        except Exception as e:
+            if attempt == 2:  # Last attempt
+                print(f"⚠️  Failed to download image after 3 attempts: {e}")
+                raise
+            delay = min(0.5 * (2 ** attempt), 5.0)
+            print(f"⚠️  Download failed (attempt {attempt + 1}), retrying in {delay:.1f}s: {e}")
+            time.sleep(delay)
+    return False
 
 class LedrasConfig:
     def __init__(self):
@@ -47,13 +92,13 @@ class LedrasConfig:
             print(f"❌ Fatal: Could not load {config_path}: {e}")
             sys.exit(1)
 
-
 class LedrasSceneGenerator:
     def __init__(self):
         self.config = LedrasConfig()
         self.setup_fal_client()
         self.progress = ProgressReporter(verbose=False)
         self._control_url = None  # cache for control image upload
+        self._scenes_data = None  # cache for scenes data
 
     def setup_fal_client(self):
         """Setup fal client — reads FAL_KEY from env per fal.ai convention"""
@@ -87,41 +132,58 @@ class LedrasSceneGenerator:
         )
         return f"{' '.join(parts)} {metadata}".strip()
 
+    def _get_scenes_data(self) -> Optional[Dict]:
+        """Get scenes data with caching."""
+        if self._scenes_data is None:
+            self._scenes_data = _load_scenes_data(self.config.scenes_file)
+        return self._scenes_data
+
     def generate_prompt(self, scene_id: int, role: str = "loop") -> str:
         """Generate prompt for specific scene and role."""
-        try:
-            with open(self.config.scenes_file, 'r') as f:
-                scenes_data = json.load(f)
-            scene = next(
-                (s for s in scenes_data.get('scenes', []) if s.get('id') == scene_id),
-                None,
-            )
-            if scene is None:
-                print(f"⚠️  Scene {scene_id} not found")
-                return ""
-            return self._build_prompt(scene, role)
-        except Exception as e:
-            print(f"❌ Error generating prompt for scene {scene_id}: {e}")
+        scenes_data = self._get_scenes_data()
+        if not scenes_data:
             return ""
+
+        # Support both object with 'scenes' key and array
+        if isinstance(scenes_data, dict):
+            scenes = scenes_data.get('scenes', scenes_data)
+        else:
+            scenes = scenes_data
+        
+        scene = next(
+            (s for s in scenes if isinstance(s, dict) and s.get('id') == scene_id),
+            None,
+        )
+        if scene is None:
+            print(f"⚠️  Scene {scene_id} not found")
+            return ""
+
+        return self._build_prompt(scene, role)
 
     def generate_all_prompts(self) -> Dict[int, Dict[str, str]]:
         """Generate prompts for all scenes and roles."""
-        try:
-            with open(self.config.scenes_file, 'r') as f:
-                scenes_data = json.load(f)
-            prompts = {}
-            for scene in scenes_data.get('scenes', []):
-                scene_id = scene.get('id')
-                if not scene_id:
-                    continue
-                prompts[scene_id] = {
-                    'intro': self._build_prompt(scene, 'intro'),
-                    'loop': self._build_prompt(scene, 'loop'),
-                }
-            return prompts
-        except Exception as e:
-            print(f"❌ Error generating all prompts: {e}")
+        scenes_data = self._get_scenes_data()
+        if not scenes_data:
             return {}
+
+        # Support both object with 'scenes' key and array
+        if isinstance(scenes_data, dict):
+            scenes = scenes_data.get('scenes', scenes_data)
+        else:
+            scenes = scenes_data
+        
+        prompts = {}
+        for scene in scenes:
+            if not isinstance(scene, dict):
+                continue
+            scene_id = scene.get('id')
+            if not scene_id:
+                continue
+            prompts[scene_id] = {
+                'intro': self._build_prompt(scene, 'intro'),
+                'loop': self._build_prompt(scene, 'loop'),
+            }
+        return prompts
 
     def _get_control_url(self) -> Optional[str]:
         """Upload control image once and cache the CDN URL."""
@@ -141,32 +203,48 @@ class LedrasSceneGenerator:
         print(f"✅ Control image uploaded: {self._control_url}")
         return self._control_url
 
-    def generate_image(self, prompt: str, scene_id: int, role: str, *,
-                       sub_label: str = "") -> Optional[Dict[str, Any]]:
-        """Generate a single image using fal.ai API with SyncClient"""
+    def _prepare_fal_params(self, prompt: str, request_seed: int) -> Dict:
+        """Prepare fal.ai API parameters."""
+        return {
+            "prompt": prompt,
+            "control_lora_image_url": self._get_control_url(),
+            "image_size": self.config.image_size,
+            "seed": request_seed,
+            "num_inference_steps": self.config.num_inference_steps,
+            "num_images": 1,
+            "output_format": "png",
+            "guidance_scale": self.config.guidance_scale,
+            "enable_safety_checker": self.config.enable_safety_checker,
+            "control_lora_strength": self.config.control_lora_strength,
+        }
+
+    def _handle_api_response(self, result, scene_id: int):
+        """Handle API response and return image data."""
+        if not result:
+            print(f"⚠️  No images returned from API for scene {scene_id}")
+            return None, None
+
+        # Handle both dict-style (fal SDK) and attribute-style responses
+        images = (result.get("images", []) if isinstance(result, dict)
+                  else (result.images if hasattr(result, "images") else []))
+
+        if not images:
+            print(f"⚠️  No images returned from API for scene {scene_id}")
+            return None, None
+
+        return images[0], images
+
+    def _generate_and_save_image(self, prompt: str, scene_id: int, role: str, sub_label: str = ""):
+        """Generate a single image and save it to file."""
         request_seed = random.randint(1, 2**31 - 1)
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+        print(f"🎨 Generating image: Scene {scene_id}, Role: {role}")
+        print(f"   Prompt preview: {prompt[:100]}..." if len(prompt) > 100 else f"   Prompt: {prompt}")
+
         try:
-            print(f"🎨 Generating image: Scene {scene_id}, Role: {role}")
-            print(f"   Prompt preview: {prompt[:100]}..." if len(prompt) > 100 else f"   Prompt: {prompt}")
-
-            control_lora_image_url = self._get_control_url()
-            if not control_lora_image_url:
-                return None
-
             # Prepare fal.ai API parameters
-            fal_params = {
-                "prompt": prompt,
-                "control_lora_image_url": control_lora_image_url,
-                "image_size": self.config.image_size,
-                "seed": request_seed,
-                "num_inference_steps": self.config.num_inference_steps,
-                "num_images": 1,
-                "output_format": "png",
-                "guidance_scale": self.config.guidance_scale,
-                "enable_safety_checker": self.config.enable_safety_checker,
-                "control_lora_strength": self.config.control_lora_strength,
-            }
+            fal_params = self._prepare_fal_params(prompt, request_seed)
 
             print(f"🤖 Calling SyncClient.run() API with model: {self.config.fal_model}")
 
@@ -176,74 +254,55 @@ class LedrasSceneGenerator:
                 arguments=fal_params
             )
 
-            if result:
-                # Handle both dict-style (fal SDK) and attribute-style responses
-                images = (result.get("images", []) if isinstance(result, dict)
-                          else (result.images if hasattr(result, "images") else []))
-                if images:
-                    image_data = images[0]
-                    print(f"✅ Image generation successful for scene {scene_id}!")
-
-                    # Build deterministic file name
-                    sub_part = f"_{sub_label}" if sub_label else ""
-                    filename = f"scene-{scene_id:02d}{sub_part}_v{request_seed:03d}_{timestamp}.png"
-                    output_path = os.path.join(self.config.output_dir, filename)
-                    file_path = None
-
-                    image_url = (image_data.get("url") if isinstance(image_data, dict)
-                                 else (image_data.url if hasattr(image_data, "url") else None))
-                    if image_url:
-                        # Log URL before download
-                        log_path = os.path.join(self.config.output_dir, "generation_log.jsonl")
-                        log_entry = {
-                            "scene_id": scene_id, "seed": request_seed,
-                            "sub_label": sub_label, "role": role,
-                            "image_url": image_url, "timestamp": timestamp,
-                            "filename": filename,
-                        }
-                        try:
-                            os.makedirs(self.config.output_dir, exist_ok=True)
-                            with open(log_path, "a") as f_log:
-                                f_log.write(json.dumps(log_entry) + "\n")
-                        except Exception as e:
-                            print(f"⚠️  Failed to write generation log: {e}")
-
-                        # Download with bounded exponential backoff retry
-                        for attempt in range(3):
-                            try:
-                                response = requests.get(image_url, timeout=30)
-                                response.raise_for_status()
-                                # Save the image to file
-                                with open(output_path, "wb") as f_out:
-                                    f_out.write(response.content)
-                                file_path = output_path
-                                print(f"✅ Image saved to {file_path}")
-                                break
-                            except Exception as e:
-                                if attempt == 2:  # Last attempt
-                                    print(f"⚠️  Failed to download image after 3 attempts: {e}")
-                                    raise
-                                delay = min(0.5 * (2 ** attempt), 5.0)
-                                print(f"⚠️  Download failed (attempt {attempt + 1}), retrying in {delay:.1f}s: {e}")
-                                time.sleep(delay)
-
-                return {
-                    "scene_id": scene_id,
-                    "role": role,
-                    "prompt": prompt,
-                    "image_data": image_data,
-                    "generation_timestamp": datetime.now().isoformat(),
-                    "model_used": self.config.fal_model,
-                    "seed": request_seed,
-                    "file_path": file_path
-                }
-            else:
-                print(f"⚠️  No images returned from API for scene {scene_id}")
+            # Handle API response
+            image_data, images = self._handle_api_response(result, scene_id)
+            if not image_data:
                 return None
 
+            print(f"✅ Image generation successful for scene {scene_id}!")
+
+            # Build deterministic file name
+            sub_part = f"_{sub_label}" if sub_label else ""
+            filename = f"scene-{scene_id:02d}{sub_part}_v{request_seed:03d}_{timestamp}.png"
+            output_path = os.path.join(self.config.output_dir, filename)
+            file_path = None
+
+            image_url = (image_data.get("url") if isinstance(image_data, dict)
+                         else (image_data.url if hasattr(image_data, "url") else None))
+            if image_url:
+                # Log generation before download
+                log_path = os.path.join(self.config.output_dir, "generation_log.jsonl")
+                log_entry = {
+                    "scene_id": scene_id, "seed": request_seed,
+                    "sub_label": sub_label, "role": role,
+                    "image_url": image_url, "timestamp": timestamp,
+                    "filename": filename,
+                }
+                _log_generation_result(log_path, log_entry)
+
+                # Download image
+                if _download_image_with_retry(image_url, output_path):
+                    file_path = output_path
+
+            return {
+                "scene_id": scene_id,
+                "role": role,
+                "prompt": prompt,
+                "image_data": image_data,
+                "generation_timestamp": datetime.now().isoformat(),
+                "model_used": self.config.fal_model,
+                "seed": request_seed,
+                "file_path": file_path
+            }
+
         except Exception as e:
-            print(f"❌ Image generation failed for scene {scene_id}: {str(e)}")
+            _safe_error_handler(e, f"❌ Image generation failed for scene {scene_id}")
             return None
+
+    def generate_image(self, prompt: str, scene_id: int, role: str, *,
+                       sub_label: str = "") -> Optional[Dict[str, Any]]:
+        """Generate a single image using fal.ai API with SyncClient"""
+        return self._generate_and_save_image(prompt, scene_id, role, sub_label)
 
     def generate_specific_images(self, scene_ids: List[int], role: str = "intro"):
         """Generate images for specific scenes and roles"""
@@ -284,17 +343,19 @@ class LedrasSceneGenerator:
 
     def generate_subscene_images(self, scene_ids: List[int]) -> Dict[int, Dict[str, Any]]:
         """Generate images for all subscenes of given scenes."""
-        try:
-            with open(self.config.scenes_file, 'r') as f:
-                scenes_data = json.load(f)
-        except Exception as e:
-            print(f"❌ Error loading scenes: {e}")
+        scenes_data = self._get_scenes_data()
+        if not scenes_data:
             return {}
 
         total_subs = 0
         for scene_id in scene_ids:
-            scene = next((s for s in scenes_data.get('scenes', [])
-                          if s.get('id') == scene_id), None)
+            # Support both object with 'scenes' key and array
+            if isinstance(scenes_data, dict):
+                scenes = scenes_data.get('scenes', scenes_data)
+            else:
+                scenes = scenes_data
+            
+            scene = next((s for s in scenes if isinstance(s, dict) and s.get('id') == scene_id), None)
             if scene is None:
                 print(f"⚠️  Scene {scene_id} not found, skipping")
                 continue
@@ -308,8 +369,13 @@ class LedrasSceneGenerator:
         results: Dict[int, Dict[str, Any]] = {}
 
         for scene_id in scene_ids:
-            scene = next((s for s in scenes_data.get('scenes', [])
-                          if s.get('id') == scene_id), None)
+            # Support both object with 'scenes' key and array
+            if isinstance(scenes_data, dict):
+                scenes = scenes_data.get('scenes', scenes_data)
+            else:
+                scenes = scenes_data
+            
+            scene = next((s for s in scenes if isinstance(s, dict) and s.get('id') == scene_id), None)
             if scene is None:
                 continue
 
@@ -336,7 +402,6 @@ class LedrasSceneGenerator:
 
         print(f"✅ Generated {sum(len(v) for v in results.values())} subscene images")
         return results
-
 
 class ProgressReporter:
     """Concise progress reporting for image generation pipeline"""
@@ -379,7 +444,6 @@ class ProgressReporter:
     def increment_error(self):
         """Increment the count of errors"""
         self.errors_count += 1
-
 
 if __name__ == "__main__":
     print("=== Ledras Lament Scene Generation Pipeline ===")
