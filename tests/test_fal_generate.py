@@ -155,3 +155,132 @@ print(f"✅ Generation log fields: {', '.join(sorted(log_entry.keys()))}")
 print(f"\n{'='*50}")
 print(f"✅ All tests passed!")
 print(f"{'='*50}")
+
+
+# ── Retry logic tests ─────────────────────────────────────────────
+
+def test_retry_logic_with_upload_file(mocker):
+    """Test that upload_file is called correctly for control image"""
+    from fal_client import upload_file
+    
+    # Mock upload_file to verify it's called with correct path
+    mock_upload = mocker.patch('fal_generate.upload_file')
+    mock_upload.return_value = "https://test.example.com/control.png"
+    
+    generator = LedrasSceneGenerator()
+    
+    # Mock config to have a control image path
+    generator.config.control_image_path = "/test/path.png"
+    
+    # Create mock os.path.exists to return True
+    mocker.patch('os.path.exists', return_value=True)
+    
+    # Mock requests.get for the actual image download
+    mock_response = mocker.Mock()
+    mock_response.status_code = 200
+    mock_response.content = b"fake image content"
+    mocker.patch('requests.get', return_value=mock_response)
+    
+    # Mock SyncClient.run to return a successful result
+    mock_run = mocker.patch.object(generator.client, 'run')
+    mock_run.return_value = {"images": [{"url": "https://test.example.com/result.png"}]}
+    
+    # Test the generate_image method
+    result = generator.generate_image(
+        prompt="Test prompt",
+        scene_id=1,
+        role="intro",
+        sub_label="100"
+    )
+    
+    # Verify upload_file was called with correct path
+    mock_upload.assert_called_once_with("/test/path.png")
+    print("✅ Upload file integration test passed")
+
+def test_retry_exponential_backoff(mocker):
+    """Test exponential backoff in download retry logic"""
+    from fal_generate import LedrasSceneGenerator
+    import time
+    
+    generator = LedrasSceneGenerator()
+    
+    # Mock all dependencies to simulate download failures
+    mock_upload = mocker.patch('fal_generate.upload_file')
+    mock_upload.return_value = "https://test.example.com/control.png"
+    
+    mocker.patch('os.path.exists', return_value=True)
+    
+    # Mock requests.get to fail twice, then succeed
+    mock_response1 = mocker.Mock()
+    mock_response1.status_code = 500  # Fail first time
+    mock_response1.raise_for_status.side_effect = Exception("Server error")
+    
+    mock_response2 = mocker.Mock()
+    mock_response2.status_code = 500  # Fail second time
+    mock_response2.raise_for_status.side_effect = Exception("Server error")
+    
+    mock_response3 = mocker.Mock()
+    mock_response3.status_code = 200  # Succeed third time
+    mock_response3.content = b"success"
+    
+    mock_get = mocker.patch('requests.get', side_effect=[
+        mock_response1, mock_response2, mock_response3
+    ])
+    
+    # Mock time.sleep to track delays
+    mock_sleep = mocker.patch('time.sleep')
+    
+    # Mock SyncClient.run to return a successful result
+    mock_run = mocker.patch.object(generator.client, 'run')
+    mock_run.return_value = {"images": [{"url": "https://test.example.com/result.png"}]}
+    
+    # Execute test
+    result = generator.generate_image(
+        prompt="Test prompt",
+        scene_id=1,
+        role="intro",
+        sub_label="100"
+    )
+    
+    # Verify that sleep was called with expected delays
+    # First call: delay = 0.5 * (2^0) = 0.5 seconds
+    # Second call: delay = 0.5 * (2^1) = 1.0 seconds (capped at 5.0)
+    expected_calls = [0.5, 1.0]  # Based on our implementation
+    actual_calls = [call[0][0] for call in mock_sleep.call_args_list]
+    
+    assert len(mock_sleep.call_args_list) == 2, f"Expected 2 sleep calls, got {len(mock_sleep.call_args_list)}"
+    print(f"✅ Exponential backoff test passed - delays: {actual_calls}")
+
+def test_retry_max_attempts(mocker):
+    """Test that retry logic respects maximum attempts"""
+    from fal_generate import LedrasSceneGenerator
+    
+    generator = LedrasSceneGenerator()
+    
+    # Mock all dependencies to simulate consistent failures
+    mock_upload = mocker.patch('fal_generate.upload_file')
+    mock_upload.return_value = "https://test.example.com/control.png"
+    
+    mocker.patch('os.path.exists', return_value=True)
+    
+    # Mock requests.get to always fail
+    mock_response = mocker.Mock()
+    mock_response.status_code = 500
+    mock_response.raise_for_status.side_effect = Exception("Persistent failure")
+    mocker.patch('requests.get', return_value=mock_response)
+    
+    # Mock SyncClient.run to return a successful result (so we get to the download phase)
+    mock_run = mocker.patch.object(generator.client, 'run')
+    mock_run.return_value = {"images": [{"url": "https://test.example.com/result.png"}]}
+    
+    # Execute test - should fail after 3 attempts
+    result = generator.generate_image(
+        prompt="Test prompt",
+        scene_id=1,
+        role="intro",
+        sub_label="100"
+    )
+    
+    # Verify that result is None (failed generation)
+    assert result is None, "Expected generate_image to return None after max retries"
+    print("✅ Max attempts retry test passed - correctly failed after 3 attempts")

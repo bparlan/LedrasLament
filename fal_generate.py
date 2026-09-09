@@ -24,6 +24,7 @@ from typing import Dict, List, Any, Optional
 from datetime import datetime
 
 from fal_client import SyncClient, upload_file
+
 from utils import get_resolution, estimate_cost
 
 
@@ -53,6 +54,7 @@ class LedrasSceneGenerator:
     def __init__(self):
         self.config = LedrasConfig()
         self.setup_fal_client()
+        self.progress = ProgressReporter(verbose=False)
 
     def setup_fal_client(self):
         """Setup fal client with environment-based authentication"""
@@ -209,23 +211,21 @@ class LedrasSceneGenerator:
                         except Exception as e:
                             print(f"⚠️  Failed to write generation log: {e}")
 
-                        # Download with one retry on failure
-                        for attempt in range(2):
+                        # Download with bounded exponential backoff retry
+                        for attempt in range(3):
                             try:
                                 response = requests.get(image_url, timeout=30)
                                 response.raise_for_status()
-                                os.makedirs(self.config.output_dir, exist_ok=True)
-                                with open(output_path, 'wb') as f:
-                                    f.write(response.content)
-                                print(f"✅ Image saved to: {output_path}")
-                                file_path = output_path
                                 break
                             except Exception as e:
-                                if attempt == 0:
-                                    print(f"⚠️  Download failed, retrying: {e}")
-                                    time.sleep(1)
-                                else:
-                                    print(f"⚠️  Failed to download image after retry: {e}")
+                                if attempt == 2:  # Last attempt
+                                    print(f"⚠️  Failed to download image after {3} attempts: {e}")
+                                    raise  # Propagate the error
+                                
+                                # Calculate exponential backoff delay
+                                delay = min(0.5 * (2 ** attempt), 5.0)  # Max 5 second delay
+                                print(f"⚠️  Download failed (attempt {attempt + 1}), retrying in {delay:.1f}s: {e}")
+                                time.sleep(delay)
 
                 return {
                     "scene_id": scene_id,
@@ -249,7 +249,8 @@ class LedrasSceneGenerator:
         """Generate images for specific scenes and roles"""
         generated = {}
 
-        print(f"🎨 Starting image generation for scenes {scene_ids}, role: {role}")
+        self.progress.set_target(len(scene_ids))
+        self.progress.report(f"🎨 Starting image generation for scenes {scene_ids}, role: {role}")
         print(f"📁 Output directory: {self.config.output_dir}")
         print(f"🤖 Using model: {self.config.fal_model}")
         print(f"🎯 Control strength: {self.config.control_lora_strength}")
@@ -335,6 +336,91 @@ class LedrasSceneGenerator:
         return results
 
     def run_complete_pipeline(self, target_scenes: List[int], target_role: str = "intro"):
+        """Run the complete pipeline for target scenes"""
+        print("=" * 60)
+        print("🚀 STARTING LEDRAS LAMENT PIPELINE")
+        print("=" * 60)
+        print(f"📽️  Target Scenes: {target_scenes}")
+        print(f"🎭 Target Role: {target_role}")
+        print()
+
+        print("🎨 Generating images...")
+        generated = self.generate_specific_images(target_scenes, target_role)
+
+        print()
+        print("✅ Pipeline completed!")
+        print(f"📊 Generated: {len(generated)}/{len(target_scenes)} scenes")
+
+        print()
+        print("=" * 60)
+        print("🎉 PIPELINE SUMMARY")
+        print("=" * 60)
+        print(f"✅ Total scenes generated: {len(generated)}")
+        print(f"✅ Model used: {self.config.fal_model}")
+        print(f"✅ Control strength: {self.config.control_lora_strength}")
+        print(f"✅ Cultural authenticity: {self.config.cultural_authenticity_level}")
+        print("=" * 60)
+
+        return generated
+
+class ProgressReporter:
+    """Concise progress reporting for image generation pipeline"""
+    
+    def __init__(self, verbose=False):
+        self.verbose = verbose
+        self.start_time = time.time()
+        self.last_report = 0
+        self.images_generated = 0
+        self.total_target = 0
+        self.errors_count = 0
+    
+    def set_target(self, total):
+        """Set the total number of images to be generated"""
+        self.total_target = total
+    
+    def report(self, message, force=False):
+        """Report progress with timing and statistics"""
+        current_time = time.time()
+        elapsed = current_time - self.start_time
+        
+        # Report every 5 seconds, or if force=True
+        if self.verbose or force or (current_time - self.last_report) >= 5:
+            timestamp = current_time - self.start_time
+            
+            # Simple progress indicator
+            if self.total_target > 0:
+                progress = (self.images_generated / self.total_target) * 100
+                rate = self.images_generated / elapsed if elapsed > 0 else 0
+                print(f"[{timestamp:6.1f}s] {message} ({progress:5.1f}% - {self.images_generated}/{self.total_target}, {rate:4.1f} img/s)")
+            else:
+                print(f"[{timestamp:6.1f}s] {message}")
+            
+            self.last_report = current_time
+    
+    def increment(self):
+        """Increment the count of successfully generated images"""
+        self.images_generated += 1
+    
+    def increment_error(self):
+        """Increment the count of errors"""
+        self.errors_count += 1
+    
+    def finish(self, success_count, total):
+        """Print final progress summary"""
+        elapsed = time.time() - self.start_time
+        rate = success_count / elapsed if elapsed > 0 else 0
+        efficiency = (success_count / total * 100) if total > 0 else 0
+        
+        print(f"
+{'='*70}")
+        print(f"🎉 PIPELINE COMPLETED")
+        print(f"{'='*70}")
+        print(f"⏱️  Total runtime: {elapsed:8.1f} seconds")
+        print(f"📊 Generation rate: {rate:8.2f} images/second")
+        print(f"✅ Success: {success_count:3d}/{total} ({efficiency:5.1f}%)")
+        if self.errors_count > 0:
+            print(f"❌ Errors: {self.errors_count}")
+        print(f"{'='*70}")
         """Run the complete pipeline for target scenes"""
         print("=" * 60)
         print("🚀 STARTING LEDRAS LAMENT PIPELINE")
