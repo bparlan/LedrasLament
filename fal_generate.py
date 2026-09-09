@@ -23,14 +23,12 @@ import time
 from typing import Dict, List, Any, Optional
 from datetime import datetime
 
-from fal_client import SyncClient, upload_file
+from fal_client import SyncClient
 
 from utils import get_resolution, estimate_cost
 
 
 class LedrasConfig:
-
-
     def __init__(self):
         self.load_imagine_config()
 
@@ -55,6 +53,7 @@ class LedrasSceneGenerator:
         self.config = LedrasConfig()
         self.setup_fal_client()
         self.progress = ProgressReporter(verbose=False)
+        self._control_url = None  # cache for control image upload
 
     def setup_fal_client(self):
         """Setup fal client — reads FAL_KEY from env per fal.ai convention"""
@@ -124,6 +123,24 @@ class LedrasSceneGenerator:
             print(f"❌ Error generating all prompts: {e}")
             return {}
 
+    def _get_control_url(self) -> Optional[str]:
+        """Upload control image once and cache the CDN URL."""
+        if self._control_url:
+            return self._control_url
+
+        control_image_path = self.config.control_lora_image_url
+        if not control_image_path:
+            print("❌ ERROR: control_lora_image_url not configured")
+            return None
+        if not os.path.exists(control_image_path):
+            print(f"❌ ERROR: Control image not found at {control_image_path}")
+            return None
+
+        print(f"📤 Uploading control image: {control_image_path}")
+        self._control_url = self.client.upload_file(control_image_path)
+        print(f"✅ Control image uploaded: {self._control_url}")
+        return self._control_url
+
     def generate_image(self, prompt: str, scene_id: int, role: str, *,
                        sub_label: str = "") -> Optional[Dict[str, Any]]:
         """Generate a single image using fal.ai API with SyncClient"""
@@ -133,17 +150,9 @@ class LedrasSceneGenerator:
             print(f"🎨 Generating image: Scene {scene_id}, Role: {role}")
             print(f"   Prompt preview: {prompt[:100]}..." if len(prompt) > 100 else f"   Prompt: {prompt}")
 
-            # Upload local control image to fal.ai storage
-            control_image_path = self.config.control_lora_image_url
-            if not control_image_path:
-                print("❌ ERROR: control_image_path not configured")
+            control_lora_image_url = self._get_control_url()
+            if not control_lora_image_url:
                 return None
-            if not os.path.exists(control_image_path):
-                print(f"❌ ERROR: Control image not found at {control_image_path}")
-                return None
-            print(f"📤 Uploading control image: {control_image_path}")
-            control_lora_image_url = self.client.upload_file(control_image_path)
-            print(f"✅ Control image uploaded: {control_lora_image_url}")
 
             # Prepare fal.ai API parameters
             fal_params = {
@@ -266,8 +275,6 @@ class LedrasSceneGenerator:
                 self.progress.report(f"Scene {scene_id} generated successfully")
                 generated[scene_id] = image_info
                 print(f"✅ Scene {scene_id} generated successfully")
-                self.progress.increment_error()
-                self.progress.report(f"Failed to generate scene {scene_id}", force=True)
             else:
                 self.progress.increment_error()
                 self.progress.report(f"Failed to generate scene {scene_id}", force=True)
@@ -330,37 +337,10 @@ class LedrasSceneGenerator:
         print(f"✅ Generated {sum(len(v) for v in results.values())} subscene images")
         return results
 
-    def run_complete_pipeline(self, target_scenes: List[int], target_role: str = "intro"):
-        """Run the complete pipeline for target scenes"""
-        print("=" * 60)
-        print("🚀 STARTING LEDRAS LAMENT PIPELINE")
-        print("=" * 60)
-        print(f"📽️  Target Scenes: {target_scenes}")
-        print(f"🎭 Target Role: {target_role}")
-        print()
-
-        print("🎨 Generating images...")
-        generated = self.generate_specific_images(target_scenes, target_role)
-
-        print()
-        print("✅ Pipeline completed!")
-        print(f"📊 Generated: {len(generated)}/{len(target_scenes)} scenes")
-
-        print()
-        print("=" * 60)
-        print("🎉 PIPELINE SUMMARY")
-        print("=" * 60)
-        print(f"✅ Total scenes generated: {len(generated)}")
-        print(f"✅ Model used: {self.config.fal_model}")
-        print(f"✅ Control strength: {self.config.control_lora_strength}")
-        print(f"✅ Cultural authenticity: {self.config.cultural_authenticity_level}")
-        print("=" * 60)
-
-        return generated
 
 class ProgressReporter:
     """Concise progress reporting for image generation pipeline"""
-    
+
     def __init__(self, verbose=False):
         self.verbose = verbose
         self.start_time = time.time()
@@ -368,20 +348,20 @@ class ProgressReporter:
         self.images_generated = 0
         self.total_target = 0
         self.errors_count = 0
-    
+
     def set_target(self, total):
         """Set the total number of images to be generated"""
         self.total_target = total
-    
+
     def report(self, message, force=False):
         """Report progress with timing and statistics"""
         current_time = time.time()
         elapsed = current_time - self.start_time
-        
+
         # Report every 5 seconds, or if force=True
         if self.verbose or force or (current_time - self.last_report) >= 5:
             timestamp = current_time - self.start_time
-            
+
             # Simple progress indicator
             if self.total_target > 0:
                 progress = (self.images_generated / self.total_target) * 100
@@ -389,58 +369,16 @@ class ProgressReporter:
                 print(f"[{timestamp:6.1f}s] {message} ({progress:5.1f}% - {self.images_generated}/{self.total_target}, {rate:4.1f} img/s)")
             else:
                 print(f"[{timestamp:6.1f}s] {message}")
-            
+
             self.last_report = current_time
-    
+
     def increment(self):
         """Increment the count of successfully generated images"""
         self.images_generated += 1
-    
+
     def increment_error(self):
         """Increment the count of errors"""
         self.errors_count += 1
-    
-    def finish(self, success_count, total):
-        """Print final progress summary"""
-        elapsed = time.time() - self.start_time
-        rate = success_count / elapsed if elapsed > 0 else 0
-        efficiency = (success_count / total * 100) if total > 0 else 0
-        
-        print(f"\n{'='*70}")
-        print(f"🎉 PIPELINE COMPLETED")
-        print(f"{'='*70}")
-        print(f"⏱️  Total runtime: {elapsed:8.1f} seconds")
-        print(f"📊 Generation rate: {rate:8.2f} images/second")
-        print(f"✅ Success: {success_count:3d}/{total} ({efficiency:5.1f}%)")
-        if self.errors_count > 0:
-            print(f"❌ Errors: {self.errors_count}")
-        print(f"{'='*70}")
-        """Run the complete pipeline for target scenes"""
-        print("=" * 60)
-        print("🚀 STARTING LEDRAS LAMENT PIPELINE")
-        print("=" * 60)
-        print(f"📽️  Target Scenes: {target_scenes}")
-        print(f"🎭 Target Role: {target_role}")
-        print()
-
-        print("🎨 Generating images...")
-        generated = self.generate_specific_images(target_scenes, target_role)
-
-        print()
-        print("✅ Pipeline completed!")
-        print(f"📊 Generated: {len(generated)}/{len(target_scenes)} scenes")
-
-        print()
-        print("=" * 60)
-        print("🎉 PIPELINE SUMMARY")
-        print("=" * 60)
-        print(f"✅ Total scenes generated: {len(generated)}")
-        print(f"✅ Model used: {self.config.fal_model}")
-        print(f"✅ Control strength: {self.config.control_lora_strength}")
-        print(f"✅ Cultural authenticity: {self.config.cultural_authenticity_level}")
-        print("=" * 60)
-
-        return generated
 
 
 if __name__ == "__main__":
@@ -465,12 +403,6 @@ if __name__ == "__main__":
             scenes = generator.generate_specific_images(scene_ids, "intro")
             print(f"\n✅ SUCCESS: Scenes {scene_ids} generated successfully!")
             print(f"📊 Generated: {len(scenes)} scenes")
-
-    except Exception as e:
-        print(f"❌ ERROR: {str(e)}")
-        import traceback
-        traceback.print_exc()
-        exit(1)
 
     except Exception as e:
         print(f"❌ ERROR: {str(e)}")
