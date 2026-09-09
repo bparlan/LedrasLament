@@ -26,9 +26,13 @@
 - ASK before any image creation
 - Respect "NO" decisions immediately
 
+### FAL_KEY Environment Setup (MANDATORY before every generation run)
+- `fal_generate.py` auto-loads `.env` at startup via `load_dotenv('.env')` — no manual sourcing needed
+- If FAL_KEY changes, the new value takes effect on next `python3 fal_generate.py` invocation
+- Never attempt to read, inspect, or reformat `.env` — the script handles it transparently
+- To verify key is loaded: run `python3 -c "from dotenv import load_dotenv; load_dotenv(); import os; k=os.environ.get('FAL_KEY',''); print(f'loaded: {bool(k)}, len: {len(k)}')"` — checks existence and length only, never exposes the value
+
 ## Current Configuration
-- `stage/stage_rehersals.png`
- - `data/scenes/ledras_scenes_v8.json`
 
 ## Critical Rules
 

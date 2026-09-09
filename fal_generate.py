@@ -20,7 +20,10 @@ from typing import Dict, List, Any, Optional
 from datetime import datetime
 
 # Load .env BEFORE any SDK import — this is the root FAL_KEY source
-load_dotenv('.env')
+#
+# Resolve .env relative to this script's directory, not cwd
+_script_dir = os.path.dirname(os.path.abspath(__file__))
+load_dotenv(os.path.join(_script_dir, '.env'))
 
 from fal_client import SyncClient
 
