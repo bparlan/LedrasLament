@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "updated": "2026-09-09",
+  "note": "Machine-readable inventory of Ledras Lament deterministic tools. Read by theteam orchestrator (SKILL.md step 4) and injected into member prompts.",
+  "generation": {
+    "fal_generate": {
+      "path": "fal_generate.py",
+      "type": "CLI",
+      "usage": "python3 fal_generate.py [scene_ids] [--subscenes]",
+      "config": "imagine-config.json",
+      "config_schema": "project | behavior | permitted_skills | selection_options | output | fal_model | seed | guidance_scale | num_inference_steps | image_size | enable_safety_checker | control_lora_strength | control_lora_image_url | guideline_image | scenes_file | cultural_authenticity_level | output_dir | log_file | prompt_architecture",
+      "gate": "gateway.json:rights",
+      "output": "assets/generated/ (scene-NN_vNNN_timestamp.png / scene-NN_SUBID_vNNN_timestamp.png); assets/generated/generation_log.jsonl (append-only)",
+      "deps": ["utils.py", "fal_client", "src/gateway.py"],
+      "invariants": ["Rule A (Canny+Canny only)", "Rule B (canvas 1280x704)", "Rule C (no image_url on first gen)", "Rule D (control_strength <= 0.6 on full window)"]
+    },
+    "utils": {
+      "path": "utils.py",
+      "type": "module",
+      "exports": ["get_resolution()", "estimate_cost()"]
+    }
+  },
+  "health": {
+    "health_scanner": {
+      "path": "scripts/health_scanner.py",
+      "type": "CLI",
+      "usage": "python3 scripts/health_scanner.py [--report|--quiet]",
+      "output": "health_monitor.log",
+      "registry": "docs/stable_project_structure.json"
+    },
+    "health_orchestrator": {
+      "path": "theteam/workflow/health_monitor/theteam_health_skill.py",
+      "type": "CLI",
+      "usage": "python3 theteam/workflow/health_monitor/theteam_health_skill.py --mode standalone|orchestrator [--frequency N]"
+    }
+  },
+  "team": {
+    "context_aggregator": {
+      "path": "theteam/workflow/context_aggregator.py",
+      "type": "CLI",
+      "usage": "python3 theteam/workflow/context_aggregator.py [--out <path>]",
+      "output": "stdout: JSON snapshot of config + gateway + structure + health + invariants"
+    },
+    "config": "theteam.config",
+    "reports": ".omp/theteam/reports/ (output.report_dir, keep_last 20)"
+  },
+  "config_registry": [
+    {"file": "imagine-config.json", "role": "Sole runtime config for fal_generate"},
+    {"file": "gateway.json", "role": "Token budget: rights | used | initial"},
+    {"file": "theteam.config", "role": "Team roster + behavior + permitted_skills + output"},
+    {"file": "docs/stable_project_structure.json", "role": "Project structure registry (validated by health_scanner)"}
+  ]
+}
