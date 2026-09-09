@@ -49,9 +49,9 @@
     "report_dir": ".omp/theteam/reports",
     "keep_last": 20
   },
-  "control_lora_image_url": "https://v3b.fal.media/files/b/0aa96efc/TUAt8eL9nzq2H3jP6Nzbu_stage_rehersals.png",
+  "control_lora_image_url": "data/control_images/stage_rehersals.png",
   "guideline_image": "stage/stage_v6_alphasky.png",
-  "scenes_file": "data/sources/ledras_scenes_v10_final.json",
+  "scenes_file": "data/sources/ledras_scenes_v10_final_clean.json",
   "seed": 300,
   "cultural_authenticity_level": "cypro_phoenician",
   "num_inference_steps": 28,

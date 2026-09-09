@@ -40,8 +40,8 @@ Negative prompt and style seed are applied globally at the file root.
 ## Usage
 
 ```bash
-# Set API key (required)
-export FAL_API_KEY="your-fal-api-key-here"
+# Set API key (required) — fal.ai convention
+export FAL_KEY="your-fal-api-key-here"
 
 # Generate default scene 6
 python3 fal_generate.py

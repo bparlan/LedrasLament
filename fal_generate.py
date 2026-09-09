@@ -57,20 +57,11 @@ class LedrasSceneGenerator:
         self.progress = ProgressReporter(verbose=False)
 
     def setup_fal_client(self):
-        """Setup fal client with environment-based authentication"""
-        self.api_key = os.environ.get('FAL_API_KEY')
-
-        if not self.api_key:
-            print("⚠️  WARNING: FAL_API_KEY not set. Image generation may fail.")
-            print("   Set it using: export FAL_API_KEY='your-api-key'")
-            self.client = SyncClient()
-        else:
-            print("✅ FAL_API_KEY configured successfully")
-            self.client = SyncClient(key=self.api_key)
-
-        if hasattr(self, 'api_key') and self.api_key and ':' in self.api_key:
-            uuid_part, suffix_part = self.api_key.split(':', 1)
-            print(f"   Key format: UUID ({len(uuid_part)} chars) + suffix ({len(suffix_part)} chars)")
+        """Setup fal client — reads FAL_KEY from env per fal.ai convention"""
+        # SyncClient() auto-reads FAL_KEY env var.
+        # Module-level upload_file/status/result also use FAL_KEY natively.
+        self.client = SyncClient()
+        print("✅ FAL client ready (SyncClient reads FAL_KEY from env)")
 
     def _build_prompt(self, scene: dict, role: str = "intro") -> str:
         """Build canonical prompt: description + elements + metadata."""
@@ -143,7 +134,7 @@ class LedrasSceneGenerator:
             print(f"   Prompt preview: {prompt[:100]}..." if len(prompt) > 100 else f"   Prompt: {prompt}")
 
             # Upload local control image to fal.ai storage
-            control_image_path = self.config.control_image_path
+            control_image_path = self.config.control_lora_image_url
             if not control_image_path:
                 print("❌ ERROR: control_image_path not configured")
                 return None
@@ -151,7 +142,7 @@ class LedrasSceneGenerator:
                 print(f"❌ ERROR: Control image not found at {control_image_path}")
                 return None
             print(f"📤 Uploading control image: {control_image_path}")
-            control_lora_image_url = upload_file(control_image_path)
+            control_lora_image_url = self.client.upload_file(control_image_path)
             print(f"✅ Control image uploaded: {control_lora_image_url}")
 
             # Prepare fal.ai API parameters

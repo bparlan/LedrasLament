@@ -136,5 +136,5 @@ Use only the environment variable names explicitly provided by the user.
 Example:
 
 ```text
-FAL_API_KEY
-```
+```text
+FAL_KEY
