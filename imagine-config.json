@@ -49,7 +49,7 @@
     "report_dir": ".omp/theteam/reports",
     "keep_last": 20
   },
-  "control_lora_image_url": "https://v3b.fal.media/files/b/0aa96efc/TUAt8eL9nzq2H3jP6Nzbu_stage_v6_alphasky.png",
+  "control_lora_image_url": "https://v3b.fal.media/files/b/0aa96efc/TUAt8eL9nzq2H3jP6Nzbu_stage_rehersals.png",
   "guideline_image": "stage/stage_v6_alphasky.png",
   "scenes_file": "data/sources/ledras_scenes_v10_final.json",
   "seed": 300,
@@ -78,6 +78,47 @@
     "control_image_url_path": "data/control_images/stage_rehersals.png",
     "control_lora_image_url": "https://v3b.fal.media/files/b/0aa96efc/TUAt8eL9nzq2H3jP6Nzbu_stage_rehersals.png",
     "control_lora_strength": {
+      "stage_v6_alphasky": {
+        "default": 0.7,
+        "water_vegetation_scenes": 0.6,
+        "fire_scene": 0.6,
+        "rationale": "0.7 default gives the model creative freedom to follow dense prompt descriptions while maintaining structural adherence. 0.6 for scenes where water, vegetation, or fire details could blur geometric boundaries — tighter adherence preserves the amphitheater lines."
+      }
+    },
+  "scenes_file": "data/sources/ledras_scenes_v10_final.json",
+  "seed": 300,
+  "cultural_authenticity_level": "cypro_phoenician",
+  "num_inference_steps": 28,
+  "guidance_scale": 3.5,
+  "image_size": "landscape_16_9",
+  "enable_safety_checker": true,
+  "output_dir": "assets/generated/ledras_v10_final",
+  "log_file": "generation.log",
+  "fal_model": "fal-ai/flux-control-lora-canny",
+  "prompt_architecture": {
+    "template": "subscene_description + subscene_visual_brief + scene_prompt_suffix + model_negative_suffix",
+    "rationale": "Three-layer prompt construction: narrative grounding (description), temporal moment (visual_brief), and cinematic quality constraints (prompt_suffix). Model negative suffix appended via --no for FLUX compatibility.",
+    "negative_default": "human figure, human body, human face, person, people, crowd, silhouette of person, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, distorted central frame, tilted frame, curved frame, broken frame, widened frame, narrowed frame, moved frame, moon outside frame, moon above frame, moon behind frame, extra architecture changing tier geometry, blurry, modern buildings, modern city, Greek columns, Doric columns, Ionic columns, human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns",
+    "negative_model_suffix": "--no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns",
+    "generation_defaults": {
+      "num_inference_steps": 28,
+      "guidance_scale": 3.5,
+      "image_size": "landscape_16_9",
+      "enable_safety_checker": true,
+      "control_start": 0,
+      "control_stop": 1
+    },
+    "control_image_path": "data/control_images/stage_rehersals.png",
+    "control_image_url_path": "data/control_images/stage_rehersals.png",
+    "control_lora_image_url": "https://v3b.fal.media/files/b/0aa96efc/TUAt8eL9nzq2H3jP6Nzbu_stage_rehersals.png",
+    "control_lora_strength": {
+      "stage_v6_alphasky": {
+        "default": 0.7,
+        "water_vegetation_scenes": 0.6,
+        "fire_scene": 0.6,
+        "rationale": "0.7 default gives the model creative freedom to follow dense prompt descriptions while maintaining structural adherence. 0.6 for scenes where water, vegetation, or fire details could blur geometric boundaries — tighter adherence preserves the amphitheater lines."
+      }
+    },
       "stage_v6_alphasky": {
         "default": 0.7,
         "water_vegetation_scenes": 0.6,
