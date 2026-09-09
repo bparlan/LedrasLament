@@ -23,7 +23,7 @@ from datetime import datetime
 #
 # Resolve .env relative to this script's directory, not cwd
 _script_dir = os.path.dirname(os.path.abspath(__file__))
-load_dotenv(os.path.join(_script_dir, '.env'))
+load_dotenv(os.path.join(_script_dir, '.env'), override=True)
 
 from fal_client import SyncClient
 
@@ -104,10 +104,10 @@ class LedrasSceneGenerator:
 
     def setup_fal_client(self):
         """Setup fal client — reads FAL_KEY from env per fal.ai convention"""
-        # SyncClient() auto-reads FAL_KEY env var.
-        # Module-level upload_file/status/result also use FAL_KEY natively.
-        self.client = SyncClient()
-        print("✅ FAL client ready (SyncClient reads FAL_KEY from env)")
+        # SyncClient() reads key from arg or env. override=True above ensures
+        # fresh .env key always wins over stale shell env.
+        self.client = SyncClient(key=os.environ.get("FAL_KEY"))
+        print("✅ FAL client ready (explicit key from env)")
 
     def _build_prompt(self, scene: dict, role: str = "intro") -> str:
         """Build canonical prompt: description + elements + metadata."""
