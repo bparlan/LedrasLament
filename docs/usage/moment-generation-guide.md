@@ -6,7 +6,7 @@ This guide provides the complete setup and execution instructions for generating
 ## Files Created
 
 ### Primary Scene Configuration
-**Location:** `data/scenes/ledras_scenes_v11_moments.json`
+ **Location:** `data/scenes/prelude-intro-moments.json`
 - Contains all 6 moment scene definitions
 - Includes hyperrealistic photorealistic visual specifications
 - Compatible with existing `fal_generate.py` pipeline
@@ -68,10 +68,10 @@ python3 generate_moments.py
 ```bash
 # For each moment (1-6)
 # 1. Extract prompt from data/scenes/ledras_scenes_v11_moments.json
-# 2. Run: python3 fal_generate.py --scene-id X --role intro
+ # 1. Extract prompt from data/scenes/prelude-intro-moments.json
 # 3. Review and download generated images
 ```
-
+ python3 -m json.tool data/scenes/prelude-intro-moments.json > /dev/null && echo "JSON valid"
 ## Scene Configuration Details
 
 ### Moment-Specific Parameters
@@ -176,7 +176,7 @@ EOF
 project_root/
 ├── data/
 │   ├── scenes/                    # Scene configurations
-│   │   └── ledras_scenes_v11_moments.json
+ │   │       └── prelude-intro-moments.json
 │   └── control_images/            # Control images
 ├── specific_scenes/              # Detailed prompts
 │   └── prelude-intro-moments.md

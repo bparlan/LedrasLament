@@ -28,7 +28,7 @@
 
 ## Current Configuration
 - `stage/stage_rehersals.png`
-- `data/sources/ledras_scenes_v8.json`
+ - `data/scenes/ledras_scenes_v8.json`
 
 ## Critical Rules
 

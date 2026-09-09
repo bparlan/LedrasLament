@@ -114,7 +114,7 @@ The scanner validates the `stable_project_structure.json` registry:
   "folders": {
     "stage/": { ... },
     "2do/": { ... },
-    "data/sources/": { ... },
+        "data/scenes/": { ... },
     "src/": { ... },
     "tests/": { ... },
     "assets/generated/": { ... },

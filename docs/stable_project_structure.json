@@ -25,12 +25,8 @@
     },
     "data/scenes/": {
       "aim": "Multi-moment scene configuration files for sequential image generation.",
-      "key": "ledras_scenes_v11_moments.json — 6-moment Desert Moon Portal scene definitions with hyperrealistic visual specifications."
-    },
-    "data/sources/": {
-      "aim": "Canonical scene definitions, moment configurations, and favorites registry.",
       "key": [
-        "ledras_scenes_v11_moments.json — 6-moment Desert Moon Portal sequence definitions.",
+        "prelude-intro-moments.json — 6-moment Desert Moon Portal scene definitions with hyperrealistic visual specifications.",
         "ledras_scenes_v10_rehersal_1.json (retained)",
         "ledras_scenes_v9_visual_language.json (retained)",
         "ledras_scenes_v8.json (retained)",

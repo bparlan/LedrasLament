@@ -13,7 +13,7 @@ All project-wide variables live in **one file**:
 |---|---|---|
 | `fal_model` | `fal-ai/flux-control-lora-canny` | API model |
 | `num_inference_steps` | `28` | Generation quality |
-| `scenes_file` | `data/sources/ledras_scenes_v8.json` | Scene definitions |
+  | `scenes_file` | `data/scenes/ledras_scenes_v8.json` | Scene definitions |
 | `output_dir` | `assets/generated` | Output images |
 | `image_size` | `{"width": 1280, "height": 704}` | Output canvas |
 | `seed` | `42` | Base RNG seed |
@@ -29,7 +29,7 @@ All project-wide variables live in **one file**:
 
 ### Scene Data
 
-`data/sources/ledras_scenes_v8.json` — 9 scenes, 6 subscenes each (54 total).
+ `data/scenes/ledras_scenes_v8.json` — 9 scenes, 6 subscenes each (54 total).
 
 Each scene has: `id`, `name`, `description`, `elements[]`, `seed`, `subscenes[]`.
 
@@ -81,7 +81,7 @@ imagine-config.json          ← sole config source
 fal_generate.py              ← pipeline: LedrasConfig + LedrasSceneGenerator
 utils.py                     ← get_resolution(), estimate_cost()
 src/gateway.py               ← advisory token tracking (prints warning, never blocks)
-data/sources/ledras_scenes_v8.json  ← scene definitions (54 subscenes across 9 scenes)
+ data/scenes/ledras_scenes_v8.json  ← scene definitions (54 subscenes across 9 scenes)
 tests/test_fal_generate.py   ← test suite (15 assertions)
 assets/generated/            ← output images
 ```
@@ -91,7 +91,7 @@ assets/generated/            ← output images
 ## Agent Quick Reference
 
 - **Config change?** Edit `imagine-config.json` only.
-- **Scene data change?** Edit `data/sources/ledras_scenes_v8.json` only.
+ - **Scene data change?** Edit `data/scenes/ledras_scenes_v8.json` only.
 - **Image size / control strength / model?** `imagine-config.json` → automatically picked up by `fal_generate.py` on next run.
 - `assets/generated/generation_log.jsonl` is append-only — preserves URL even if download fails. Recovery: re-download by replaying URLs from this log within fal's CDN window (~hours).
 - Changing config values? `imagine-config.json` only — no need to touch `fal_generate.py`, `AGENTS.md`, or docs.

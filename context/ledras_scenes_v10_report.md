@@ -101,7 +101,7 @@ Updated scene definitions version 10 successfully implements minimalist architec
 ## Files Modified/Generated
 
 ### Generated Files
-- `data/sources/ledras_scenes_v10_rehersal_1.json` - Primary scene definitions (57673 bytes)
+- `data/scenes/ledras_scenes_v10_rehersal_1.json` - Primary scene definitions (57673 bytes)
 - `docs/stable_project_structure.json` - Updated file registry
 - `context/ledras_scenes_v10_report.md` - Analysis report (new)
 - `imagine-config.json` - Configuration pointing to v10 scenes

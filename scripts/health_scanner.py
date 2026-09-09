@@ -289,7 +289,7 @@ def setup_triggers():
     print("   Watching for changes in:")
     print("   - docs/stable_project_structure.json")
     print("   - scripts/health_scanner.py")
-    print("   - data/sources/*.json")
+     print("   - data/scenes/*.json")
     print("   - assets/generated/*.png")
 
 # --- CLI interface ---
