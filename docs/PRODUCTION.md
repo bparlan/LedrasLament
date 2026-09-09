@@ -106,3 +106,25 @@ project/
 5. For free experiments: let the agent drive Kling daily credits / Hailuo / local Flux via ComfyUI first.
 
 This turns OhMyPi from a coding assistant into a persistent, low-cost art production director that never loses the timeline, never forgets the structure lock, and systematically multiplies concepts into loops and transitions.
+
+### Ledras Lament Production Pipeline Operations (v10)
+
+The automated generation pipeline (`fal_generate.py`) provides robust, production-grade image generation for Ledras Lament scenes and subscenes using the Fal.ai API (`fal-ai/flux-control-lora-canny`).
+
+#### Key Operational Features
+1. **Local Control Image Upload**: Automatically detects local control images (e.g., `stage/stage_rehersals.png` or `stage/stage_v6_alphasky.png`), uploads them via `fal_client.upload_file` on-demand, and injects the resulting CDN URL into `control_lora_image_url`.
+2. **Bounded Exponential Backoff Retry**: Image downloads from Fal.ai CDN include a 3-attempt bounded exponential backoff retry mechanism (0.5s, 1.0s, 2.0s delays) to handle transient network issues.
+3. **Progress Reporting (`ProgressReporter`)**: Tracks generation rates, estimated time remaining, success/failure counts, and prints structured progress logs.
+4. **Structured Logging**: Every successful generation logs its metadata (`scene_id`, `seed`, `sub_label`, `role`, `image_url`, `timestamp`, `filename`) to `assets/generated/ledras_v10_final/generation_log.jsonl` for full reproducibility and recovery.
+
+#### Execution Commands
+```bash
+# Generate specific scenes (intro role)
+python3 fal_generate.py 1 2 3 4 7 8 9
+
+# Generate all subscenes for specific scenes
+python3 fal_generate.py --subscenes 1 2 3 4 7 8 9
+
+# Run the test suite
+python3 tests/test_fal_generate.py
+```

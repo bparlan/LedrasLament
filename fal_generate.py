@@ -147,7 +147,6 @@ class LedrasSceneGenerator:
             if not control_image_path:
                 print("❌ ERROR: control_image_path not configured")
                 return None
-            import os
             if not os.path.exists(control_image_path):
                 print(f"❌ ERROR: Control image not found at {control_image_path}")
                 return None
@@ -155,7 +154,7 @@ class LedrasSceneGenerator:
             control_lora_image_url = upload_file(control_image_path)
             print(f"✅ Control image uploaded: {control_lora_image_url}")
 
-            # Prepare fal.ai API parameters — validated against fal-ai/flux-control-lora-canny input schema
+            # Prepare fal.ai API parameters
             fal_params = {
                 "prompt": prompt,
                 "control_lora_image_url": control_lora_image_url,
@@ -180,34 +179,32 @@ class LedrasSceneGenerator:
             if result:
                 # Handle both dict-style (fal SDK) and attribute-style responses
                 images = (result.get("images", []) if isinstance(result, dict)
-                          else (result.images if hasattr(result, 'images') else []))
+                          else (result.images if hasattr(result, "images") else []))
                 if images:
                     image_data = images[0]
                     print(f"✅ Image generation successful for scene {scene_id}!")
 
-                    # Build deterministic file name and save image
-                    image_seed = request_seed
+                    # Build deterministic file name
                     sub_part = f"_{sub_label}" if sub_label else ""
-                    filename = f"scene-{scene_id:02d}{sub_part}_v{image_seed:03d}_{timestamp}.png"
+                    filename = f"scene-{scene_id:02d}{sub_part}_v{request_seed:03d}_{timestamp}.png"
                     output_path = os.path.join(self.config.output_dir, filename)
                     file_path = None
 
-                    # Handle both dict and attribute-style image_data
                     image_url = (image_data.get("url") if isinstance(image_data, dict)
-                                 else (image_data.url if hasattr(image_data, 'url') else None))
+                                 else (image_data.url if hasattr(image_data, "url") else None))
                     if image_url:
-                        # Log URL before download — recoverable if download fails
+                        # Log URL before download
                         log_path = os.path.join(self.config.output_dir, "generation_log.jsonl")
                         log_entry = {
-                            "scene_id": scene_id, "seed": image_seed,
+                            "scene_id": scene_id, "seed": request_seed,
                             "sub_label": sub_label, "role": role,
                             "image_url": image_url, "timestamp": timestamp,
                             "filename": filename,
                         }
                         try:
                             os.makedirs(self.config.output_dir, exist_ok=True)
-                            with open(log_path, 'a') as f:
-                                f.write(json.dumps(log_entry) + "\n")
+                            with open(log_path, "a") as f_log:
+                                f_log.write(json.dumps(log_entry) + "\n")
                         except Exception as e:
                             print(f"⚠️  Failed to write generation log: {e}")
 
@@ -216,14 +213,17 @@ class LedrasSceneGenerator:
                             try:
                                 response = requests.get(image_url, timeout=30)
                                 response.raise_for_status()
+                                # Save the image to file
+                                with open(output_path, "wb") as f_out:
+                                    f_out.write(response.content)
+                                file_path = output_path
+                                print(f"✅ Image saved to {file_path}")
                                 break
                             except Exception as e:
                                 if attempt == 2:  # Last attempt
-                                    print(f"⚠️  Failed to download image after {3} attempts: {e}")
-                                    raise  # Propagate the error
-                                
-                                # Calculate exponential backoff delay
-                                delay = min(0.5 * (2 ** attempt), 5.0)  # Max 5 second delay
+                                    print(f"⚠️  Failed to download image after 3 attempts: {e}")
+                                    raise
+                                delay = min(0.5 * (2 ** attempt), 5.0)
                                 print(f"⚠️  Download failed (attempt {attempt + 1}), retrying in {delay:.1f}s: {e}")
                                 time.sleep(delay)
 
@@ -271,12 +271,16 @@ class LedrasSceneGenerator:
             image_info = self.generate_image(prompt, scene_id, role)
 
             if image_info:
+                self.progress.increment()
+                self.progress.report(f"Scene {scene_id} generated successfully")
                 generated[scene_id] = image_info
                 print(f"✅ Scene {scene_id} generated successfully")
+                self.progress.increment_error()
+                self.progress.report(f"Failed to generate scene {scene_id}", force=True)
             else:
+                self.progress.increment_error()
+                self.progress.report(f"Failed to generate scene {scene_id}", force=True)
                 print(f"❌ Failed to generate scene {scene_id}")
-
-            print()
 
         return generated
 
@@ -323,12 +327,12 @@ class LedrasSceneGenerator:
                     sub_label=str(sub_id),
                 )
                 if info:
+                    self.progress.increment()
+                    self.progress.report(f"Subscene {sub_id} for scene {scene_id} generated")
                     if scene_id not in results:
                         results[scene_id] = {}
                     results[scene_id][sub_name] = info
                     print(f"  ✅ Subscene {sub_id} generated")
-                else:
-                    print(f"  ❌ Subscene {sub_id} failed")
 
             print()
 
@@ -411,8 +415,7 @@ class ProgressReporter:
         rate = success_count / elapsed if elapsed > 0 else 0
         efficiency = (success_count / total * 100) if total > 0 else 0
         
-        print(f"
-{'='*70}")
+        print(f"\n{'='*70}")
         print(f"🎉 PIPELINE COMPLETED")
         print(f"{'='*70}")
         print(f"⏱️  Total runtime: {elapsed:8.1f} seconds")

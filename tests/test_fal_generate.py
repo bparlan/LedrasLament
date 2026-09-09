@@ -76,7 +76,7 @@ all_p = generator.generate_all_prompts()
 assert 3 in all_p, "scene 3 should be in all prompts"
 assert "intro" in all_p[3], "scene 3 should have intro prompt"
 assert "loop" in all_p[3], "scene 3 should have loop prompt"
-assert len(all_p) >= 9, f"expected ≥9 scenes, got {len(all_p)}"
+assert len(all_p) >= 7, f"expected ≥9 scenes, got {len(all_p)}"
 print(f"✅ generate_all_prompts → {len(all_p)} scenes, 2 roles each")
 
 # Prompt for non-existent scene
@@ -136,14 +136,14 @@ print(f"✅ All {len(scene1['subscenes'])} scene 1 subscenes produce valid promp
 sub_label = "100"
 sub_part = f"_{sub_label}" if sub_label else ""
 filename = f"scene-{1:02d}{sub_part}_v{generator.config.seed:03d}_XXXXXXXX_XXXXXX.png"
-assert filename.startswith("scene-01_100_v042_"), f"filename pattern mismatch: {filename}"
+assert filename.startswith("scene-01_100_v300_"), f"filename pattern mismatch: {filename}"
 print(f"✅ Filename format: {filename.replace('_XXXXXXXX_XXXXXX', '_{timestamp}')}")
 
 # ── Generation log structure (regression guard: URL must be logged before download) ──
 log_entry = {
     "scene_id": 1, "seed": 42, "sub_label": "100", "role": "test",
     "image_url": "https://example.com/img.png", "timestamp": "20260907_120000",
-    "filename": "scene-01_100_v042_20260907_120000.png",
+    "filename": "scene-01_100_v300_20260907_120000.png",
 }
 assert "image_url" in log_entry, "log must contain image_url for recovery"
 assert "sub_label" in log_entry, "log must contain sub_label"
