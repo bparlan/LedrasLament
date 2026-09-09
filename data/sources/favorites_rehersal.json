@@ -2,5 +2,56 @@
   "schema_version": 1,
   "project": "Ledras Lament",
   "description": "Empty rehearsal favorites list for v10 generation workflow",
-  "favorites": []
+  "favorites": [
+    {
+      "id": "01a08204-c2ef-7ba1-9cfd-6375eec4e032",
+      "status": "failed_retrieval",
+      "error": "'SyncClient' object has no attribute 'request'"
+    },
+    {
+      "id": "01a08204-a282-7840-af26-98565d1d5ca2",
+      "status": "failed_retrieval",
+      "error": "'SyncClient' object has no attribute 'request'"
+    },
+    {
+      "id": "01a08204-21f6-7ce2-a7d2-ea9178b9e4f6",
+      "status": "failed_retrieval",
+      "error": "'SyncClient' object has no attribute 'request'"
+    },
+    {
+      "id": "01a08203-efb4-7632-80bb-bb3b4d346a8c",
+      "status": "failed_retrieval",
+      "error": "'SyncClient' object has no attribute 'request'"
+    },
+    {
+      "id": "01a08203-06b1-7c52-9724-ecab41ce02bc",
+      "status": "failed_retrieval",
+      "error": "'SyncClient' object has no attribute 'request'"
+    },
+    {
+      "id": "01a08202-21dd-7512-80f5-69184a393c99",
+      "status": "failed_retrieval",
+      "error": "'SyncClient' object has no attribute 'request'"
+    },
+    {
+      "id": "01a081fd-96c9-7831-bfb7-dba720220a99",
+      "status": "failed_retrieval",
+      "error": "'SyncClient' object has no attribute 'request'"
+    },
+    {
+      "id": "01a081fd-86df-7860-a30a-2dbec10ed265",
+      "status": "failed_retrieval",
+      "error": "'SyncClient' object has no attribute 'request'"
+    },
+    {
+      "id": "01a081fc-ca12-72a2-9294-d6a2be867f5d",
+      "status": "failed_retrieval",
+      "error": "'SyncClient' object has no attribute 'request'"
+    },
+    {
+      "id": "01a08204-b351-79d3-877f-5e242dfcf2f5",
+      "status": "failed_retrieval",
+      "error": "'SyncClient' object has no attribute 'request'"
+    }
+  ]
 }
