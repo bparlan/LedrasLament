@@ -1,0 +1,72 @@
+{
+  "title": "Ledras Premier Scene Collection - Complete Story Arc",
+  "description": "Comprehensive story prompt for entire Ledras Premier Scene Collection featuring all 6 scenes with consistent amphitheater structure and shared architectural geometry from stage_rehersals.png control image",
+  "scenes_summary": "Six-scene narrative arc exploring diverse atmospheric conditions while maintaining consistent architectural constraints and geometric precision across the ancient amphitheater",
+  "unified_narrative": "The ancient Cypro-Phoenician amphitheater serves as timeless stage for diverse celestial dramas, each scene revealing unique atmospheric storytelling while preserving architectural integrity through controlled geometry and steadfast rectangular frame.",
+  "scenes_count": 6,
+  "architectural_consistency": "All scenes maintain identical six-tier amphitheater structure with central rectangular stone frame, strict geometric constraints, and side stair composition emphasis",
+  "control_image_usage": "Shared stage_rehersals.png control image ensures architectural geometry consistency across all scenes with control strength 0.9 for maximum structural preservation",
+  "visual_language_features": [
+    "Enhanced Cypro-Phoenician Bronze Age ruin style",
+    "Photorealistic texture and material rendering",
+    "Professional architectural photography composition",
+    "Cultural authenticity and historical accuracy",
+    "Atmospheric depth and spatial composition"
+  ],
+  "scene_breakdown": [
+    {
+      "scene_id": 1,
+      "scene_name": "Premier",
+      "description": "Premier scene showcasing hyper-realistic photorealistic visual language with FLUX.2. Night over the ancient amphitheater. A full moon appears centered inside the rectangular opening of the central stone frame. Star-filled sky, weathered limestone, soft desert sand, low drifting smoke and thin fog. Sparse traces of an ancient ruined landscape. Dark, mysterious and monumental atmosphere with photorealistic depth and detail. No central lighting or elements on tiers - all elements positioned around side stair structures.",
+      "seed": 500,
+      "camera_angle": "Professional architectural photography with wide-angle lens, straight-on axis at tier 4 elevation",
+      "shot_type": "Professional architectural photography. Wide establishing shot preserving full amphitheater symmetry with dramatic depth of field.",
+      "color_temperature": "cool blue night with bright moonlight contrast"
+    },
+    {
+      "scene_id": 2,
+      "scene_name": "Scene 2 - Deep Night",
+      "description": "Deep night settles over the amphitheater. The moon at the center of the frame casts long silver shadows across the six stone tiers. Fog and smoke interweave around the stage. The ancient space feels watchful and still. All scenes must feature starry night sky, no central lighting, elements only around side stairs, moon surface always visible.",
+      "seed": 502,
+      "camera_angle": "Professional architectural photography with medium-wide lens, tier 3 elevation looking slightly down toward altar stage",
+      "shot_type": "Professional architectural photography. Wide shot with vertical axis through frame opening toward altar stage with balanced composition.",
+      "color_temperature": "cool silver moonlight with warm amber highlights"
+    },
+    {
+      "scene_id": 3,
+      "scene_name": "Scene 3 - Blood Moon",
+      "description": "The blood moon burns at full intensity within the rectangular frame opening. The entire amphitheater is bathed in deep red light. Limestone glows warm amber. The space holds its breath in sacred foreboding. All scenes must feature starry night sky, no central lighting, elements only around side stairs, moon surface always visible.",
+      "seed": 503,
+      "camera_angle": "Professional architectural photography with medium telephoto lens, straight-on axis, tighter composition emphasizing frame opening",
+      "shot_type": "Professional architectural photography. Slightly tighter wide shot emphasizing celestial elements with enhanced geometric precision.",
+      "color_temperature": "balanced cool silver upper with warm red-amber lower"
+    },
+    {
+      "scene_id": 4,
+      "scene_name": "Scene 4 - Portal Stone Frame",
+      "description": "Portal stone frame with greenery around the amphitheater entrance",
+      "seed": 504,
+      "camera_angle": "Professional architectural photography with medium telephoto lens, tier 3 elevation emphasizing portal geometry",
+      "shot_type": "Professional architectural photography. Wide shot emphasizing portal stone frame architecture with integrated natural elements.",
+      "color_temperature": "natural daylight with rich vegetation greens"
+    },
+    {
+      "scene_id": 5,
+      "scene_name": "Scene 5 - White Full Moon",
+      "description": "White full moon in stone frame with visible moon surface details",
+      "seed": 505,
+      "camera_angle": "Professional architectural photography with medium telephoto lens, straight-on axis emphasizing lunar geometry",
+      "shot_type": "Professional architectural photography. Wide shot emphasizing white moon's geometric dominance within stone frame.",
+      "color_temperature": "crisp white moonlight with enhanced clarity and precision"
+    },
+    {
+      "scene_id": 6,
+      "scene_name": "Scene 6 - Blood Moon with Stair Elements",
+      "description": "Blood moon scene with stair elements burning, center tiers dark and empty",
+      "seed": 506,
+      "camera_angle": "Professional architectural photography with medium telephoto lens, tier 2 elevation emphasizing stair architectural elements",
+      "shot_type": "Professional architectural photography. Medium shot emphasizing side stair elements with dramatic blood moon contrast.",
+      "color_temperature": "dramatic blood moon deep red-orange with intense warmth"
+    }
+  ]
+}
