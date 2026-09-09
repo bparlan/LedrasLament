@@ -3,12 +3,12 @@
   "updated": "2026-09-09",
   "aim": "Generate cinematic scene images for the Ledras Lament narrative using fal.ai FLUX Control LoRA Canny, driven by a Canny edge map of a fixed amphitheater stage guide.",
   "settings": {
-    "imagine-config.json": "Runtime config: model, resolution, control_lora_image_url (stage guide), seed, scene file path.",
+    "imagine-config.json": "Runtime config: model, resolution, control_lora_image_url (stage guide), seed, scene file path, output dir.",
     "gateway.json": "Token budget for fal.ai API calls. Deducted per generation. Resets to 1 on manual edit."
   },
   "folders": {
     "stage/": {
-      "aim": "Guide images for Canny edge conditioning \u2014 the architectural invariant that all generations conform to.",
+      "aim": "Guide images for Canny edge conditioning — the architectural invariant that all generations conform to.",
       "key": [
         "stage_rehersals.png",
         "guide_line_out.jpg",
@@ -18,60 +18,85 @@
     "2do/": {
       "aim": "Persistent task management and project workflow tracking.",
       "key": [
-        "README.md \u2014 Comprehensive project task overview and status reporting.",
-        "task_log.json \u2014 Machine-readable task tracking and dependency management.",
-        "reports/ \u2014 Historical task execution reports and evidence collection."
+        "README.md — Comprehensive project task overview and status reporting.",
+        "task_log.json — Machine-readable task tracking and dependency management.",
+        "reports/ — Historical task execution reports and evidence collection."
       ]
     },
+    "data/scenes/": {
+      "aim": "Multi-moment scene configuration files for sequential image generation.",
+      "key": "ledras_scenes_v11_moments.json — 6-moment Desert Moon Portal scene definitions with hyperrealistic visual specifications."
+    },
     "data/sources/": {
-      "aim": "Canonical scene definitions and favorites registry.",
+      "aim": "Canonical scene definitions, moment configurations, and favorites registry.",
       "key": [
-        "ledras_scenes_v10_rehersal_1.json \u2014 Main rehearsal scene definitions with empty center tiers and reduced vertical walls.",
+        "ledras_scenes_v11_moments.json — 6-moment Desert Moon Portal sequence definitions.",
+        "ledras_scenes_v10_rehersal_1.json (retained)",
         "ledras_scenes_v9_visual_language.json (retained)",
         "ledras_scenes_v8.json (retained)",
-        "fav_prompts.json \u2014 Lightweight favorite prompts overlay linked by request_id and subscene_id"
+        "fav_prompts.json — Lightweight favorite prompts overlay linked by request_id and subscene_id"
       ]
     },
     "src/": {
       "aim": "Support modules.",
       "key": [
-        "gateway.py \u2014 token budget gate (has_rights/deduct).",
-        "project_structure_checker.py \u2014 optional structural audit."
+        "gateway.py — token budget gate (has_rights/deduct).",
+        "project_structure_checker.py — optional structural audit."
       ]
     },
     "tests/": {
       "aim": "Test suite for fal_generate pipeline.",
-      "key": "test_fal_generate.py \u2014 Updated assertions: resolution mapping, cost est, prompt building, schema compliance, subscene prompts, filename format (v300 seed), upload_file integration, retry logic, and progress reporting."
+      "key": "test_fal_generate.py — Updated assertions: resolution mapping, cost est, prompt building, schema compliance, subscene prompts, filename format (v300 seed), upload_file integration, retry logic, and progress reporting."
     },
     "assets/generated/": {
       "aim": "Output images: scene-NN_vNNN_timestamp.png (per-scene) or scene-NN_SUBID_vNNN_timestamp.png (per-subscene).",
       "key": [
-        "scene-01_100_v042_*.png \u2014 example subscene output",
-        "generation_log.jsonl \u2014 append-only URL log for failed-download recovery, including retry attempts and status."
+        "scene-01_100_v042_*.png — example subscene output",
+        "generation_log.jsonl — append-only URL log for failed-download recovery, including retry attempts and status."
+      ]
+    },
+    "assets/generated/prelude-intro-moments/": {
+      "aim": "Generated 6-moment Desert Moon Portal Sequence images.",
+      "key": [
+        "scene-01_v1453750048_20260909_114616.png — Moment 1: Calm Portal Initiation",
+        "scene-02_v567246120_20260909_114622.png — Moment 2: Portal Centered Transition",
+        "scene-03_v2023298968_20260909_114627.png — Moment 3: Blood Moon Portal Activation",
+        "scene-04_v496569799_20260909_114631.png — Moment 4: Storm Peak Chaos",
+        "scene-05_v87929398_20260909_114635.png — Moment 5: Portal Deactivation",
+        "scene-06_v723105982_20260909_114639.png — Moment 6: Final Resolution"
       ]
     },
     "recyclebin/": {
       "aim": "Archived legacy files. No active code depends on these.",
       "notable": [
         "environment_api_handler.py",
-        "data_scenes_backup/ \u2014 stale scene version files"
+        "data_scenes_backup/ — stale scene version files"
       ]
     },
     "docs/": {
-      "aim": "Reference docs, context, production notes. Not consumed by code.",
+      "aim": "Reference docs, context, production notes, and usage guides. Not consumed by code.",
       "key": [
         "PRODUCTION.md",
         "VISUAL_CONTEXT.md",
         "SYSTEM.md",
-        "context/imagegen-grok.md"
+        "context/imagegen-grok.md",
+        "usage/moment-generation-guide.md — 6-moment Desert Moon Portal Sequence setup and execution instructions."
+      ]
+    },
+    "specific_scenes/": {
+      "aim": "Standalone scene documentation and enhanced prompt definitions for specialized sequences.",
+      "key": [
+        "prelude-intro-moments.md — Hyperrealistic photorealistic prompt documentation for 6-moment Desert Moon Portal Sequence.",
+        "prelude-intro.md — Context documentation for Prelude-Intro scene."
       ]
     }
   },
   "root_files": [
-    "fal_generate.py \u2014 Main generator with local control image upload, bounded exponential backoff retry, and ProgressReporter. CLI: `python3 fal_generate.py [scene_ids]`; `--subscenes` for narrative subscene generation.",
-    "utils.py \u2014 get_resolution() and estimate_cost() helpers.",
-    "README.md \u2014 Project documentation, config model, quick start.",
-    "imagine-config.json \u2014 Sole config source (see settings above).",
-    "gateway.json \u2014 Token budget (see settings above)."
+    "fal_generate.py — Main generator with local control image upload, bounded exponential backoff retry, and ProgressReporter. CLI: `python3 fal_generate.py [scene_ids]`; `--subscenes` for narrative subscene generation.",
+    "utils.py — get_resolution() and estimate_cost() helpers.",
+    "README.md — Project documentation, config model, quick start.",
+    "imagine-config.json — Sole config source (see settings above).",
+    "gateway.json — Token budget (see settings above).",
+    "theteam.config — Team role definitions and methodology tracking (sequence_moment_tracking)."
   ]
 }
