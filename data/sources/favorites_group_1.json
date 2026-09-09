@@ -1,0 +1,94 @@
+{
+  "version": 1,
+  "updated": "2026-09-08",
+  "description": "Lightweight overlay for favorite prompts. References existing scene/subscene IDs from ledras_scenes_v9_visual_language.json. No new infrastructure required.",
+  "favorites": [
+    {
+      "request_id": "01a07c4e-62c9-7f62-9d97-721d05e974fc",
+      "scene_id": 8,
+      "subscene_name": "Village - intro-end",
+      "subscene_id": 801,
+      "seed": 801,
+      "prompt": "More windows illuminate across the six tiers. The village takes shape within the stone geometry — warm orange light pools against weathered limestone. Fireflies increase, floating through the evening air.",
+      "image_url": "https://v3b.fal.media/files/b/0aa97aee/4RM2ikxT7v4OKCwveTax1.png",
+      "category": "village",
+      "added_at": "2026-09-07T17:38:00Z"
+    },
+    {
+      "request_id": "01a07c4c-1bbe-7b83-a6a6-151354989a74",
+      "scene_id": 9,
+      "subscene_name": "Astarte Awakens - end-final",
+      "subscene_id": 905,
+      "seed": 47,
+      "prompt": "The moon returns to a pale white, blood transformation complete. Normal moonlight restores silver tones across the amphitheater. Traces of warmth linger on the stone. The sacred moment has passed.",
+      "image_url": "https://v3b.fal.media/files/b/0aa97ac8/BIP2gtwCRzR_61o5ERf36.png",
+      "category": "blood_moon",
+      "added_at": "2026-09-07T17:35:00Z"
+    },
+    {
+      "request_id": "01a07c4b-c647-7891-b55c-4ceba86f2e8b",
+      "scene_id": 9,
+      "subscene_name": "Astarte Awakens - intro-end",
+      "subscene_id": 901,
+      "seed": 43,
+      "prompt": "The blood moon deepens to a rich red, fully transformed at the center of the frame. Warm shadows fall across the six tiers. Yellow limestone reflects the crimson light. Sacred tension builds across the amphitheater.",
+      "image_url": "https://v3b.fal.media/files/b/0aa97ac5/BWKN0MYHGWyiANLmZctdy.png",
+      "category": "blood_moon",
+      "added_at": "2026-09-07T17:35:00Z"
+    },
+    {
+      "request_id": "01a07c4b-aecc-72c3-9b42-5b6712c60a1a",
+      "scene_id": 9,
+      "subscene_name": "Astarte Awakens - intro-start",
+      "subscene_id": 900,
+      "seed": 42,
+      "prompt": "The moon within the frame opening begins to shift — a faint reddish tint spreads from its center outward. The limestone walls catch a warm glow. The atmosphere subtly changes, gaining weight and anticipation.",
+      "image_url": "https://v3b.fal.media/files/b/0aa97ac5/ImKeF7kl7lg6wt_4h9vW7.png",
+      "category": "blood_moon",
+      "added_at": "2026-09-07T17:35:00Z"
+    },
+    {
+      "request_id": "01a07c48-abf9-7773-8d8f-4f413da7e341",
+      "scene_id": 9,
+      "subscene_name": "Fire - intro",
+      "subscene_id": 900,
+      "seed": 42,
+      "prompt": "The fixed ancient amphitheater burns during the night. Fire follows the existing horizontal tier boundaries without changing their geometry. Remaining greenery burns and glows. A deep red blood moon appears centered only inside the rectangular opening of the central stone frame. Flames surround the frame while preserving its rigid rectangular silhouette. A thin elegant blood-red canal flows downward through the existing architecture toward the bottom-center stage. Tragic, monumental and ritualistic atmosphere.",
+      "image_url": "https://v3b.fal.media/files/b/0aa97ac1/pbP6wxujAJlwtrGwrfUBq.png",
+      "category": "fire",
+      "added_at": "2026-09-07T17:34:00Z"
+    },
+    {
+      "request_id": "01a07c14-5660-7913-9257-cba6c1c9b69b",
+      "scene_id": 1,
+      "subscene_name": "Intro - end-begins",
+      "subscene_id": 104,
+      "seed": 46,
+      "prompt": "The moon begins a subtle descent within the frame opening. Smoke thins and spreads into a high veil. Stars dim slightly as the deepest hour approaches. The atmosphere prepares for transition.",
+      "image_url": "https://v3b.fal.media/files/b/0aa9795a/Uar0JP62ZsJ_-h_-x52KV.png",
+      "category": "intro",
+      "added_at": "2026-09-07T16:35:00Z"
+    },
+    {
+      "request_id": "01a07c14-4266-7272-8ba3-58d860551125",
+      "scene_id": 1,
+      "subscene_name": "Intro - loop-middle",
+      "subscene_id": 103,
+      "seed": 45,
+      "prompt": "Deep night settles over the amphitheater. The moon at the center of the frame casts long silver shadows across the six stone tiers. Fog and smoke interweave around the stage. The ancient space feels watchful and still.",
+      "image_url": "https://v3b.fal.media/files/b/0aa9795a/VQEWZHDt3kov6X4GUHYly.png",
+      "category": "intro",
+      "added_at": "2026-09-07T16:34:00Z"
+    }
+  ],
+  "categories": [
+    "village",
+    "blood_moon",
+    "fire",
+    "intro",
+    "overflow",
+    "ritual",
+    "water"
+  ],
+  "usage": "Reference by request_id or scene_id+subscene_id. No new API required. Generation pipeline uses existing fal_generate.py with --subscenes flag."
+}
