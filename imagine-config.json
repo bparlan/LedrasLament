@@ -50,8 +50,8 @@
     "keep_last": 20
   },
   "control_lora_image_url": "data/control_images/stage_rehersals.png",
-  "guideline_image": "stage/stage_v6_alphasky.png",
-  "scenes_file": "data/scenes/prelude-intro-moments.json",
+  "guideline_image": "data/control_images/stage_rehersals.png",
+  "scenes_file": "data/scenes/new-scenes/1_intro.json",
   "seed": 300,
   "cultural_authenticity_level": "cypro_phoenician",
   "num_inference_steps": 28,

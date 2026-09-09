@@ -1,0 +1,244 @@
+{
+  "title": "Ledras Lament New Scenes - Enhanced Production",
+  "version": "new",
+  "author": "Ledras Lament Team",
+  "status": "production",
+  "prompt_architecture": {
+    "template": "subscene_description + subscene_visual_brief + scene_prompt_suffix + model_negative_suffix",
+    "rationale": "Three-layer prompt construction: narrative grounding (description), temporal moment (visual_brief), and cinematic quality constraints (prompt_suffix). Model negative suffix appended via --no for FLUX compatibility.",
+    "generation_defaults": {
+      "num_inference_steps": 28,
+      "guidance_scale": 3.5,
+      "image_size": "landscape_16_9",
+      "enable_safety_checker": true,
+      "control_start": 0,
+      "control_stop": 1
+    },
+    "control_image_path": "data/control_images/stage_rehersals.png",
+    "control_image_url_path": "data/control_images/stage_rehersals.png",
+    "control_lora_strength": {
+      "stage_v6_alphasky": {
+        "default": 0.7,
+        "water_vegetation_scenes": 0.6,
+        "fire_scene": 0.6,
+        "rationale": "0.7 default gives the model creative freedom to follow dense prompt descriptions while maintaining structural adherence. 0.6 for scenes where water, vegetation, or fire details could blur geometric boundaries \u2014 tighter adherence preserves the amphitheater lines."
+      }
+    },
+    "per_scene_camera": {
+      "1": "Compose wide establishing shot, straight-on architectural axis at tier 4 elevation",
+      "2": "Compose wide shot, camera at tier 3 elevation looking slightly down toward the altar stage",
+      "3": "Compose wide shot, straight-on axis, slightly tighter on the frame opening and celestial elements",
+      "4": "Compose wide shot, camera at tier 2 elevation for water-level perspective across channels",
+      "5": "Compose wide shot, slight elevation looking across water-filled tiers and canal network",
+      "6": "Compose wide shot, straight-on axis with slight pull-back to frame overhanging vegetation",
+      "7": "Compose wide shot, center axis with foreground smoke creating depth layering",
+      "8": "Compose medium wide shot, warm intimate perspective on lower tier dwelling lights",
+      "9": "Compose wide shot, low angle with flames rising in foreground framing the architecture"
+    },
+    "per_scene_shot_type": {
+      "1": "Professional architectural photography. Wide establishing shot preserving full amphitheater symmetry.",
+      "2": "Professional architectural photography. Wide shot with vertical axis through frame opening toward altar.",
+      "3": "Professional architectural photography. Slightly tighter wide shot emphasizing celestial elements within frame.",
+      "4": "Professional architectural photography. Wide shot with water channels as leading lines through tiers.",
+      "5": "Professional architectural photography. Wide shot with cascading water creating dynamic composition.",
+      "6": "Professional architectural photography. Wide shot with vegetation framing the architectural geometry.",
+      "7": "Professional architectural photography. Wide shot with smoke layers as atmospheric depth elements.",
+      "8": "Professional architectural photography. Medium wide shot with warm light points creating visual rhythm.",
+      "9": "Professional architectural photography. Wide shot with vertical flame lines framing celestial geometry."
+    },
+    "per_scene_color_temperature": {
+      "1": "cool silver moonlight",
+      "2": "bicolor cool silver upper / warm red-amber lower",
+      "3": "warm crimson red throughout",
+      "4": "cool silver with warm reflection highlights on water",
+      "5": "day cycle: golden dawn to warm midday to amber afternoon to sunset gold to cool night",
+      "6": "cool blue-green moonlight with warm green foliage undertones",
+      "7": "cool silver moonlight scattered through white-gray smoke",
+      "8": "warm golden-orange interior light contrasting with cool blue exterior moonlight",
+      "9": "hot orange-red-yellow fire dominant with cool celestial moon above"
+    }
+  },
+  "global_structure": "Ancient stone amphitheater viewed straight on. Six horizontal stone seating tiers rise from foreground to background. A seventh rear wall spans behind the upper tier. A tall rigid rectangular stone frame stands at the exact top-center position. The frame has straight vertical sides, a straight top edge, sharp corners and a clear rectangular opening. The amphitheater geometry, tier boundaries, frame proportions, frontal perspective and overall composition remain fixed and unchanged. Center tiers (tiers 3-4) are empty for performers. Vertical wall elements are minimized through strategic masking, with side compositions emphasized for optimal visibility.",
+  "global_frame_rule": "The central rectangular stone frame is a permanent architectural invariant. Do not move, distort, widen, narrow, tilt, decorate, replace or break it. Preserve its exact rectangular silhouette and vertical symmetry. Any celestial disk must appear only inside the rectangular opening of the frame, never above, behind, beside or outside it. Center area within the frame opening is empty for performance use.",
+  "scenes": [
+    {
+      "id": 1,
+      "name": "Intro",
+      "description": "Enhanced Intro scene drawing from v10_final_clean.json visual language. Night over the ancient amphitheater. A full moon appears centered inside the rectangular opening of the central stone frame. Star-filled sky, weathered limestone, soft desert sand, low drifting smoke and thin fog. Sparse traces of an ancient ruined landscape. Dark, mysterious and monumental atmosphere.",
+      "control_image": "data/control_images/stage_v6_alphasky.png",
+      "control_lora_strength": 0.7,
+      "visual_language": {
+        "texture": "Weathered limestone surfaces with ancient stone patterns, soft desert sand textures, star-filled sky above, pale moonlit stone surfaces showing rough ashlar masonry, subtle mudbrick traces in shadowed tier areas, enhanced with deep texture contrast",
+        "lighting": "Cool silver full moon centered inside frame casting pale directional shadows across all six tiers. Moonlight highlights stone edges and creates long diagonal shadows fallen across the seating. Enhanced ambient starlight providing subtle fill on shadow sides. Thin fog catches and scatters moonlight into soft halos around the frame opening, creating atmospheric depth.",
+        "composition": "Wide establishing shot preserving full amphitheater symmetry. Strong vertical axis through frame opening with moon at exact center. Enhanced leading lines along horizontal tier boundaries converging toward the rear wall. Camera at tier 4 elevation, straight-on perspective. Professional architectural photography framing with balanced negative space above and below. Enhanced depth and spatial layers.",
+        "mood": "Dark, mysterious, monumental, timeless. The space feels watchful and ancient, suspended in night. Enhanced atmosphere with deeper mystery and grandeur.",
+        "camera": "Tier 4 elevation, straight-on axis, wide establishing shot, 24mm equivalent focal length, deep depth of field, enhanced framing",
+        "atmospheric_depth": "Layered fog settling between lower stone tiers. Enhanced drifting smoke at multiple depths creating atmospheric perspective. Star-filled sky above the frame opening. Distant ruined landscape elements visible through enhanced haze. Enhanced contrast and depth layers."
+      },
+      "elements": {
+        "visual": [
+          "full moon centered inside frame",
+          "weathered limestone textures",
+          "soft desert sand surface",
+          "low drifting smoke",
+          "thin fog atmospheric effect",
+          "ancient ruined landscape remnants",
+          "circular moon light inside frame opening",
+          "enhanced texture contrast"
+        ],
+        "texture_materials": [
+          "weathered limestone surfaces",
+          "ancient stone patterns",
+          "soft desert sand textures",
+          "rough ashlar masonry",
+          "mudbrick architectural traces",
+          "moonlit stone surfaces",
+          "enhanced depth layers"
+        ],
+        "composition": [
+          "wide establishing shot",
+          "straight-on architectural axis",
+          "tier 4 elevation",
+          "strong horizontal leading lines",
+          "moon centered in rectangular frame",
+          "enhanced balanced negative space",
+          "professional architectural photography",
+          "enhanced depth and framing"
+        ],
+        "lighting": [
+          "cool silver full moon",
+          "enhanced directional moonlight shadows",
+          "long diagonal shadows across tiers",
+          "enhanced ambient starlight fill",
+          "fog-scattered moon halos",
+          "highlight reflections on stone edges",
+          "enhanced contrast and mood lighting"
+        ],
+        "atmosphere": [
+          "mysterious",
+          "monumental",
+          "timeless",
+          "watchful",
+          "ancient night",
+          "enhanced low drifting fog",
+          "thick smoke layers",
+          "enhanced atmospheric depth"
+        ]
+      },
+      "prompt_suffix": "Dramatic cinematic moonlight emphasizing enhanced architectural geometry. Full moon centered inside the frame opening casting pale silver directional shadows across weathered limestone tiers and creating highlight reflections on stone edges. Enhanced texture details with weathered limestone surfaces, ancient ashlar stone patterns and soft desert sand textures. Professional architectural photography composition with strong horizontal leading lines through the six amphitheater tiers, straight-on axis preserving full symmetry, moon at exact center of the rectangular stone frame. Enhanced atmospheric depth with star-filled sky, enhanced thin fog settling between lower stone levels, enhanced drifting smoke creating depth layering, and distant horizon elements visible through thick haze. Enhanced spatial composition for better visibility and dramatic impact.",
+      "subscenes": [
+        {
+          "id": 200,
+          "name": "Intro - enhanced-start",
+          "description": "Enhanced first stars appear over the silent amphitheater. The moon begins to rise inside the rectangular opening of the central stone frame, casting enhanced pale silver light across the weathered limestone tiers. Enhanced wisps of smoke drift upward from the lowest stage.",
+          "seed": 200,
+          "cultural_notes": "Enhanced rising moon through frame opening mirrors the Phoenician lunar calendar's first day. In Cypro-Phoenician ritual sites, the rectangular stone opening (fenestella) frames celestial events as divine communication.",
+          "visual_brief": "Enhanced first stars appearing in the darkening sky above the amphitheater. Moon rising from the lower edge of the frame opening, still partially hidden, casting enhanced pale silver rays across the uppermost tiers. Enhanced wisps of smoke rising vertically from the lowest stage. The scene is at its quietest and most subtle, the atmosphere holding enhanced potential.",
+          "prompt": "Enhanced first stars appear over the silent amphitheater. The moon begins to rise inside the rectangular opening of the central stone frame, casting enhanced pale silver light across the weathered limestone tiers. Enhanced wisps of smoke drift upward from the lowest stage. Enhanced first stars appearing in the darkening sky above the amphitheater. Moon rising from the lower edge of the frame opening, still partially hidden, casting enhanced pale silver rays across the uppermost tiers. Enhanced wisps of smoke rising vertically from the lowest stage. The scene is at its quietest and most subtle, the atmosphere holding enhanced potential. Dramatic cinematic moonlight emphasizing enhanced architectural geometry. Full moon centered inside the frame opening casting pale silver directional shadows across weathered limestone tiers and creating highlight reflections on stone edges. Enhanced texture details with weathered limestone surfaces, ancient ashlar stone patterns and soft desert sand textures. Enhanced depth layers and atmospheric composition."
+        },
+        {
+          "id": 201,
+          "name": "Intro - enhanced-end",
+          "description": "The moon rises to enhanced center the frame opening. Stars fill the sky above. Enhanced low fog settles between the stone seating tiers. Ancient ruined landscape remnants catch the enhanced soft moonlight. The atmosphere deepens into enhanced quiet mystery.",
+          "seed": 201,
+          "cultural_notes": "Enhanced moon at frame-center marks the moment of enhanced celestial alignment. Cypriot megalithic structures commonly feature enhanced framed openings oriented to capture lunar standstills.",
+          "visual_brief": "Moon rises to enhanced fill the exact center of the rectangular frame opening. Stars now fully visible across the night sky. Enhanced low fog settling between the tier gaps, catching the moonlight and creating soft glowing bands across the amphitheater. Ancient ruined landscape remnants in the foreground and background caught in enhanced passive moonlight.",
+          "prompt": "The moon rises to enhanced center the frame opening. Stars fill the sky above. Enhanced low fog settles between the stone seating tiers. Ancient ruined landscape remnants catch the enhanced soft moonlight. The atmosphere deepens into enhanced quiet mystery. Moon rises to enhanced fill the exact center of the rectangular frame opening. Stars now fully visible across the night sky. Enhanced low fog settling between the tier gaps, catching the moonlight and creating soft glowing bands across the amphitheater. Ancient ruined landscape remnants in the foreground and background caught in enhanced passive moonlight. Dramatic cinematic moonlight emphasizing enhanced architectural geometry. Full moon centered inside the frame opening casting pale silver directional shadows across weathered limestone tiers and creating highlight reflections on stone edges. Enhanced texture details with weathered limestone surfaces, ancient ashlar stone patterns and soft desert sand textures. Enhanced atmospheric depth."
+        },
+        {
+          "id": 202,
+          "name": "Intro - enhanced-loop",
+          "description": "Enhanced moon holds steady at the center of the stone frame. Starlight and moonlight balance across the amphitheater geometry. Enhanced drifting smoke moves in slow horizontal layers between tiers. The night breathes in enhanced suspended moment.",
+          "seed": 202,
+          "cultural_notes": "Enhanced balanced moonlight across all six tiers reflects the Bronze Age principle of enhanced sacred geometry \u2014 the horizontal tiers representing the six directions of the earthly realm.",
+          "visual_brief": "Enhanced moon holding perfectly still at frame center. Balanced illumination where moonlight and starlight blend across all tiers equally. Enhanced drifting smoke moving horizontally between tiers in slow motion, creating gentle flowing layers. A suspended, breathing stillness where the amphitheater geometry is fully readable at its most enhanced balance.",
+          "prompt": "Enhanced moon holds steady at the center of the stone frame. Starlight and moonlight balance across the amphitheater geometry. Enhanced drifting smoke moves in slow horizontal layers between tiers. The night breathes in enhanced suspended moment. Enhanced moon holding perfectly still at frame center. Balanced illumination where moonlight and starlight blend across all tiers equally. Enhanced drifting smoke moving horizontally between tiers in slow motion, creating gentle flowing layers. A suspended, breathing stillness where the amphitheater geometry is fully readable at its most enhanced balance. Dramatic cinematic moonlight emphasizing enhanced architectural geometry. Full moon centered inside the frame opening casting pale silver directional shadows across weathered limestone tiers and creating highlight reflections on stone edges. Enhanced texture details with weathered limestone surfaces, ancient ashlar stone patterns and soft desert sand textures. Enhanced depth and composition."
+        }
+      ],
+      "seed": 200
+    },
+    {
+      "id": 2,
+      "name": "Ritual",
+      "description": "Enhanced nighttime ritual within the fixed ancient amphitheater. A full moon appears centered inside the rectangular opening of the central stone frame. Enhanced faint luminous geometric light patterns appear as traceries inside the frame, then conceptually descend toward the center of the lowest stage area. Enhanced dark red sparks and subtle glowing particles circle above an enhanced low stone ritual altar platform at the bottom-center stage. Enhanced mystical, solemn and restrained atmosphere.",
+      "control_image": "data/control_images/stage_v6_alphasky.png",
+      "control_lora_strength": 0.6,
+      "visual_language": {
+        "texture": "Enhanced weathered limestone altar surfaces at bottom-center stage, enhanced rough ashlar stone patterns catching warm red glow from below, moonlit smooth stone on upper tiers, enhanced mudbrick traces in shadow areas between tiers, enhanced ancient stone construction with visible tool marks",
+        "lighting": "Enhanced bicolor lighting: cool silver full moonlight illuminating the upper tiers and frame opening from above, enhanced warm red-orange ritual glow emanating from the enhanced altar stage and lower tiers below. The two light sources create enhanced vertical color temperature gradient across the amphitheater. Enhanced dark red sparks create small point-light accents orbiting the altar.",
+        "composition": "Enhanced wide shot preserving amphitheater symmetry, enhanced camera at tier 3 elevation looking slightly downward toward the enhanced altar stage at bottom-center. Enhanced vertical axis through frame opening connecting the moon above to the altar below. Enhanced geometric light traceries create enhanced subtle diagonal lines within the frame. Enhanced professional architectural photography framing with the altar as the lower focal point.",
+        "mood": "Enhanced mystical, solemn, restrained, sacred. Not overtly dramatic but deeply spiritual, the ritual suggested through enhanced light and geometry rather than figures or action.",
+        "camera": "Enhanced tier 3 elevation, straight-on axis, slight downward tilt to include enhanced altar in lower frame, enhanced medium-wide field of view",
+        "atmospheric_depth": "Enhanced faint smoke or haze carrying the red glow upward through the tiers. Enhanced dark red sparks at varying depths orbiting the altar. Enhanced geometric light lines descending through the air toward the stage. Enhanced fog settling between the lowest stone levels."
+      },
+      "elements": {
+        "visual": [
+          "full moon centered inside frame",
+          "luminous geometric light patterns",
+          "descending light traceries",
+          "dark red sparks and particles circling altar",
+          "enhanced low stone ritual altar at bottom-center",
+          "spiritual ritual atmosphere",
+          "enhanced mystical elements",
+          "enhanced geometric lighting"
+        ],
+        "texture_materials": [
+          "enhanced weathered limestone surfaces",
+          "enhanced altar architecture",
+          "enhanced rough ashlar stone",
+          "enhanced moonlit smooth stone",
+          "enhanced ancient stone construction",
+          "enhanced tool marks",
+          "enhanced ritual materials"
+        ],
+        "composition": [
+          "enhanced wide shot",
+          "enhanced straight-on axis",
+          "enhanced tier 3 elevation",
+          "enhanced vertical frame axis",
+          "enhanced geometric light patterns",
+          "enhanced altar focal point",
+          "enhanced architectural framing",
+          "enhanced mystical composition"
+        ],
+        "lighting": [
+          "enhanced cool silver full moonlight",
+          "enhanced warm red-orange ritual glow",
+          "enhanced vertical color temperature gradient",
+          "enhanced dark red spark effects",
+          "enhanced geometric light lines",
+          "enhanced altar illumination",
+          "enhanced mysterious lighting"
+        ],
+        "atmosphere": [
+          "enhanced mystical",
+          "enhanced solemn",
+          "enhanced restrained",
+          "enhanced sacred",
+          "enhanced spiritual",
+          "enhanced ritual",
+          "enhanced enhanced atmosphere"
+        ]
+      },
+      "prompt_suffix": "Enhanced dramatic cinematic moonlight emphasizing enhanced architectural geometry. Full moon centered inside the frame opening casting enhanced pale silver directional shadows across weathered limestone tiers and creating highlight reflections on stone edges. Enhanced texture details with enhanced weathered limestone surfaces, enhanced ancient ashlar stone patterns and enhanced soft desert sand textures. Enhanced professional architectural photography composition with enhanced strong horizontal leading lines through the six amphitheater tiers, straight-on axis preserving full symmetry, moon at exact center of the enhanced rectangular stone frame. Enhanced atmospheric depth with enhanced star-filled sky, enhanced thin fog settling between lower stone levels, enhanced drifting smoke creating depth layering, and enhanced distant horizon elements visible through thick haze. Enhanced spatial composition for better visibility and enhanced ritual atmosphere.",
+      "subscenes": [
+        {
+          "id": 300,
+          "name": "Ritual - enhanced-ambient",
+          "description": "Enhanced nighttime ritual atmosphere within the fixed ancient amphitheater. A full moon appears centered inside the rectangular opening of the central stone frame. Enhanced faint luminous geometric light patterns appear as traceries inside the frame, creating a subtle mystical grid of light.",
+          "seed": 300,
+          "cultural_notes": "Enhanced ritual practices combining celestial observation with earth-based ceremonies. The geometric light patterns represent cosmic order aligned with earthly geometry.",
+          "visual_brief": "Enhanced full moon centered inside the stone frame opening. Enhanced faint luminous geometric light patterns forming subtle traceries within the frame. The scene carries a sacred, contemplative atmosphere as light and shadow dance across the ancient stone surfaces.",
+          "prompt": "Enhanced nighttime ritual atmosphere within the fixed ancient amphitheater. A full moon appears centered inside the rectangular opening of the central stone frame. Enhanced faint luminous geometric light patterns appear as traceries inside the frame, creating a subtle mystical grid of light. Enhanced weathered limestone altar surfaces at bottom-center stage, rough ashlar stone patterns catching warm red glow from below, moonlit smooth stone on upper tiers, enhanced ancient stone construction with visible tool marks. Enhanced bicolor lighting creating vertical color temperature gradient across the amphitheater. Enhanced geometric light traceries forming subtle diagonal lines within the frame, enhanced professional architectural photography framing. Enhanced mysterious, solemn, restrained, sacred atmosphere through enhanced light and geometry rather than figures or action. Enhanced atmospheric depth with enhanced faint smoke carrying the red glow upward through the tiers. Enhanced dark red sparks orbiting the altar. Enhanced geometric light lines descending through the air toward the stage. Enhanced fog settling between the lowest stone levels."
+        }
+      ],
+      "seed": 300
+    }
+  ],
+  "prompt_architecture_rationale": "Enhanced three-layer prompt construction: enhanced narrative grounding (description), enhanced temporal moment (visual_brief), and enhanced cinematic quality constraints (prompt_suffix). Enhanced model negative suffix appended via --no for enhanced FLUX compatibility. Enhanced architectural composition for improved visibility and spatial composition.",
+  "prompt_architecture_negative_default": "human figure, human body, human face, person, people, crowd, silhouette of person, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, distorted central frame, tilted frame, curved frame, broken frame, widened frame, narrowed frame, moved frame, moon outside frame, moon above frame, moon behind frame, extra architecture changing tier geometry, blurry, modern buildings, modern city, Greek columns, Doric columns, Ionic columns, human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns",
+  "prompt_architecture_negative_model_suffix": "--no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns",
+  "description": "Enhanced visual language scene definitions emphasizing reduced vertical walls, empty center tiers for performers, and open side elements. Enhanced architectural geometry preserved while adapting to enhanced stage masking and performance requirements. Maintains v9 narrative foundation with enhanced spatial composition for visibility and enhanced performance flexibility. Includes enhancements from favorite prompts and enhanced negative guardrails for enhanced production stability. Integrates fav_prompts for enhanced generation performance and enhanced visual quality. Enhanced to eliminate thematic redundancy while maximizing enhanced visual variety.",
+  "negative_prompt": "human figure, human body, human face, person, people, crowd, silhouette of person, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, distorted central frame, tilted frame, curved frame, broken frame, widened frame, narrowed frame, moved frame, moon outside frame, moon above frame, moon behind frame, extra architecture changing tier geometry, blurry, modern buildings, modern city, Greek columns, Doric columns, Ionic columns",
+  "style_seed": "Enhanced Cypro-Phoenician and Levantine Bronze Age ruin style. Enhanced weathered limestone, enhanced ashlar sandstone, enhanced mudbrick traces and enhanced ancient stone construction. No human figures or faces. Enhanced restrained ornamentation. Enhanced no Doric or Ionic columns, no Classical Greek temple architecture, no Parthenon silhouettes, no white marble monuments. Enhanced visual language for improved production quality."
+}
