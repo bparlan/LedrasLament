@@ -58,7 +58,7 @@
   "guidance_scale": 3.5,
   "image_size": "landscape_16_9",
   "enable_safety_checker": true,
-  "output_dir": "assets/generated/ledras-premier/set_05",
+  "output_dir": "assets/generated/ledras-premier/set_06",
   "log_file": "generation.log",
   "fal_model": "fal-ai/flux-control-lora-canny",
   "prompt_architecture": {
