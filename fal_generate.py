@@ -66,7 +66,7 @@ def _download_image_with_retry(image_url: str, output_path: str) -> bool:
         except Exception as e:
             if attempt == 2:
                 print(f"⚠️  Failed to download image after 3 attempts: {e}")
-                raise
+                return False
             delay = min(0.5 * (2 ** attempt), 5.0)
             print(f"⚠️  Download failed (attempt {attempt + 1}), retrying in {delay:.1f}s: {e}")
             time.sleep(delay)
@@ -110,9 +110,19 @@ class LedrasSceneGenerator:
         """Build canonical prompt: description + elements + metadata."""
         description = scene.get('description', '')
         elements = scene.get('elements', [])
-        parts = [description]
-        if elements:
-            parts.append("Key elements: " + ", ".join(elements))
+        if isinstance(elements, dict):
+            parts = [description]
+            if elements:
+                elem_vals = [v for v in elements.values() if isinstance(v, str)]
+                if elem_vals:
+                    parts.append("Key elements: " + ", ".join(elem_vals))
+        else:
+            parts = [description]
+            if elements:
+                parts.append("Key elements: " + ", ".join(elements))
+        prompt_suffix = scene.get('prompt_suffix', '')
+        if prompt_suffix:
+            parts = [prompt_suffix]
         metadata = (
             f"[seed:{scene.get('seed', self.config.seed)}] "
             f"[team:{self.config.cultural_authenticity_level}] [{role}]"
@@ -123,8 +133,16 @@ class LedrasSceneGenerator:
         """Build prompt from subscene description + scene elements."""
         elements = scene.get('elements', [])
         parts = [subscene.get('description', '')]
-        if elements:
+        if isinstance(elements, dict):
+            if elements:
+                elem_vals = [v for v in elements.values() if isinstance(v, str)]
+                if elem_vals:
+                    parts.append("Key elements: " + ", ".join(elem_vals))
+        elif elements:
             parts.append("Key elements: " + ", ".join(elements))
+        prompt_suffix = scene.get('prompt_suffix', '')
+        if prompt_suffix:
+            parts.append(prompt_suffix)
         metadata = (
             f"[seed:{subscene.get('seed', self.config.seed)}] "
             f"[team:{self.config.cultural_authenticity_level}] [{subscene.get('name', 'subscene')}]"

@@ -4,7 +4,7 @@
     "name": "Premier",
     "description": "Premier scene showcasing hyper-realistic photorealistic visual language with FLUX.2. Night over the ancient amphitheater. A full moon appears centered inside the rectangular opening of the central stone frame. Star-filled sky, weathered limestone, soft desert sand, low drifting smoke and thin fog. Sparse traces of an ancient ruined landscape. Dark, mysterious and monumental atmosphere with photorealistic depth and detail. No central lighting or elements on tiers - all elements positioned around side stair structures.",
     "control_image": "data/control_images/stage_rehersals.png",
-    "control_lora_strength": 0.8,
+    "control_lora_strength": 0.75,
     "visual_language": {
       "camera": "Professional architectural photography with wide-angle lens, straight-on axis at tier 4 elevation",
       "shot_type": "Establishing shot with full amphitheater composition",
@@ -35,7 +35,7 @@
     },
     "prompt_suffix": "Photorealistic deep night settles over the amphitheater. The moon at the center of the frame casts long silver shadows across the six stone tiers. Fog and smoke interweave around the stage. The ancient space feels genuinely watchful and still. Photorealistic visual composition with authentic texture details showing weathered limestone surfaces, fine desert sand textures, and star-filled sky. Professional architectural photography with strong vertical axis through frame opening and leading lines along tier boundaries converging toward rear wall. Camera at tier 3 elevation with balanced negative space and enhanced depth. Authentic atmospheric perspective creating foreground-to-background depth with realistic light interaction and material response. All visual elements positioned exclusively around side stair structures on left and right sides, with no central tier elements or lighting. Immersive cinematic presentation with genuine ancient ambiance and photorealistic environmental storytelling with enhanced side stair focus and starry night sky.",
     "control_image": "data/control_images/stage_rehersals.png",
-    "control_lora_strength": 0.8
+    "control_lora_strength": 0.75
   },
   {
     "id": 3,
@@ -54,7 +54,7 @@
     },
     "prompt_suffix": "Photorealistic blood moon burns at full intensity within the rectangular frame opening. The entire amphitheater is bathed in deep red light. Limestone glows warm amber with realistic light reflection and material response. The space holds its breath in sacred foreboding with authentic atmospheric pressure and dramatic tension. Photorealistic visual composition with authentic texture details showing weathered limestone surfaces, fine desert sand textures, and dramatic red-orange celestial illumination. Professional architectural photography with straight-on axis through frame opening emphasizing dramatic red lighting and architectural geometry. Camera at tier 2 elevation with enhanced composition highlighting the dramatic celestial presence. Balanced negative space with dramatic color contrast emphasizing the dramatic sacred foreboding atmosphere and authentic apocalyptic storytelling. All visual elements positioned exclusively around side stair structures on left and right sides, with no central tier elements or lighting. Photorealistic atmospheric depth with thick smoke and balanced composition emphasizing dramatic celestial power with starry night sky and enhanced side stair focus.",
     "control_image": "data/control_images/stage_rehersals.png",
-    "control_lora_strength": 0.8
+    "control_lora_strength": 0.75
   },
   {
     "id": 4,
@@ -73,7 +73,7 @@
     },
     "prompt_suffix": "Photorealistic portal stone frame with lush greenery around the amphitheater entrance acts as authentic architectural threshold between worlds. The moon is centered inside the rectangular stone frame opening with a star-filled night sky clearly visible above. Natural environment complements the ancient stone architecture, with realistic vegetation growth and genuine stone weathering patterns. Wide shot showing the full rectangular stone frame as geometric centerpiece with the moon perfectly framed within and stars dotting the night sky. Enhanced texture details showing weathered limestone contrast with vibrant realistic greenery. Professional architectural photography emphasizing the frame's authentic portal effect and natural integration of vegetation. Photorealistic atmospheric depth with starry night sky, moon centered in the stone frame portal, and balanced composition highlighting the genuine threshold between worlds with authentic architectural storytelling and natural environmental integration. All visual elements positioned exclusively around side stair structures on left and right sides, with no central tier elements or lighting. Enhanced composition emphasizes side stair focus with starry night sky presentation and moon centered in frame opening.",
     "control_image": "data/control_images/stage_rehersals.png",
-    "control_lora_strength": 0.8
+    "control_lora_strength": 0.75
   },
   {
     "id": 5,
@@ -92,7 +92,7 @@
     },
     "prompt_suffix": "Photorealistic white full moon scene with precise lunar surface details and superior architectural composition. White full moon appears in stone frame with distinct lunar surface visible. The moon provides crisp, bright illumination contrasting with shadowed tiers. Surface texture and crater details are visible as the moon dominates the night sky. Enhanced texture details showing lunar surface contrast with weathered limestone. Crisp, bright white moonlight casting strong shadows across stone tiers. Professional architectural photography emphasizing the moon's geometric presence within stone frame. Enhanced atmospheric depth with star-filled sky and balanced composition highlighting lunar dominance. Copper ceremonial vessels and decorative elements reflect the white moonlight, creating harmonious balance between celestial illumination and Bronze Age craftsmanship. Enhanced spatial composition with natural depth perception and dramatic impact for authentic architectural storytelling.",
     "control_image": "data/control_images/stage_rehersals.png",
-    "control_lora_strength": 0.8
+    "control_lora_strength": 0.75
   },
   {
     "id": 6,
@@ -111,6 +111,6 @@
     },
     "prompt_suffix": "Photorealistic blood moon scene with dramatic celestial and architectural integration. Blood moon dominates the stone frame while stair elements on left and right sides of the stage have realistic fire and burning effects with authentic combustion physics and material response. Dramatic contrast between celestial fire and architectural fire showing realistic integration of astronomical and architectural elements. Copper ceremonial lion head water spouts and elaborate copper bowls serve as ritual offerings, their surfaces showing heat-affected patination from the burning stair structures. Wide establishing shot showing blood moon within rectangular stone frame with professional architectural photography. Camera at tier 2 elevation emphasizing side stair elements with strong vertical emphasis on fire-affected structures. Enhanced texture details showing burning wood and stone contrast with realistic heat distortion and material response. Dramatic red-orange celestial lighting complementing architectural fire with authentic astronomical accuracy and realistic atmospheric effects. Enhanced atmospheric depth with thick smoke and balanced composition highlighting the authentic contrast between empty center and burning side elements with realistic dramatic tension and photorealistic apocalyptic storytelling.",
     "control_image": "data/control_images/stage_rehersals.png",
-    "control_lora_strength": 0.8
+    "control_lora_strength": 0.75
   }
 ]
