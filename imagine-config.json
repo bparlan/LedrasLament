@@ -60,7 +60,7 @@
   "enable_safety_checker": true,
   "output_dir": "assets/generated/ledras-premier/",
   "log_file": "generation.log",
-  "fal_model": "fal-ai/flux-2",
+  "fal_model": "fal-ai/flux-control-lora-canny",
   "prompt_architecture": {
     "template": "subscene_description + subscene_visual_brief + scene_prompt_suffix + model_negative_suffix",
     "rationale": "Three-layer prompt construction: narrative grounding (description), temporal moment (visual_brief), and cinematic quality constraints (prompt_suffix). Model negative suffix appended via --no for FLUX compatibility.",
