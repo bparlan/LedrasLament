@@ -261,6 +261,22 @@ class LedrasSceneGenerator:
         self._control_urls[cache_key] = uploaded_url
         return uploaded_url
 
+    def _get_control_window_for_scene(self, scene_id: int = None) -> Optional[list]:
+        """Get control window, checking scene-specific value first, then config default."""
+        if scene_id is not None:
+            scene = self._get_scene_by_id(scene_id)
+            if scene and scene.get('control_lora_window') is not None:
+                print(f"🎯 Scene {scene_id} using its own control window: {scene['control_lora_window']}")
+                return scene['control_lora_window']
+
+        window = getattr(self.config, 'control_lora_window', None)
+        if window is not None:
+            print(f"🎯 Using global control window: {window}")
+            return window
+
+        print(f"ℹ️ No control_lora_window configured, omitting from API call")
+        return None
+
     def generate_image(self, prompt: str, scene_id: int, role: str, *,
                        sub_label: str = "") -> Optional[Dict[str, Any]]:
         """Generate a single image using fal.ai API with SyncClient"""
@@ -289,6 +305,7 @@ class LedrasSceneGenerator:
                 "guidance_scale": self.config.guidance_scale,
                 "enable_safety_checker": self.config.enable_safety_checker,
                 "control_lora_strength": self._get_control_strength_for_scene(scene_id),
+                "control_lora_window": self._get_control_window_for_scene(scene_id),
             }
 
             print(f"🤖 Calling fal.ai API with model: {self.config.fal_model}")

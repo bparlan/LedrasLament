@@ -58,7 +58,7 @@
   "guidance_scale": 3.5,
   "image_size": "landscape_16_9",
   "enable_safety_checker": true,
-  "output_dir": "assets/generated/ledras-premier/set_04",
+  "output_dir": "assets/generated/ledras-premier/set_05",
   "log_file": "generation.log",
   "fal_model": "fal-ai/flux-control-lora-canny",
   "prompt_architecture": {
@@ -118,5 +118,6 @@
       "9": "hot orange-red-yellow fire dominant with cool blood moon above"
     }
   },
-  "control_lora_strength": 0.75
+  "control_lora_strength": 0.75,
+  "control_lora_window": [0.2, 0.8]
 }
