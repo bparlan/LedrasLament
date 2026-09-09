@@ -178,19 +178,43 @@
       "scene_prompt_suffix": "Professional architectural photography. Wide establishing shot from tier 4 elevation preserving full amphitheater symmetry and rectangular frame invariant. Hourglass mechanism flows sand showing 100% capacity, indicating final temporal completion with hyperrealistic particle visualization. White full moon positioned at right side of stone frame, setting down to horizon at the right side of the scene. All atmospheric systems stabilized, all celestial mechanics completed, visual and temporal perfection achieved with enhanced visual fidelity. All narrative elements fulfilled with precise timing and composition. Color temperature: final night blue atmosphere with residual celestial highlights and complete sand discharge. Composition emphasizes geometric layering - six descending tiers each representing different desert strata. Fine details: wind-penetrated stone texture with enhanced erosion patterns, 100% hourglass flow timing with particle visualization, celestial journey complete, final horizon positioning, visual and temporal perfection achieved.",
       "model_negative_suffix": "--no human figure, human body, human face, person, people, crowd, silhouette of person, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, distorted central frame, tilted frame, curved frame, broken frame, widened frame, narrowed frame, moved frame, moon outside frame, moon above frame, moon behind frame, extra architecture changing tier geometry, blurry, modern buildings, modern city, Greek columns, Doric columns, Ionic columns",
       "elements": [
-        "desert dunes",
-        "stone amphitheater",
-        "hourglass",
-        "celestial journey",
-        "final resolution",
-        "visual perfection"
+            "desert dunes",
+            "stone amphitheater",
+            "hourglass",
+            "celestial journey",
+            "final resolution",
+            "visual perfection"
       ],
       "seed": 6,
       "camera": "6",
       "shot_type": "6",
       "color_temperature": "6",
       "description": "Complete system resolution achieved with hyperrealistic perfection. Hourglass mechanism shows 100% sand flow, indicating final temporal completion with hyperrealistic particle visualization. White full moon positioned at right side of stone frame, setting down to horizon at the right side of the scene."
-    }
+},
+    {
+      "id": 7,
+      "name": "Calm Portal Initiation",
+      "subscene_description": "Ancient Cypro-Phoenician stone amphitheater with six broad horizontal stone seating tiers, each progressively invaded by rolling sand dunes that spill over the weathered limestone edges. Massive dune formations curve through the tier space, their wind-sculpted ridges creating organic diagonal lines that contrast with the rigid horizontal geometry. The central rectangular stone frame dominates the top-center position, creating a portal opening above the dune-filled amphitheater. Front tier nearly buried in fine golden sand with only the uppermost stone edges visible. Middle tiers show dunes cascading between seating levels like frozen waves. Upper tiers reveal ashlar sandstone and mudbrick traces partially submerged in sand. Sand drifts spill over tier edges in smooth curved cascades. No human figures. No symbols. Only the monumental contrast between ancient architecture and the desert that reclaims it. The sky above burns with a hyper-dense star field.",
+      "subscene_visual_brief": "Calm deep desert night over a dune-submerged amphitheater. White full moon rises from center left horizon, positioned left of the stone frame opening, casting cool blue-silver light across the wind-carved sand formations. Sand dunes fill every tier level, their curves catching the pale moonlight in sharp highlight edges. The sky above is impossibly dense with stars — the Milky Way's Sagittarius arm arcs diagonally across the heavens, a thick river of unresolved starlight and dark dust lanes. Hyper-dense star field with thousands of visible points, the galactic core glowing with faint blue-white haze. Deep blue night sky transitioning from indigo at zenith to cool silver-blue at the horizon. Zero atmospheric disturbance. Pure blue light establishing a hyperrealistic celestial foundation for portal transformation.",
+      "scene_prompt_suffix": "Hyperrealistic architectural photography. Wide establishing shot from tier 4 elevation preserving full amphitheater symmetry and rectangular frame invariant. White full moon rises from center left horizon, positioned to the left of the stone frame opening. Color temperature: deep cool blue moonlight with silver highlights, transitioning from indigo zenith to silver-blue horizon. Sand dunes dominate the scene — massive dune formations cascade through every tier level, their wind-sculpted ridges creating elegant curved lines that contrast with the strict horizontal architecture. Sand spills over stone edges in smooth drifts, partially burying lower tiers. Fine golden sand textures with moonlit highlight ridges, shadowed troughs, and granular detail visible in the cool blue light. The sky is hyper-dense with stars — the Milky Way's Sagittarius arm arcs diagonally across the frame, resolved into thousands of individual star points with dark interstellar dust lanes cutting through the galactic glow. The galactic core appears as a dense blue-white haze near the star field's brightest region. Cosmic dust clouds create subtle dark silhouettes against the star-dense background. Deep indigo sky at zenith grading to electric blue at horizon. Composition emphasizes the juxtaposition of organic dune curves against rigid architectural geometry — six descending tiers with sand cascading between them like frozen waterfalls. Fine details: wind-rippled sand texture on dune surfaces, moonlit granular highlight on each dune crest, shadow geometry in dune troughs, weathered limestone edges emerging from sand burial, sand grain scatter patterns on stone surfaces, star field density variation across the sky dome. Hyperrealistic clarity rendering every sand grain and star point with crisp precision.",
+      "model_negative_suffix": "--no human figure, human body, human face, person, people, crowd, silhouette of person, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, distorted central frame, tilted frame, curved frame, broken frame, widened frame, narrowed frame, moved frame, moon outside frame, moon above frame, moon behind frame, extra architecture changing tier geometry, blurry, modern buildings, modern city, Greek columns, Doric columns, Ionic columns",
+      "elements": [
+            "sand dunes engulfing tiers",
+            "stone amphitheater",
+            "rising full moon",
+            "Milky Way Sagittarius arm",
+            "hyper-dense star field",
+            "galactic core",
+            "cool blue moonlight",
+            "architectural geometry",
+            "portal initiation"
+      ],
+      "seed": 7,
+      "camera": "1",
+      "shot_type": "1",
+      "color_temperature": "1",
+      "description": "Hyperrealistic deep desert night. Ancient amphitheater tiers nearly submerged by rolling sand dunes cascading through every seating level. White full moon rises from center left horizon, positioned left of the stone frame opening, casting cool blue-silver moonlight across wind-carved dune ridges and sand drifts. The sky is impossibly dense with stars — the Milky Way's Sagittarius arm arcs diagonally overhead, resolved into thousands of individual star points with dark interstellar dust lanes crossing the galactic glow. Deep blue light bathing the entire scene, from indigo sky zenith to silver-blue horizon. Hyperrealistic clarity with every sand grain rendered in sharp crisp detail. Zero atmospheric disturbance. Pure celestial stillness."
+}
   ],
   "style_seed": "Cypro-Phoenician and Levantine Bronze Age ruin style. Weathered limestone, ashlar sandstone, mudbrick traces and ancient stone construction. No human figures or faces. Restrained ornamentation. No Doric or Ionic columns, no Classical Greek temple architecture, no Parthenon silhouettes, no white marble monuments.",
   "negative_prompt": "human figure, human body, human face, person, people, crowd, silhouette of person, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, distorted central frame, tilted frame, curved frame, broken frame, widened frame, narrowed frame, moved frame, moon outside frame, moon above frame, moon behind frame, extra architecture changing tier geometry, blurry, modern buildings, modern city, Greek columns, Doric columns, Ionic columns"
