@@ -23,7 +23,7 @@ import time
 from typing import Dict, List, Any, Optional
 from datetime import datetime
 
-from fal_client import SyncClient
+from fal_client import SyncClient, upload_file
 from utils import get_resolution, estimate_cost
 
 
@@ -140,10 +140,23 @@ class LedrasSceneGenerator:
             print(f"🎨 Generating image: Scene {scene_id}, Role: {role}")
             print(f"   Prompt preview: {prompt[:100]}..." if len(prompt) > 100 else f"   Prompt: {prompt}")
 
+            # Upload local control image to fal.ai storage
+            control_image_path = self.config.control_image_path
+            if not control_image_path:
+                print("❌ ERROR: control_image_path not configured")
+                return None
+            import os
+            if not os.path.exists(control_image_path):
+                print(f"❌ ERROR: Control image not found at {control_image_path}")
+                return None
+            print(f"📤 Uploading control image: {control_image_path}")
+            control_lora_image_url = upload_file(control_image_path)
+            print(f"✅ Control image uploaded: {control_lora_image_url}")
+
             # Prepare fal.ai API parameters — validated against fal-ai/flux-control-lora-canny input schema
             fal_params = {
                 "prompt": prompt,
-                "control_lora_image_url": self.config.control_lora_image_url,
+                "control_lora_image_url": control_lora_image_url,
                 "image_size": self.config.image_size,
                 "seed": request_seed,
                 "num_inference_steps": self.config.num_inference_steps,
