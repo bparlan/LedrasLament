@@ -12,14 +12,14 @@ This script addresses the issues in the original fal_generate.py:
 - Simplified API integration
 """
 
-import os
-import json
-import requests
-import time
-import argparse
+from dotenv import load_dotenv
+import os, json, requests, time, argparse
 from pathlib import Path
 from typing import Optional, Dict, Any
 from datetime import datetime
+
+# Load .env first — sources FAL_KEY for all downstream API calls
+load_dotenv('.env')
 
 # Import configuration handling
 CONFIG_FILE = "imagine-config.json"

@@ -14,14 +14,13 @@ User-Requested Parameters:
 - image_size: {"width": 1280, "height": 704}
 """
 
-import json
-import os
-import random
-import requests
-import sys
-import time
+from dotenv import load_dotenv
+import json, os, random, requests, sys, time
 from typing import Dict, List, Any, Optional
 from datetime import datetime
+
+# Load .env BEFORE any SDK import — this is the root FAL_KEY source
+load_dotenv('.env')
 
 from fal_client import SyncClient
 
