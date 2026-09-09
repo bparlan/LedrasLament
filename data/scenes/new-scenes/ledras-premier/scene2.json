@@ -1,0 +1,43 @@
+{
+  "id": 2,
+  "name": "Scene 2 - Deep Night",
+  "description": "Deep night settles over the amphitheater. The moon at the center of the frame casts long silver shadows across the six stone tiers. Fog and smoke interweave around the stage. The ancient space feels watchful and still. Key elements: visual, texture_materials, composition, lighting, atmosphere.",
+  "seed": 502,
+  "visual_language": {
+    "texture": "Photorealistic weathered limestone surfaces with ancient stone patterns, soft desert sand textures, star-filled sky with realistic atmospheric scattering, pale moonlight reflecting off stone surfaces showing rough ashlar masonry, subtle mudbrick traces in shadowed areas, enhanced with deep photorealistic texture contrast and authentic weathered stone details.",
+    "lighting": "Photorealistic cool silver moonlight at frame center casting long directional shadows across all six tiers with realistic shadow softness and edge definition. Moonlight highlights stone edges creating realistic specular reflections and long diagonal shadows fallen across seating. Enhanced ambient starlight providing subtle fill on shadow sides with natural light bounce. Fog and smoke interweaving around stage creating realistic atmospheric diffusion and depth of field effects. Ancient space feeling watchful and still with authentic atmospheric presentation.",
+    "composition": "Photorealistic wide establishing shot with moon at frame center casting long shadows. Strong vertical axis through frame opening with leading lines along horizontal tier boundaries converging toward rear wall. Camera at tier 3 elevation with professional architectural photography composition. Balanced negative space above and below with realistic depth layers. Enhanced depth and spatial layers with dramatic perspective and authentic atmospheric perspective creating foreground-to-background depth. Photorealistic composition with natural eye flow and architectural precision.",
+    "mood": "Photorealistic deep night atmosphere with ancient watchful presence. The space feels genuinely ancient, watchful, and still, suspended in authentic night. Enhanced atmosphere with deeper mystery and grandeur, creating immersive cinematic presence with realistic environmental storytelling.",
+    "camera": "Photorealistic professional architectural photography: tier 3 elevation, wide establishing shot, 24mm equivalent focal length, f/8 aperture for deep depth of field, authentic natural lighting conditions, ISO 100, genuine architectural presentation with natural perspective and realistic atmospheric effects."
+  },
+  "elements": {
+    "visual": [
+      "moon at center of frame casting long silver shadows",
+      "weathered limestone textures with authentic erosion patterns",
+      "soft desert sand surface with natural light interaction",
+      "fog and smoke interweaving around stage",
+      "star-filled sky with realistic atmospheric scattering",
+      "ancient watchful and still atmosphere",
+      "long directional moonlight shadows",
+      "enhanced photorealistic depth and immersion"
+    ],
+    "lighting": [
+      "cool silver moonlight with realistic edge definition",
+      "long directional shadows with soft gradient transitions",
+      "enhanced ambient starlight with natural light bounce",
+      "fog and smoke atmospheric diffusion",
+      "stone edge highlight reflections with specular precision",
+      "ancient watchful atmospheric presentation",
+      "professional architectural lighting with natural balance"
+    ],
+    "atmosphere": [
+      "photorealistic deep night atmosphere",
+      "ancient watchful presence and stillness",
+      "enhanced mysterious architectural storytelling",
+      "genuinely ancient environmental awareness",
+      "immersive cinematic photorealistic presentation",
+      "authentic atmospheric depth and realism"
+    ]
+  },
+  "prompt_suffix": "Photorealistic deep night settles over the amphitheater. The moon at the center of the frame casts long silver shadows across the six stone tiers. Fog and smoke interweave around the stage. The ancient space feels genuinely watchful and still. Photorealistic visual composition with authentic texture details showing weathered limestone surfaces, fine desert sand textures, and star-filled sky. Professional architectural photography with strong vertical axis through frame opening and leading lines along tier boundaries converging toward rear wall. Camera at tier 3 elevation with balanced negative space and enhanced depth. Authentic atmospheric perspective creating foreground-to-background depth with realistic light interaction and material response. Immersive cinematic presentation with genuine ancient ambiance and photorealistic environmental storytelling."
+}

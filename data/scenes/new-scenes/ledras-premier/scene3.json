@@ -1,0 +1,43 @@
+{
+  "id": 3,
+  "name": "Scene 3 - Blood Moon",
+  "description": "The blood moon burns at full intensity within the rectangular frame opening. The entire amphitheater is bathed in deep red light. Limestone glows warm amber. The space holds its breath in sacred foreboding. Key elements: visual, texture_materials, composition, lighting, atmosphere.",
+  "seed": 503,
+  "visual_language": {
+    "texture": "Photorealistic weathered limestone surfaces with ancient stone patterns, soft desert sand textures, blood moon deep red-orange illumination casting dramatic shadows, warm amber glow on limestone surfaces, realistic combustion patterns on stair elements, authentic architectural fire interaction showing material response to intense heat.",
+    "lighting": "Photorealistic blood moon deep red-orange illumination within rectangular frame opening bathing entire amphitheater in dramatic red light. Limestone glowing warm amber with realistic light reflection and material response. Space holding its breath in sacred foreboding with authentic atmospheric pressure and tension. Dramatic red-orange celestial lighting complementing architectural elements with realistic color grading and tonal separation. Enhanced atmospheric depth with thick smoke and balanced composition emphasizing dramatic celestial dominance.",
+    "composition": "Photorealistic wide establishing shot showing blood moon within rectangular frame opening. Straight-on axis through frame opening with enhanced red-orange lighting emphasizing architectural geometry. Camera at tier 2 elevation emphasizing stage elements with dramatic composition. Professional architectural photography with strong vertical emphasis and enhanced spatial composition. Balanced negative space with dramatic color contrast highlighting the dramatic celestial presence and sacred foreboding atmosphere.",
+    "mood": "Photorealistic blood moon dramatic atmosphere with sacred foreboding and intense tension. The space feels genuinely sacred, intense, and holds its breath in authentic apocalyptic presence. Enhanced atmosphere with dramatic celestial power and immersive cinematic storytelling with realistic environmental horror and tension.",
+    "camera": "Photorealistic professional architectural photography: tier 2 elevation, wide establishing shot, 24mm equivalent focal length, f/7 aperture for balanced depth of field, authentic dramatic lighting conditions, realistic atmospheric effects, genuine architectural presentation with dramatic color accuracy and photorealistic intensity."
+  },
+  "elements": {
+    "visual": [
+      "blood moon deep red-orange within frame opening",
+      "weathered limestone with warm amber glow",
+      "soft desert sand surface with red light reflection",
+      "entire amphitheater bathed in deep red light",
+      "sacred foreboding atmospheric tension",
+      "space holding its breath in authentic presence",
+      "enhanced dramatic celestial dominance",
+      "authentic architectural fire integration"
+    ],
+    "lighting": [
+      "blood moon deep red-orange illumination",
+      "warm amber limestone glow with realistic reflection",
+      "dramatic red light bathing entire scene",
+      "sacred foreboding atmospheric pressure",
+      "enhanced celestial power and tension",
+      "authentic apocalyptic environmental storytelling",
+      "dramatic color contrast and atmospheric depth"
+    ],
+    "atmosphere": [
+      "photorealistic sacred foreboding atmosphere",
+      "authentic dramatic celestial power",
+      "intense apocalyptic environmental tension",
+      "genuinely sacred holding of breath presence",
+      "immersive cinematic dramatic storytelling",
+      "authentic atmospheric pressure and realism"
+    ]
+  },
+  "prompt_suffix": "Photorealistic blood moon burns at full intensity within the rectangular frame opening. The entire amphitheater is bathed in deep red light. Limestone glows warm amber with realistic light reflection and material response. The space holds its breath in sacred foreboding with authentic atmospheric pressure and dramatic tension. Photorealistic visual composition with authentic texture details showing weathered limestone surfaces, fine desert sand textures, and dramatic red-orange celestial illumination. Professional architectural photography with straight-on axis through frame opening emphasizing dramatic red lighting and architectural geometry. Camera at tier 2 elevation with enhanced composition highlighting the dramatic celestial presence. Balanced negative space with dramatic color contrast emphasizing the dramatic sacred foreboding atmosphere and authentic apocalyptic storytelling."
+}
