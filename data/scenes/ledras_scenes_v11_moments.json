@@ -25,7 +25,7 @@
         "default": 0.7,
         "water_vegetation_scenes": 0.6,
         "fire_scene": 0.6,
-        "rationale": "0.7 default gives the model creative freedom to follow dense prompt descriptions while maintaining structural adherence. 0.6 for scenes where water, vegetation, or fire details could blur geometric boundaries — tighter adherence preserves the amphitheater lines."
+        "rationale": "0.7 default gives the model creative freedom to follow dense prompt descriptions while maintaining structural adherence. 0.6 for scenes where water, vegetation, or fire details could blur geometric boundaries \u2014 tighter adherence preserves the amphitheater lines."
       }
     },
     "per_scene_camera": {
@@ -72,11 +72,19 @@
       "subscene_visual_brief": "Calm desert night establishing perfect conditions. Hourglass mechanism shows initial full sand flow. White full moon rises from center left horizon, positioned left of stone frame opening. Zero storm activity - atmospheric tension maintained. Architectural geometry remains perfectly stable, establishing portal foundation for celestial transformation.",
       "scene_prompt_suffix": "Professional architectural photography. Wide establishing shot from tier 4 elevation preserving full amphitheater symmetry and rectangular frame invariant. Hourglass mechanism flows initial sand with precise timing showing 100% capacity. White full moon rises from center left horizon, positioned to the left of stone frame opening. Zero storm activity maintaining atmospheric stability. Color temperature: pure night blue establishing base atmosphere. Composition emphasizes geometric layering - six descending tiers each representing different desert strata. Fine details: wind-penetrated stone texture, sand accumulation in architectural crevices, shadow play across weathered surfaces, distant mountain silhouettes beyond rear wall.",
       "model_negative_suffix": "--no human figure, human body, human face, person, people, crowd, silhouette of person, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, distorted central frame, tilted frame, curved frame, broken frame, widened frame, narrowed frame, moved frame, moon outside frame, moon above frame, moon behind frame, extra architecture changing tier geometry, blurry, modern buildings, modern city, Greek columns, Doric columns, Ionic columns",
-      "elements": ["desert dunes", "stone amphitheater", "hourglass", "rising moon", "architectural geometry", "portal initiation"],
+      "elements": [
+        "desert dunes",
+        "stone amphitheater",
+        "hourglass",
+        "rising moon",
+        "architectural geometry",
+        "portal initiation"
+      ],
       "seed": 1,
       "camera": "1",
       "shot_type": "1",
-      "color_temperature": "1"
+      "color_temperature": "1",
+      "description": "Calm desert night establishing hyperrealistic conditions. Hourglass mechanism shows initial full sand flow with precise quartz particle visualization. White full moon rises from center left horizon, positioned left of stone frame opening, with realistic atmospheric scattering creating soft limb darkening. Zero storm activity maintaining atmospheric stability."
     },
     {
       "id": 2,
@@ -85,11 +93,19 @@
       "subscene_visual_brief": "Celestial transformation phase advancing. Hourglass mechanism shows 60% sand flow, indicating controlled temporal progression. White full moon rises vertically through the sky, positioned just left of stone frame opening, getting behind the frame structure. Storm system remains inactive but begins atmospheric preparation. Portal energy builds within stone frame as celestial mechanics align.",
       "scene_prompt_suffix": "Professional architectural photography. Wide establishing shot from tier 4 elevation preserving full amphitheater symmetry and rectangular frame invariant. Hourglass mechanism flows sand showing 60% capacity, indicating controlled temporal progression. White full moon rises through the sky, positioned just left of stone frame opening, getting behind the frame structure. Storm system remains inactive but begins atmospheric preparation. Color temperature: night blue with emerging celestial dynamics. Composition emphasizes geometric layering - six descending tiers each representing different desert strata. Fine details: wind-penetrated stone texture, 60% hourglass flow timing, celestial positioning left of frame, atmospheric preparation for portal activation.",
       "model_negative_suffix": "--no human figure, human body, human face, person, people, crowd, silhouette of person, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, distorted central frame, tilted frame, curved frame, broken frame, widened frame, narrowed frame, moved frame, moon outside frame, moon above frame, moon behind frame, extra architecture changing tier geometry, blurry, modern buildings, modern city, Greek columns, Doric columns, Ionic columns",
-      "elements": ["desert dunes", "stone amphitheater", "hourglass", "rising moon", "architectural geometry", "portal transition"],
+      "elements": [
+        "desert dunes",
+        "stone amphitheater",
+        "hourglass",
+        "rising moon",
+        "architectural geometry",
+        "portal transition"
+      ],
       "seed": 2,
       "camera": "2",
       "shot_type": "2",
-      "color_temperature": "2"
+      "color_temperature": "2",
+      "description": "Celestial transformation phase advancing with hyperrealistic effects. Hourglass mechanism shows 60% sand flow with precise particle dynamics. White full moon rises vertically through the sky, positioned just left of stone frame opening, getting behind the frame structure. Enhanced atmospheric preparation with realistic sand particle visualization."
     },
     {
       "id": 3,
@@ -98,11 +114,19 @@
       "subscene_visual_brief": "Atmospheric chaos triggered by celestial portal effect with enhanced realism. Hourglass mechanism shows 50% sand flow, indicating maximum storm system activation. White full moon now fully within stone frame portal, positioned vertically center, horizontally left side of frame border. Portal transforms celestial reality - moon appears as blood red only within frame boundaries with realistic spectral rendering. Storm system activates across surrounding dunes and natural formations, creating chaotic atmospheric conditions.",
       "scene_prompt_suffix": "Professional architectural photography. Wide establishing shot from tier 4 elevation preserving full amphitheater symmetry and rectangular frame invariant. Hourglass mechanism flows sand showing 50% capacity, indicating maximum atmospheric activation with enhanced particle visualization. White full moon now fully within stone frame portal, positioned vertically center, horizontally left side of frame border. Portal transforms celestial reality - moon appears as blood red only within frame boundaries with realistic spectral rendering. Storm system activates across surrounding dunes and natural formations, creating chaotic atmospheric conditions. Color temperature: night blue with blood moon silver highlights within frame and dramatic amber storm reflections. Composition emphasizes geometric layering - six descending tiers each representing different desert strata. Fine details: wind-penetrated stone texture, 50% hourglass flow timing, blood moon portal activation, storm chaos across dunes, frame color transformation mechanics.",
       "model_negative_suffix": "--no human figure, human body, human face, person, people, crowd, silhouette of person, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, distorted central frame, tilted frame, curved frame, broken frame, widened frame, narrowed frame, moved frame, moon outside frame, moon above frame, moon behind frame, extra architecture changing tier geometry, blurry, modern buildings, modern city, Greek columns, Doric columns, Ionic columns",
-      "elements": ["desert dunes", "stone amphitheater", "hourglass", "blood moon", "portal activation", "storm chaos"],
+      "elements": [
+        "desert dunes",
+        "stone amphitheater",
+        "hourglass",
+        "blood moon",
+        "portal activation",
+        "storm chaos"
+      ],
       "seed": 3,
       "camera": "3",
       "shot_type": "3",
-      "color_temperature": "3"
+      "color_temperature": "3",
+      "description": "Atmospheric chaos triggered by celestial portal effect with enhanced realism. Hourglass mechanism shows 50% sand flow with dramatic particle visualization. White full moon now fully within stone frame portal, positioned vertically center, horizontally left side of frame border. Portal transforms celestial reality - moon appears as blood red only within frame boundaries with realistic spectral rendering."
     },
     {
       "id": 4,
@@ -111,11 +135,19 @@
       "subscene_visual_brief": "Maximum atmospheric chaos during portal activation with hyperrealistic intensity. Hourglass mechanism shows 70% sand flow, indicating storm intensity peak with enhanced particle dynamics. Blood red moon now positioned within stone frame portal, vertically center, horizontally right side of frame border. Storm system reaches maximum intensity across surrounding dunes and natural formations, creating dramatic chaos while celestial mechanics remain active within frame.",
       "scene_prompt_suffix": "Professional architectural photography. Wide establishing shot from tier 4 elevation preserving full amphitheater symmetry and rectangular frame invariant. Hourglass mechanism flows sand showing 70% capacity, indicating maximum storm intensity with enhanced particle dynamics. Blood red moon positioned within stone frame portal, vertically center, horizontally right side of frame border. Storm system reaches maximum intensity across surrounding dunes and natural formations, creating dramatic chaos while celestial mechanics remain active within frame. Color temperature: night blue with intense blood moon silver highlights within frame and maximum amber storm reflections. Composition emphasizes geometric layering - six descending tiers each representing different desert strata. Fine details: wind-penetrated stone texture with enhanced erosion patterns, 70% hourglass flow timing with particle dynamics, blood moon portal activation complete, maximum storm chaos across dunes, architectural invariance maintained.",
       "model_negative_suffix": "--no human figure, human body, human face, person, people, crowd, silhouette of person, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, distorted central frame, tilted frame, curved frame, broken frame, widened frame, narrowed frame, moved frame, moon outside frame, moon above frame, moon behind frame, extra architecture changing tier geometry, blurry, modern buildings, modern city, Greek columns, Doric columns, Ionic columns",
-      "elements": ["desert dunes", "stone amphitheater", "hourglass", "blood moon", "storm chaos", "maximum intensity"],
+      "elements": [
+        "desert dunes",
+        "stone amphitheater",
+        "hourglass",
+        "blood moon",
+        "storm chaos",
+        "maximum intensity"
+      ],
       "seed": 4,
       "camera": "4",
       "shot_type": "4",
-      "color_temperature": "4"
+      "color_temperature": "4",
+      "description": "Maximum atmospheric chaos during portal activation with hyperrealistic intensity. Hourglass mechanism shows 70% sand flow, indicating storm intensity peak with enhanced particle dynamics. Blood red moon now positioned within stone frame portal, vertically center, horizontally right side of frame border."
     },
     {
       "id": 5,
@@ -124,11 +156,19 @@
       "subscene_visual_brief": "Atmospheric storm system overs completely with hyperrealistic resolution. Hourglass mechanism shows 60% sand flow, indicating system stabilization. Blood red moon now fully exits stone frame portal, reverting to pure white appearance. Storm intensity rapidly dissipates, creating clean atmospheric resolution. Celestial mechanics complete their portal journey, returning to normal reality with enhanced visual fidelity.",
       "scene_prompt_suffix": "Professional architectural photography. Wide establishing shot from tier 4 elevation preserving full amphitheater symmetry and rectangular frame invariant. Hourglass mechanism flows sand showing 60% capacity, indicating system stabilization with enhanced particle dissipation. Blood red moon now fully exits stone frame portal, reverting to pure white appearance. Storm intensity rapidly dissipates, creating clean atmospheric resolution. Celestial mechanics complete their portal journey, returning to normal reality. Color temperature: restored night blue throughout with subtle residual blood moon silver highlights within frame and final amber sand reflections. Composition emphasizes geometric layering - six descending tiers each representing different desert strata. Fine details: wind-penetrated stone texture with enhanced erosion patterns, 60% hourglass flow timing with particle dissipation, portal deactivation complete, storm resolution, celestial mechanics returning to normal state.",
       "model_negative_suffix": "--no human figure, human body, human face, person, people, crowd, silhouette of person, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, distorted central frame, tilted frame, curved frame, broken frame, widened frame, narrowed frame, moved frame, moon outside frame, moon above frame, moon behind frame, extra architecture changing tier geometry, blurry, modern buildings, modern city, Greek columns, Doric columns, Ionic columns",
-      "elements": ["desert dunes", "stone amphitheater", "hourglass", "moon deactivation", "storm resolution", "celestial mechanics"],
+      "elements": [
+        "desert dunes",
+        "stone amphitheater",
+        "hourglass",
+        "moon deactivation",
+        "storm resolution",
+        "celestial mechanics"
+      ],
       "seed": 5,
       "camera": "5",
       "shot_type": "5",
-      "color_temperature": "5"
+      "color_temperature": "5",
+      "description": "Atmospheric storm system overs completely with hyperrealistic resolution. Hourglass mechanism shows 60% sand flow, indicating system stabilization. Blood red moon now fully exits stone frame portal, reverting to pure white appearance. Storm intensity rapidly dissipates, creating clean atmospheric resolution."
     },
     {
       "id": 6,
@@ -137,11 +177,19 @@
       "subscene_visual_brief": "Complete system resolution achieved with hyperrealistic perfection. Hourglass mechanism shows 100% sand flow, indicating final temporal completion with hyperrealistic particle visualization. White full moon positioned at right side of stone frame, setting down to horizon at the right side of the scene. All atmospheric systems stabilized, all celestial mechanics completed, visual and temporal perfection achieved with enhanced visual fidelity. All narrative elements fulfilled with precise timing and composition.",
       "scene_prompt_suffix": "Professional architectural photography. Wide establishing shot from tier 4 elevation preserving full amphitheater symmetry and rectangular frame invariant. Hourglass mechanism flows sand showing 100% capacity, indicating final temporal completion with hyperrealistic particle visualization. White full moon positioned at right side of stone frame, setting down to horizon at the right side of the scene. All atmospheric systems stabilized, all celestial mechanics completed, visual and temporal perfection achieved with enhanced visual fidelity. All narrative elements fulfilled with precise timing and composition. Color temperature: final night blue atmosphere with residual celestial highlights and complete sand discharge. Composition emphasizes geometric layering - six descending tiers each representing different desert strata. Fine details: wind-penetrated stone texture with enhanced erosion patterns, 100% hourglass flow timing with particle visualization, celestial journey complete, final horizon positioning, visual and temporal perfection achieved.",
       "model_negative_suffix": "--no human figure, human body, human face, person, people, crowd, silhouette of person, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, distorted central frame, tilted frame, curved frame, broken frame, widened frame, narrowed frame, moved frame, moon outside frame, moon above frame, moon behind frame, extra architecture changing tier geometry, blurry, modern buildings, modern city, Greek columns, Doric columns, Ionic columns",
-      "elements": ["desert dunes", "stone amphitheater", "hourglass", "celestial journey", "final resolution", "visual perfection"],
+      "elements": [
+        "desert dunes",
+        "stone amphitheater",
+        "hourglass",
+        "celestial journey",
+        "final resolution",
+        "visual perfection"
+      ],
       "seed": 6,
       "camera": "6",
       "shot_type": "6",
-      "color_temperature": "6"
+      "color_temperature": "6",
+      "description": "Complete system resolution achieved with hyperrealistic perfection. Hourglass mechanism shows 100% sand flow, indicating final temporal completion with hyperrealistic particle visualization. White full moon positioned at right side of stone frame, setting down to horizon at the right side of the scene."
     }
   ],
   "style_seed": "Cypro-Phoenician and Levantine Bronze Age ruin style. Weathered limestone, ashlar sandstone, mudbrick traces and ancient stone construction. No human figures or faces. Restrained ornamentation. No Doric or Ionic columns, no Classical Greek temple architecture, no Parthenon silhouettes, no white marble monuments.",
