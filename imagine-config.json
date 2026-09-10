@@ -3,12 +3,7 @@
   "project": {
     "name": "Ledras Lament",
     "root": ".",
-    "description": "Scene generation infrastructure for projection mapping of ancient Mediterranean environments using AI",
-    "stack": [
-      "Python",
-      "fal.ai",
-      "FLUX.2"
-    ]
+    "description": "Scene generation infrastructure for projection mapping of ancient Mediterranean environments using AI"
   },
   "permitted_skills": [
     "graph-curation-expert",
@@ -27,24 +22,7 @@
     "dynamic_interaction": true,
     "persona_response_variety": true
   },
-  "selection_options": [
-    {
-      "label": "Proceed / Accept / Continue",
-      "value": "proceed"
-    },
-    {
-      "label": "Do plan B / Choose alternative path",
-      "value": "alternative"
-    },
-    {
-      "label": "Tell me more: relevant team members report more details",
-      "value": "more_details"
-    },
-    {
-      "label": "User input",
-      "value": "user_input"
-    }
-  ],
+  "selection_options": [],
   "output": {
     "report_dir": ".omp/theteam/reports",
     "keep_last": 20
@@ -62,65 +40,16 @@
   "log_file": "generation.log",
   "fal_model": "fal-ai/flux-control-lora-canny",
   "prompt_architecture": {
-    "template": "subscene_description + subscene_visual_brief + scene_prompt_suffix + model_negative_suffix",
-    "rationale": "Three-layer prompt construction: narrative grounding (description), temporal moment (visual_brief), and cinematic quality constraints (prompt_suffix). Model negative suffix appended via --no for FLUX compatibility.",
-    "negative_default": "human figure, human body, human face, person, people, crowd, silhouette of person, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, distorted central frame, tilted frame, curved frame, broken frame, widened frame, narrowed frame, moved frame, moon outside frame, moon above frame, moon behind frame, extra architecture changing tier geometry, blurry, modern buildings, modern city, Greek columns, Doric columns, Ionic columns, human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, distorted central frame, tilted frame, curved frame, broken frame, widened frame, narrowed frame, moved frame, moon outside frame, moon above frame, moon behind frame, extra architecture changing tier geometry, blurry, modern buildings, modern city, Greek columns, Doric columns, Ionic columns",
-    "negative_model_suffix": "--no human figure, human body, human face, person, people, crowd, any text, writing, letters, characters, font, typeface, typography, symbols, calligraphy, inscriptions, labels, tags, latin alphabet, greek alphabet, deformed text, watermark, blurry, modern buildings, modern city, greek columns, ionic columns, doric columns",
-    "generation_defaults": {
-      "num_inference_steps": 28,
-      "guidance_scale": 3.5,
-      "image_size": "landscape_16_9",
-      "enable_safety_checker": true,
-      "control_start": 0,
-      "control_stop": 1
-    },
-    "control_image_path": "data/control_images/stage_rehersals.png",
-    "control_image_url_path": "data/control_images/stage_rehersals.png",
-    "control_lora_strength": {
-      "stage_v6_alphasky": {
-        "default": 0.7,
-        "water_vegetation_scenes": 0.6,
-        "fire_scene": 0.6,
-        "rationale": "0.7 default gives the model creative freedom to follow dense prompt descriptions while maintaining structural adherence. 0.6 for scenes where water, vegetation, or fire details could blur geometric boundaries \u2014 tighter adherence preserves the amphitheater lines."
+    "canonical": {
+      "version": 1,
+      "format": "structured",
+      "validation_rules": {
+        "required_fields": ["description", "seed"],
+        "allowed_roles": ["intro", "loop"],
+        "cultural_constraints": ["authentic", "traditional", "historical"]
       }
-    },
-    "per_scene_camera": {
-      "1": "Compose wide establishing shot, straight-on architectural axis at tier 4 elevation",
-      "2": "Compose wide shot, camera at tier 3 elevation looking slightly down toward the altar stage",
-      "3": "Compose wide shot, straight-on axis, slightly tighter on the frame opening and blood moon",
-      "4": "Compose wide shot, camera at tier 2 elevation for water-level perspective across channels",
-      "5": "Compose wide shot, slight elevation looking across water-filled tiers and canal network",
-      "6": "Compose wide shot, straight-on axis with slight pull-back to frame overhanging vegetation",
-      "7": "Compose wide shot, center axis with foreground smoke creating depth layering",
-      "8": "Compose medium wide shot, warm intimate perspective on lower tier dwelling lights",
-      "9": "Compose wide shot, low angle with flames rising in foreground framing the architecture"
-    },
-    "per_scene_shot_type": {
-      "1": "Professional architectural photography. Wide establishing shot preserving full amphitheater symmetry.",
-      "2": "Professional architectural photography. Wide shot with vertical axis through frame opening toward altar.",
-      "3": "Professional architectural photography. Slightly tighter wide shot emphasizing blood moon within frame.",
-      "4": "Professional architectural photography. Wide shot with water channels as leading lines through tiers.",
-      "5": "Professional architectural photography. Wide shot with cascading water creating dynamic composition.",
-      "6": "Professional architectural photography. Wide shot with vegetation framing the architectural geometry.",
-      "7": "Professional architectural photography. Wide shot with smoke layers as atmospheric depth elements.",
-      "8": "Professional architectural photography. Medium wide shot with warm light points creating visual rhythm.",
-      "9": "Professional architectural photography. Wide shot with vertical flame lines framing destruction geometry."
-    },
-    "per_scene_color_temperature": {
-      "1": "cool silver moonlight",
-      "2": "bicolor cool silver upper / warm red-amber lower",
-      "3": "warm crimson red throughout",
-      "4": "cool silver with warm reflection highlights on water",
-      "5": "day cycle: golden dawn to warm midday to amber afternoon to sunset gold to cool night",
-      "6": "cool blue-green moonlight with warm green foliage undertones",
-      "7": "cool silver moonlight scattered through white-gray smoke",
-      "8": "warm golden-orange interior light contrasting with cool blue exterior moonlight",
-      "9": "hot orange-red-yellow fire dominant with cool blood moon above"
     }
   },
   "control_lora_strength": 0.75,
-  "control_lora_window": [
-    0.2,
-    0.8
-  ]
+  "control_lora_window": [0.0, 1.0]
 }
