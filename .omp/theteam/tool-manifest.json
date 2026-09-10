@@ -26,7 +26,7 @@
       "type": "CLI",
       "usage": "python3 scripts/health_scanner.py [--report|--quiet]",
       "output": "health_monitor.log",
-      "registry": "docs/stable_project_structure.json"
+      "registry": "system/registry/stable_project_structure.json"
     },
     "health_orchestrator": {
       "path": "theteam/workflow/health_monitor/theteam_health_skill.py",
@@ -48,6 +48,6 @@
     {"file": "imagine-config.json", "role": "Sole runtime config for fal_generate"},
     {"file": "gateway.json", "role": "Token budget: rights | used | initial"},
     {"file": "theteam.config", "role": "Team roster + behavior + permitted_skills + output"},
-    {"file": "docs/stable_project_structure.json", "role": "Project structure registry (validated by health_scanner)"}
+    {"file": "system/registry/stable_project_structure.json", "role": "Project structure registry (validated by health_scanner)"}
   ]
 }

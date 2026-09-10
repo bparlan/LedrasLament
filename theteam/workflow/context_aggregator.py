@@ -10,7 +10,7 @@ Reads:
   theteam.config                      -> roster, behavior, permitted_skills
   imagine-config.json                 -> runtime generation parameters
   gateway.json                        -> token budget (rights/used/initial)
-  docs/stable_project_structure.json  -> registered structure
+  system/registry/stable_project_structure.json  -> registered structure
   health_monitor.log                  -> last health scan status (tail)
   AGENTS.md                           -> production invariants (Rule A-F)
 
@@ -37,7 +37,9 @@ CONFIG_PATHS = {
     "theteam.config": PROJECT_ROOT / "theteam.config",
     "imagine-config.json": PROJECT_ROOT / "imagine-config.json",
     "gateway.json": PROJECT_ROOT / "gateway.json",
-    "docs/stable_project_structure.json": PROJECT_ROOT / "docs" / "stable_project_structure.json",
+    "system/registry/stable_project_structure.json": PROJECT_ROOT / "system" / "registry" / "stable_project_structure.json",
+    "health_monitor.log": PROJECT_ROOT / "health_monitor.log",
+    "AGENTS.md": PROJECT_ROOT / "AGENTS.md",
 }
 
 # imagine-config.json keys worth surfacing in member prompts (stable runtime
@@ -225,8 +227,8 @@ def main() -> int:
             "used": gateway_config.get("used", 0),
             "has_rights": gateway_config.get("has_rights", False)
         }
-
-    # Extract project structure
+    if "system/registry/stable_project_structure.json" in sources:
+        structure = sources["system/registry/stable_project_structure.json"]
     if "docs/stable_project_structure.json" in sources:
         structure = sources["docs/stable_project_structure.json"]
         state["structure"] = {
@@ -266,9 +268,9 @@ def main() -> int:
             ]
         }
 
-    # Add registry validation results
+        registry_path = PROJECT_ROOT / "system" / "registry" / "stable_project_structure.json"
     if args.validate_registry:
-        registry_path = PROJECT_ROOT / "docs" / "stable_project_structure.json"
+        registry_path = PROJECT_ROOT / "system" / "registry" / "stable_project_structure.json"
         registry_validation = _validate_project_structure(registry_path)
         state["project_structure_validation"] = registry_validation
         

@@ -137,8 +137,7 @@ Automated validation of generated assets:
 
 ```python
 # Core constants
-PROJECT_ROOT = Path(__file__).parent.parent.parent.parent
-REGISTRY_PATH = PROJECT_ROOT / "docs" / "stable_project_structure.json"
+REGISTRY_PATH = PROJECT_ROOT / "system" / "registry" / "stable_project_structure.json"
 SCAN_FREQUENCY_MINUTES = 30  # Default scan frequency
 ```
 
@@ -187,8 +186,7 @@ Provides machine-readable output for automation:
 Human-readable output with emoji indicators and severity levels:
 ```
 🔍 Ledras Health Scanner v2.0.0 - 2026-09-09 11:37:20
-Project root: /Users/bparlan/devcode/ledraslament
-Registry file: /Users/bparlan/devcode/ledraslament/docs/stable_project_structure.json
+Registry file: /Users/bparlan/devcode/ledraslament/system/registry/stable_project_structure.json
 
 ℹ️  INFO: Important folder 'specific_scenes' not registered
    Location: project_root/specific_scenes
@@ -253,8 +251,7 @@ python3 fal_generate.py --subscenes 3
 #### Issue: Registry validation fails
 **Cause**: `stable_project_structure.json` corrupted or missing
 **Solution**: Restore from git or recreate manually
-```bash
-git checkout HEAD -- docs/stable_project_structure.json
+git checkout HEAD -- system/registry/stable_project_structure.json
 ```
 
 #### Issue: Orchestrator mode doesn't start
