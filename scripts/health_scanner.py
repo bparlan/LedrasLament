@@ -26,7 +26,7 @@ from datetime import datetime
 
 # --- Constants (Ponytail: define once, reuse) ---
 PROJECT_ROOT = Path(__file__).parent.parent
-REGISTRY_PATH = PROJECT_ROOT / "docs" / "stable_project_structure.json"
+REGISTRY_PATH = PROJECT_ROOT / "system" / "registry" / "stable_project_structure.json"
 SCANNER_VERSION = "2.0.0"
 SCAN_FREQUENCY_MINUTES = 30
 
@@ -287,7 +287,7 @@ def setup_triggers():
     """Configure file system event triggers (placeholder)."""
     print("🔄 Trigger mode configured")
     print("   Watching for changes in:")
-    print("   - docs/stable_project_structure.json")
+    print("   - system/registry/stable_project_structure.json")
     print("   - scripts/health_scanner.py")
      print("   - data/scenes/*.json")
     print("   - assets/generated/*.png")

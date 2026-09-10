@@ -1,6 +1,6 @@
 {
   "project": "ledraslament",
-  "updated": "2026-09-09",
+  "updated": "2026-09-10",
   "aim": "Generate cinematic scene images for the Ledras Lament narrative using fal.ai FLUX Control LoRA Canny, driven by a Canny edge map of a fixed amphitheater stage guide.",
   "settings": {
     "imagine-config.json": "Runtime config: model, resolution, control_lora_image_url (stage guide), seed, scene file path, output dir.",
@@ -19,6 +19,9 @@
       "aim": "Persistent task management and project workflow tracking.",
       "key": [
         "README.md — Comprehensive project task overview and status reporting.",
+        "TASK_CONFIG.md — Task management configuration.",
+        "TASK_MANIFEST.md — Task execution framework.",
+        "AgenticSystemAwareness.md — Agentic development rules and compliance.",
         "task_log.json — Machine-readable task tracking and dependency management.",
         "reports/ — Historical task execution reports and evidence collection."
       ]
@@ -51,15 +54,18 @@
         "generation_log.jsonl — append-only URL log for failed-download recovery, including retry attempts and status."
       ]
     },
-    "assets/generated/prelude-intro-moments/": {
-      "aim": "Generated 6-moment Desert Moon Portal Sequence images.",
+    "assets/control_images/": {
+      "aim": "Control images for Canny edge conditioning — architectural guide for all generations.",
       "key": [
-        "scene-01_v1453750048_20260909_114616.png — Moment 1: Calm Portal Initiation",
-        "scene-02_v567246120_20260909_114622.png — Moment 2: Portal Centered Transition",
-        "scene-03_v2023298968_20260909_114627.png — Moment 3: Blood Moon Portal Activation",
-        "scene-04_v496569799_20260909_114631.png — Moment 4: Storm Peak Chaos",
-        "scene-05_v87929398_20260909_114635.png — Moment 5: Portal Deactivation",
-        "scene-06_v723105982_20260909_114639.png — Moment 6: Final Resolution"
+        "stage_guide_edge.png — Main amphitheater edge map",
+        "depth_reference.jpg — Depth-based guidance (alternative)"
+      ]
+    },
+    "specific_scenes/": {
+      "aim": "Standalone scene documentation and enhanced prompt definitions for specialized sequences.",
+      "key": [
+        "prelude-intro-moments.md — Hyperrealistic photorealistic prompt documentation for 6-moment Desert Moon Portal Sequence.",
+        "prelude-intro.md — Context documentation for Prelude-Intro scene."
       ]
     },
     "recyclebin/": {
@@ -79,11 +85,10 @@
         "usage/moment-generation-guide.md — 6-moment Desert Moon Portal Sequence setup and execution instructions."
       ]
     },
-    "specific_scenes/": {
-      "aim": "Standalone scene documentation and enhanced prompt definitions for specialized sequences.",
+    "context/": {
+      "aim": "Context documentation, scene reports, and system awareness files.",
       "key": [
-        "prelude-intro-moments.md — Hyperrealistic photorealistic prompt documentation for 6-moment Desert Moon Portal Sequence.",
-        "prelude-intro.md — Context documentation for Prelude-Intro scene."
+        "ledras_scenes_v10_report.md — Generated scene analysis and visual specifications."
       ]
     }
   },
@@ -94,5 +99,39 @@
     "imagine-config.json — Sole config source (see settings above).",
     "gateway.json — Token budget (see settings above).",
     "theteam.config — Team role definitions and methodology tracking (sequence_moment_tracking)."
-  ]
+  ],
+  "system_integrations": {
+    "health_scanner": {
+      "reads": true,
+      "validates": true,
+      "enforces_rules": true,
+      "generates_reports": true,
+      "description": "Core infrastructure health monitoring and validation"
+    },
+    "theteam_health_skill": {
+      "uses_for_workflow": true,
+      "coordinates_scans": true,
+      "generates_workflow_reports": true,
+      "coordinates_with_context_aggregator": true,
+      "description": "Team workflow coordination and performance monitoring"
+    },
+    "context_aggregator": {
+      "provides_context_to_team": true,
+      "includes_agentic_compliance": true,
+      "coordinates_with_health_systems": true,
+      "description": "Team context aggregator with agentic compliance integration"
+    },
+    "agentic_compliance": {
+      "validates_against_registry": true,
+      "generates_fixes": true,
+      "tracks_improvements": true,
+      "description": "Agentic compliance checker and validation system"
+    }
+  },
+  "validation_checks": {
+    "required_folders": ["stage/", "2do/", "data/scenes/", "src/", "tests/", "assets/control_images/"],
+    "required_root_files": ["fal_generate.py", "gateway.json", "imagine-config.json", "theteam.config"],
+    "agentic_requirements": ["2do/AgenticSystemAwareness.md", "scripts/agentic_compliance.py"],
+    "system_integrations": ["scripts/health_scanner.py", "theteam/workflow/context_aggregator.py"]
+  }
 }

@@ -35,7 +35,7 @@ PROJECT_ROOT = Path(__file__).parent.parent.parent.parent
 SCANNER_PATH = PROJECT_ROOT / "scripts" / "health_scanner.py"
 SCAN_FREQUENCY_MINUTES = 30
 LOG_FILE = PROJECT_ROOT / "health_monitor.log"
-REGISTRY_PATH = PROJECT_ROOT / "docs" / "stable_project_structure.json"
+REGISTRY_PATH = PROJECT_ROOT / "system" / "registry" / "stable_project_structure.json"
 
 # Configure logging (minimal footprint)
 logging.basicConfig(
