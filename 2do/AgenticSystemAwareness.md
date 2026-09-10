@@ -31,12 +31,12 @@ This document defines the **Agentic Development Rules** that guide the Ledras La
 
 **Problem:** 30+ one-off scripts in recyclebin indicate developers use new files for parameter variations.
 
-**Evidence:** 
+**Evidence:**
 ```bash
 ls recyclebin/*.py | wc -l  # ~30 files
 ```
 
-**Fix:** 
+**Fix:**
 ```bash
 # Add comprehensive CLI flags to fal_generate.py
 python3 scripts/agentic_compliance.py --fix Rule1
@@ -197,7 +197,7 @@ print('Next priority: Fix ' + [r for r in report['findings'] if r['severity'] ==
 
 ### Related Documents
 - `AGENTS.md` - Production stability rules (Rules A-F)
-- `docs/stable_project_structure.json` - Project structure registry
+- `system/registry/stable_project_structure.json` - Project structure registry
 - `imagine-config.json` - Runtime configuration
 - `gateway.json` - Token budget management
 - `theteam.config` - Team configuration
@@ -220,7 +220,6 @@ print('Next priority: Fix ' + [r for r in report['findings'] if r['severity'] ==
    ```bash
    python3 scripts/agentic_compliance.py --all
    ```
-
 2. **Address critical violations:**
    ```bash
    # Fix CLI parameterization
@@ -229,7 +228,6 @@ print('Next priority: Fix ' + [r for r in report['findings'] if r['severity'] ==
    # Fix config schema
    python3 scripts/agentic_compliance.py --fix Rule2
    ```
-
 3. **Verify fixes:**
    ```bash
    python3 scripts/agentic_compliance.py --all
@@ -241,11 +239,11 @@ print('Next priority: Fix ' + [r for r in report['findings'] if r['severity'] ==
    # Get specific guidance for violations
    python3 theteam/workflow/context_aggregator.py --enable-compliance
    ```
-
 2. **Follow the evidence-based task system:**
    - Review `2do/TASK_CONFIG.md` for task categories
    - Use `2do/TASK_MANIFEST.md` for execution framework
    - Submit evidence for task completion
+   ```
 
 ---
 
