@@ -17,8 +17,8 @@
       "control_start": 0,
       "control_stop": 1
     },
-    "control_image_path": "stage_rehersals.png",
-    "control_image_url_path": "stage_rehersals.png",
+    "control_image_path": "data/control_images/stage_rehersals.png",
+    "control_image_url_path": "data/control_images/stage_rehersals.png",
     "control_lora_image_url": "https://v3b.fal.media/files/b/0aa96efc/TUAt8eL9nzq2H3jP6Nzbu_stage_v6_alphasky.png",
     "control_lora_strength": {
       "stage_v6_alphasky": {
