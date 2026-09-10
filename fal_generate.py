@@ -15,18 +15,12 @@ from datetime import datetime
 # Fal client imports
 from fal_client import SyncClient
 
-# ====================================================
-# CONFIGURATION CLASS
-# ====================================================
-
 class LedrasConfig:
     def __init__(self):
-        # Core configuration parameters
         self.guideline_image = "stage_rehersals.png"
         self.output_dir = "assets/generated/ledras-premier/prelude-moments/"
         self.scenes_file = "data/scenes/prelude-intro-moments.json"
         
-        # FALAI API parameters - ALL USER-REQUESTED VALUES
         self.preprocess = "canny"
         self.fal_model = "fal-ai/flux-control-lora-canny"
         self.control_start = 0.0
@@ -40,17 +34,14 @@ class LedrasConfig:
         self.cultural_authenticity_level = "cypro_phoenician"
         self.ornamentation_allowed = False
 
-        # Additional user-requested parameters
         self.guidance_scale = 3.5
         self.enable_safety_checker = True
         self.control_lora_strength = 0.6
-        self.control_lora_image_url = "assets/control_images/stage_rehersals.png"
+        self.control_image_path = "assets/control_images/stage_rehersals.png"
         
-        # Load from imagine-config.json if available
         self.load_imagine_config()
 
     def load_imagine_config(self):
-        """Load configuration from imagine-config.json"""
         config_path = "imagine-config.json"
         try:
             with open(config_path, 'r') as f:
@@ -72,12 +63,7 @@ class LedrasConfig:
             self.set_default_config()
 
     def set_default_config(self):
-        """Set default configuration values"""
         print("✅ Default configuration applied")
-
-# ====================================================
-# SCENE GENERATOR CLASS
-# ====================================================
 
 class LedrasSceneGenerator:
     def __init__(self):
@@ -85,7 +71,6 @@ class LedrasSceneGenerator:
         self.setup_fal_client()
 
     def setup_fal_client(self):
-        """Setup fal client with environment-based authentication"""
         self.api_key = os.environ.get('FAL_KEY')
 
         if not self.api_key:
@@ -97,12 +82,10 @@ class LedrasSceneGenerator:
             self.client = SyncClient(key=self.api_key)
 
     def generate_prompt(self, scene_id: int, role: str = "loop") -> str:
-        """Generate prompt for specific scene and role"""
         try:
             with open(self.config.scenes_file, 'r') as f:
                 scenes_data = json.load(f)
 
-            # Handle both structures: scenes as dict with 'scenes' key, or scenes list directly
             if isinstance(scenes_data, dict) and 'scenes' in scenes_data:
                 scenes = scenes_data['scenes']
             elif isinstance(scenes_data, list):
@@ -113,9 +96,7 @@ class LedrasSceneGenerator:
 
             for scene in scenes:
                 if isinstance(scene, dict) and scene.get('id') == scene_id:
-                    # For prelude-intro-moments.json, use the description field directly
                     prompt = scene.get('description', '')
-
                     metadata = f"[seed:{scene.get('seed', self.config.seed)}] [team:{self.config.cultural_authenticity_level}]"
                     return f"{prompt} {metadata}"
 
@@ -127,12 +108,10 @@ class LedrasSceneGenerator:
             return ""
 
     def generate_all_prompts(self) -> Dict[int, Dict[str, str]]:
-        """Generate prompts for all scenes and roles"""
         try:
             with open(self.config.scenes_file, 'r') as f:
                 scenes_data = json.load(f)
 
-            # Handle both structures: scenes as dict with 'scenes' key, or scenes list directly
             if isinstance(scenes_data, dict) and 'scenes' in scenes_data:
                 scenes = scenes_data['scenes']
             elif isinstance(scenes_data, list):
@@ -154,11 +133,9 @@ class LedrasSceneGenerator:
                 scene_prompts = {}
                 description = scene.get('description', '')
 
-                # Generate intro prompt
                 intro_metadata = f"[seed:{scene.get('seed', self.config.seed)}] [team:{self.config.cultural_authenticity_level}] [intro]"
                 scene_prompts['intro'] = f"{description} {intro_metadata}"
 
-                # Generate loop prompt
                 loop_metadata = f"[seed:{scene.get('seed', self.config.seed)}] [team:{self.config.cultural_authenticity_level}] [loop]"
                 scene_prompts['loop'] = f"{description} {loop_metadata}"
 
@@ -170,13 +147,30 @@ class LedrasSceneGenerator:
             print(f"❌ Error generating all prompts: {e}")
             return {}
 
+    def _upload_control_image(self) -> Optional[str]:
+        try:
+            if not os.path.exists(self.config.control_image_path):
+                print(f"❌ ERROR: Control image not found at {self.config.control_image_path}")
+                return None
+
+            print(f"📤 Uploading control image: {self.config.control_image_path}")
+            uploaded_url = self.client.upload_file(self.config.control_image_path)
+            print(f"✅ Control image uploaded: {uploaded_url}")
+            return uploaded_url
+        except Exception as e:
+            print(f"❌ ERROR: Failed to upload control image: {e}")
+            return None
+
     def generate_image(self, prompt: str, scene_id: int, role: str) -> Optional[Dict[str, Any]]:
-        """Generate a single image using fal.ai API with SyncClient"""
         try:
             print(f"🎨 Generating image: Scene {scene_id}, Role: {role}")
             print(f"   Prompt preview: {prompt[:100]}..." if len(prompt) > 100 else f"   Prompt: {prompt}")
 
-            # Prepare fal.ai API parameters with ALL user-requested values
+            control_lora_image_url = self._upload_control_image()
+            if not control_lora_image_url:
+                print(f"❌ ERROR: No control image URL available")
+                return None
+
             fal_params = {
                 "image_size": self.config.image_size,
                 "seed": self.config.seed,
@@ -187,11 +181,10 @@ class LedrasSceneGenerator:
                 "num_images": 1,
                 "output_format": "png",
                 "prompt": prompt,
-                # User-requested parameters
                 "guidance_scale": self.config.guidance_scale,
                 "enable_safety_checker": self.config.enable_safety_checker,
                 "control_lora_strength": self.config.control_lora_strength,
-                "control_lora_image_url": self.config.control_lora_image_url,
+                "control_lora_image_url": control_lora_image_url,
                 "control_start": self.config.control_start,
                 "control_stop": self.config.control_stop,
             }
@@ -200,18 +193,12 @@ class LedrasSceneGenerator:
                 fal_params["weathered_stone_texture"] = True
 
             print(f"🤖 Calling SyncClient.run() API with model: {self.config.fal_model}")
-
-            # Use the SyncClient to call the API
-            result = self.client.run(
-                application=self.config.fal_model,
-                arguments=fal_params
-            )
+            result = self.client.run(application=self.config.fal_model, arguments=fal_params)
 
             if not result:
                 print(f"⚠️  No result returned from API for scene {scene_id}")
                 return None
 
-            # Handle both dict-style (fal SDK) and attribute-style responses
             images = (result.get("images", []) if isinstance(result, dict)
                       else (result.images if hasattr(result, "images") else []))
 
@@ -239,7 +226,6 @@ class LedrasSceneGenerator:
             return None
 
     def generate_specific_images(self, scene_ids: List[int], role: str = "intro"):
-        """Generate images for specific scenes and roles"""
         generated = {}
 
         print(f"🎨 Starting image generation for scenes {scene_ids}, role: {role}")
@@ -271,13 +257,11 @@ class LedrasSceneGenerator:
         return generated
 
     def __call__(self):
-        """Main entry point - generate all intro scenes"""
         print("=== Ledras Lament Scene Generation Pipeline ===")
         print()
 
         try:
-            # Generate all scenes for prelude-intro-moments.json
-            scene_ids = [1, 2, 3, 4, 5, 6, 7]  # All scenes from prelude-intro-moments.json
+            scene_ids = [1, 2, 3, 4, 5, 6, 7]
             
             print(f"🎨 Generating scenes {scene_ids}...")
             scenes = self.generate_specific_images(scene_ids, "intro")
@@ -292,10 +276,6 @@ class LedrasSceneGenerator:
             import traceback
             traceback.print_exc()
             exit(1)
-
-# ====================================================
-# MAIN EXECUTION
-# ====================================================
 
 if __name__ == "__main__":
     generator = LedrasSceneGenerator()

@@ -49,16 +49,16 @@
     "report_dir": ".omp/theteam/reports",
     "keep_last": 20
   },
-  "control_lora_image_url": "data/control_images/stage_rehersals.png",
-  "guideline_image": "data/control_images/stage_rehersals.png",
-  "scenes_file": "data/scenes/new-scenes/ledras-premier.json",
+  "control_lora_image_url": "assets/control_images/stage_rehersals.png",
+  "guideline_image": "assets/control_images/stage_rehersals.png",
+  "scenes_file": "data/scenes/prelude-intro-moments.json",
   "seed": 502,
   "cultural_authenticity_level": "cypro_phoenician",
   "num_inference_steps": 28,
   "guidance_scale": 3.5,
   "image_size": "landscape_16_9",
   "enable_safety_checker": true,
-  "output_dir": "assets/generated/ledras-premier/set_06",
+  "output_dir": "assets/generated/ledras-premier/prelude-moments/",
   "log_file": "generation.log",
   "fal_model": "fal-ai/flux-control-lora-canny",
   "prompt_architecture": {
@@ -119,5 +119,8 @@
     }
   },
   "control_lora_strength": 0.75,
-  "control_lora_window": [0.2, 0.8]
+  "control_lora_window": [
+    0.2,
+    0.8
+  ]
 }
