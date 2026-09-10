@@ -229,8 +229,6 @@ def main() -> int:
         }
     if "system/registry/stable_project_structure.json" in sources:
         structure = sources["system/registry/stable_project_structure.json"]
-    if "docs/stable_project_structure.json" in sources:
-        structure = sources["docs/stable_project_structure.json"]
         state["structure"] = {
             "project": structure.get("project"),
             "updated": structure.get("updated"),
@@ -262,7 +260,6 @@ def main() -> int:
             "results": compliance_results,
             "guidance": guidance,
             "next_steps": [
-                "Run: scripts/agentic_compliance.py --all",
                 "Fix violations using guidance above", 
                 "Re-run compliance check to verify"
             ]
