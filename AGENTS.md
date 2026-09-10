@@ -66,7 +66,7 @@
 
 ### Rule F: Issue/Problem Reporting Protocol
 - When any issue or blocker arises during execution, never silence it
-- Action: 
+- Action:
   1. Immediately document the exact problem and root cause
   2. Surface the issue with clear, non-technical explanation
   3. Propose specific, actionable infrastructure-level fixes
@@ -140,5 +140,5 @@ Use only the environment variable names explicitly provided by the user.
 Example:
 
 ```text
-```text
 FAL_KEY
+```

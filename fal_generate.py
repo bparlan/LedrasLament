@@ -15,14 +15,6 @@ User-Requested Parameters:
 """
 
 from dotenv import load_dotenv
-import json, os, random, requests, sys, time
-from typing import Dict, List, Any, Optional
-from datetime import datetime
-
-# Load .env BEFORE any SDK import — this is the root FAL_KEY source
-#
-# Resolve .env relative to this script's directory, not cwd
-_script_dir = os.path.dirname(os.path.abspath(__file__))
 load_dotenv(os.path.join(_script_dir, '.env'), override=True)
 
 from fal_client import SyncClient
@@ -77,8 +69,8 @@ def _download_image_with_retry(image_url: str, output_path: str) -> bool:
 
 class LedrasConfig:
     def __init__(self):
-        self.load_imagine_config()
-
+        """Initialize configuration with validation."""
+        self.validate_and_normalize(None)
     def load_imagine_config(self):
         """Load configuration from imagine-config.json (sole source of truth)"""
         config_path = "imagine-config.json"
